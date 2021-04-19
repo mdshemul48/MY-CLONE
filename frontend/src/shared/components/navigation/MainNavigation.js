@@ -1,22 +1,19 @@
 import React from "react";
 
-export const MainNavigation = () => {
+// castom import css
+import "./MainNavigation.css";
+
+// castom import js
+import NavLinks from "./NavLinks";
+import Logo from "../Logo/Logo";
+const MainNavigation = () => {
   return (
     <div className="top-nav">
-      <ul>
-        <li>
-          <a href="#">Home</a>
-        </li>
-        <li>
-          <a href="#">Home</a>
-        </li>
-        <li>
-          <a href="#">Home</a>
-        </li>
-        <li>
-          <a href="#">Home</a>
-        </li>
-      </ul>
+      <div className="logo-and-nav">
+        <Logo />
+        <NavLinks />
+      </div>
     </div>
   );
 };
+export default MainNavigation;

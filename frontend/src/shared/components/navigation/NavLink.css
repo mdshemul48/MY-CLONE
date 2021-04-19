@@ -1,0 +1,27 @@
+.menu-bar {
+  list-style-type: none;
+  margin: 0 auto 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #383e56;
+  width: 90%;
+}
+.menu-item {
+  float: left;
+}
+.menu-link {
+  display: block;
+  color: white;
+  text-decoration: none;
+  text-align: center;
+  padding: 14px;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+}
+.menu-link:hover {
+  background-color: #272121;
+  color: #f6f6f6;
+}
+.active {
+  background-color: #252a34;
+}

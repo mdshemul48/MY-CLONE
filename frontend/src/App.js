@@ -6,9 +6,11 @@ import Dashboard from "./Dashboard/pages/Dashboard";
 import Downloads from "./Download_History/pages/Downloads";
 import Publisher from "./Publisher/pages/Publisher";
 import CreateAccount from "./Create_User/pages/CreateAccount";
+import MainNavigation from "./shared/components/navigation/MainNavigation";
 function App() {
   return (
     <Router>
+      <MainNavigation />
       <Switch>
         <Route exact path="/">
           <Dashboard />

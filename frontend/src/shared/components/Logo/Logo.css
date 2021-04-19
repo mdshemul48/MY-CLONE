@@ -1,0 +1,11 @@
+.logo-text {
+  float: left;
+  color: white;
+  margin: 6px;
+  font-size: 23px;
+  font-family: "Oswald", sans-serif;
+  font-weight: 400;
+}
+.clone {
+  color: #ff5757;
+}
