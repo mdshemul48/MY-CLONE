@@ -1,0 +1,20 @@
+.status {
+  margin-right: 10px;
+  font-weight: 600;
+  color: #ffffff;
+  font-family: sans-serif;
+  display: inline-block;
+  margin-top: 3rem;
+  text-align: center;
+  padding: 0px 60px 0px;
+  border-radius: 15px;
+}
+.count {
+  margin: 0;
+  font-size: 38px;
+  margin-top: 12px;
+}
+.line {
+  width: 50px;
+  border: 1px solid white;
+}

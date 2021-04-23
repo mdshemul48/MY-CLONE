@@ -15,12 +15,12 @@ const NavLinks = () => {
         </li>
         <li className="menu-item">
           <NavLink className="menu-link" to="/downloads">
-            Downloads History
+            Movie Downloads
           </NavLink>
         </li>
         <li className="menu-item">
           <NavLink className="menu-link" to="/publisher">
-            Publisher
+            Movie Publisher
           </NavLink>
         </li>
         <li className="menu-item">
@@ -30,7 +30,7 @@ const NavLinks = () => {
         </li>
         <li className="menu-item logout">
           <NavLink to="/logout" exact className="menu-link">
-            <FontAwesomeIcon icon={faSignOutAlt} /> logout
+            <FontAwesomeIcon icon={faSignOutAlt} /> Logout
           </NavLink>
         </li>
       </ul>
