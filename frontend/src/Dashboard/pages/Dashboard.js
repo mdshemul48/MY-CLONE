@@ -1,17 +1,19 @@
 import React from "react";
 
 // castom components import
-import StatusCard from "../../shared/components/UIElements/StatusCard";
+import MainStatusArea from "../components/MainStatusArea";
+import Title from "../../shared/components/UIElements/Title";
+
 // importing castom css
 import "./Dashboard.css";
 const Dashboard = (props) => {
   return (
     <React.Fragment>
-      <StatusCard
-        countValue={`59/55`}
-        statusTitle="Today Upload"
-        className="total-uploaded"
-      />
+      <div className="full-dashboard">
+        <Title className="main-title">Dashboard</Title>
+        <MainStatusArea />
+        <Title className="qbit-status">Qbit Status</Title>
+      </div>
     </React.Fragment>
   );
 };

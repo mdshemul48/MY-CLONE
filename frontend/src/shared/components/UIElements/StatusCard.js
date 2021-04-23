@@ -6,7 +6,10 @@ import React from "react";
 import "./StatusCard.css";
 export default function StatusCard(props) {
   return (
-    <div className={`status ${props.className}`}>
+    <div
+      className={`status ${props.className}`}
+      style={{ background: props.background }}
+    >
       <h3 className="count">{props.countValue}</h3>
       <hr className="line" />
       <h3>{props.statusTitle}</h3>
