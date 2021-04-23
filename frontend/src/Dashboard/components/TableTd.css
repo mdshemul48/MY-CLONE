@@ -1,0 +1,14 @@
+.contant-table {
+  font-family: "Montserrat", sans-serif;
+  font-size: 15px;
+  color: gray;
+  line-height: 1.2;
+  font-weight: unset;
+  height: 50px;
+}
+.column1 {
+  padding-left: 40px;
+}
+.table-content {
+  padding-left: 40px;
+}

@@ -26,5 +26,11 @@
   background-color: #252a34;
 }
 .logout {
-  margin-left: 50%;
+  float: right;
+}
+@media screen and (max-width: 950px) {
+  .logout,
+  .menu-link {
+    float: none;
+  }
 }

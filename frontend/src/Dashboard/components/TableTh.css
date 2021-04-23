@@ -1,0 +1,12 @@
+.table-heading-tr {
+  height: 60px;
+  background-color: #36304a;
+}
+.table-head {
+  text-align: left;
+  font-family: "Montserrat", sans-serif;
+  font-size: 18px;
+  color: #fff;
+  line-height: 1.2;
+  font-weight: unset;
+}
