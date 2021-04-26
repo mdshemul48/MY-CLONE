@@ -1,6 +1,7 @@
 import React from "react";
 
 import "./TableTd.css";
+import Button from "../../shared/components/UIElements/Button";
 export default function TableTd() {
   return (
     <tr className="contant-table">
@@ -12,7 +13,14 @@ export default function TableTd() {
       <td className="table-content column4">English</td>
       <td className="table-content column5">Downloading</td>
       <td className="table-content column6">1.5MB/PS</td>
-      <td className="table-content column7">Deletebtn here</td>
+      <td className="table-content column7">
+        <Button className="buttons" warning>
+          PAUSE
+        </Button>
+        <Button className="buttons" danger>
+          DELETE
+        </Button>
+      </td>
     </tr>
   );
 }

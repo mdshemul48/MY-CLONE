@@ -15,3 +15,6 @@ tr:nth-child(even) {
 .column1 {
   padding-left: 40px;
 }
+.buttons {
+  margin: 5px;
+}

@@ -12,7 +12,7 @@ export default function TableTh() {
         <th className="table-head column4">Language</th>
         <th className="table-head column5">Status</th>
         <th className="table-head column6">Speed</th>
-        <th className="table-head column7">Delete</th>
+        <th className="table-head column7">Manage</th>
       </tr>
     </thead>
   );
