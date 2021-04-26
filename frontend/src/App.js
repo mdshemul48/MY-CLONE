@@ -1,5 +1,10 @@
 import "./App.css";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 
 // castom import here
 import Dashboard from "./Dashboard/pages/Dashboard";
@@ -25,6 +30,7 @@ function App() {
           <Route exect path="/create-user">
             <CreateAccount />
           </Route>
+          <Redirect to="/" />
         </Switch>
       </Router>
     </div>
