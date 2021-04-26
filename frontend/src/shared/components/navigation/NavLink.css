@@ -3,7 +3,6 @@
   margin: 0 auto 0;
   padding: 0;
   overflow: hidden;
-  background-color: #383e56;
   width: 90%;
 }
 .menu-item {
@@ -16,14 +15,14 @@
   text-align: center;
   padding: 14px;
   font-family: "Montserrat", sans-serif;
-  font-weight: 400;
+  font-weight: 500;
 }
 .menu-link:hover {
   background-color: #272121;
   color: #f6f6f6;
 }
 .active {
-  background-color: #252a34;
+  background-color: #04aa6d !important;
 }
 .logout {
   float: right;

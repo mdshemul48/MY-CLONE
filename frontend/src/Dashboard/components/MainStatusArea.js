@@ -18,7 +18,7 @@ export default function MainStatusArea(props) {
           countValue="10"
           statusTitle="Downloading"
           className="total-uploaded"
-          background="#f29400"
+          background="#fa9905"
         />
         <StatusCard
           countValue="18"
@@ -29,12 +29,12 @@ export default function MainStatusArea(props) {
         <StatusCard
           countValue="19"
           statusTitle="Yesterday Uploaded"
-          className="total-uploaded"
-          background="#00a541"
+          className="Total uploaded"
+          background="#04aa6d"
         />
         <StatusCard
           countValue="23"
-          statusTitle="Yesterday Uploaded"
+          statusTitle="Download Failed"
           className="total-uploaded"
           background="#f45801"
         />
