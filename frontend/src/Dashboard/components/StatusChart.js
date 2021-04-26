@@ -9,7 +9,7 @@ const StatusChart = (props) => {
     datasets: props.datasets,
   };
   return (
-    <div className={`StatusChart ${props.className}`}>
+    <div className={`StatusChart ${props.className || ""}`}>
       <Line data={data} />
     </div>
   );

@@ -9,23 +9,25 @@ import CreateAccount from "./Create_User/pages/CreateAccount";
 import MainNavigation from "./shared/components/navigation/MainNavigation";
 function App() {
   return (
-    <Router>
-      <MainNavigation />
-      <Switch>
-        <Route exact path="/">
-          <Dashboard />
-        </Route>
-        <Route exact path="/downloads">
-          <Downloads />
-        </Route>
-        <Route exact path="/publisher">
-          <Publisher />
-        </Route>
-        <Route exect path="/create-user">
-          <CreateAccount />
-        </Route>
-      </Switch>
-    </Router>
+    <div className="full-body">
+      <Router>
+        <MainNavigation />
+        <Switch>
+          <Route exact path="/">
+            <Dashboard />
+          </Route>
+          <Route exact path="/downloads">
+            <Downloads />
+          </Route>
+          <Route exact path="/publisher">
+            <Publisher />
+          </Route>
+          <Route exect path="/create-user">
+            <CreateAccount />
+          </Route>
+        </Switch>
+      </Router>
+    </div>
   );
 }
 

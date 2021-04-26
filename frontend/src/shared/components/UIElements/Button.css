@@ -6,6 +6,9 @@
   border: none;
   border-radius: 5px;
 }
+.button:hover {
+  cursor: pointer;
+}
 .primary {
   border-color: #04aa6d;
   background-color: #04aa6d;

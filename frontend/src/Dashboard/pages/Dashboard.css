@@ -1,10 +1,10 @@
 .full-dashboard {
   width: 80%;
-  margin: 0 auto;
+  margin: 0 auto 100px;
 }
 .main-title {
   margin-top: 5%;
 }
-.qbit-status {
+.all-title {
   margin-top: 2%;
 }

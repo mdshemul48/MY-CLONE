@@ -4,7 +4,7 @@
   color: gray;
   line-height: 1.2;
   font-weight: unset;
-  height: 50px;
+  height: 55px;
 }
 tr:nth-child(even) {
   background-color: #f5f5f5;
