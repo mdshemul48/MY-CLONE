@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import "./TableTd.css";
 import Button from "../../shared/components/UIElements/Button";
+
 export default function TableTd(props) {
   const [resume, setResume] = useState(false);
   const resumePause = () => {
@@ -9,14 +10,12 @@ export default function TableTd(props) {
   };
   return (
     <tr className="contant-table">
-      <td className="table-content column1">
-        Into.Our.Own.Hands.2010.FRENCH.1080p.WEBRip.x264-VXT
-      </td>
-      <td className="table-content column2">5.5GB</td>
-      <td className="table-content column3">50%</td>
-      <td className="table-content column4">English</td>
-      <td className="table-content column5">Downloading</td>
-      <td className="table-content column6">1.5MB/PS</td>
+      <td className="table-content column1">{props.title}</td>
+      <td className="table-content column2">{props.size}</td>
+      <td className="table-content column3">{props.percentage}</td>
+      <td className="table-content column4">{props.lenguage}</td>
+      <td className="table-content column5">{props.state}</td>
+      <td className="table-content column6">{props.speed}</td>
       <td className="table-content column7">
         {resume ? (
           <Button className="buttons" onClick={resumePause}>

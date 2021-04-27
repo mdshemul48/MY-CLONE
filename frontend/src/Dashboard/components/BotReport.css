@@ -1,6 +1,16 @@
 .botReport {
+  font-weight: 600;
   font-family: "Montserrat", sans-serif;
   background: white;
   padding: 15px;
   border-radius: 10px;
+  box-shadow: 0 4px 8px 0 rgb(0 0 0 / 6%), 0 6px 20px 0 rgb(0 0 0 / 10%);
+}
+.logs {
+  border-radius: 19px;
+  color: #283149;
+  padding: 10px 30px 5px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 18px;
+  font-weight: 500;
 }
