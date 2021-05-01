@@ -9,5 +9,5 @@ const moviesControllers = require("../controllers/movies-controllers");
 router.get("/", moviesControllers.getMovieById);
 
 // this will add movie to the db
-router.post("/", moviesControllers.enterMovieIn);
+router.put("/", moviesControllers.enterMovieIn);
 module.exports = router;

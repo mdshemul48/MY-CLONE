@@ -42,9 +42,10 @@ const movieShema = new Schema({
     type: String,
     required: true,
   },
-  downloadDate: {
-    type: String,
+  creatorDate: {
+    type: mongoose.Types.ObjectId,
     required: true,
+    ref: "",
   },
 });
 
