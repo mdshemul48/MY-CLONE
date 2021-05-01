@@ -7,11 +7,12 @@ import {
 } from "react-router-dom";
 
 // castom import here
+import MainNavigation from "./shared/components/navigation/MainNavigation";
 import Dashboard from "./Dashboard/pages/Dashboard";
 import Downloads from "./Download_History/pages/Downloads";
 import Publisher from "./Publisher/pages/Publisher";
 import CreateAccount from "./Create_User/pages/CreateAccount";
-import MainNavigation from "./shared/components/navigation/MainNavigation";
+import DownloadHistory from "./Download_History/pages/DownloadsHistory";
 function App() {
   return (
     <div className="full-body">
@@ -20,6 +21,9 @@ function App() {
         <Switch>
           <Route exact path="/">
             <Dashboard />
+          </Route>
+          <Route exact path="/downloads/:dayId">
+            <DownloadHistory />
           </Route>
           <Route exact path="/downloads">
             <Downloads />

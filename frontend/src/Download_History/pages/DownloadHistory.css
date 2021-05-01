@@ -1,0 +1,16 @@
+.all-post-card {
+  width: 80%;
+  margin: 2% auto;
+}
+.title-of-the-page {
+  padding: 5px;
+  margin-bottom: 5%;
+}
+.working-history-title {
+  float: left;
+  margin: 5px;
+}
+
+.chacked {
+  float: right;
+}

@@ -6,7 +6,7 @@ const Button = (props) => {
     <button
       className={`button ${props.danger ? `danger` : "primary"} ${
         props.warning ? `warning` : ""
-      } ${props.className || ""}`}
+      } ${props.className || ""} ${props.hover && "button-background"}`}
       onClick={props.onClick}
       type={props.type}
     >

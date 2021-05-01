@@ -1,6 +1,7 @@
 .button {
   color: #ffffff;
-
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
   font-size: 17px;
   padding: 9px;
   border: none;
@@ -21,4 +22,7 @@
   color: #000;
   border-color: #ffcd39;
   background-color: #ffc720;
+}
+.button-background:hover {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
