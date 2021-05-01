@@ -16,6 +16,10 @@ const movieShema = new Schema({
     type: String,
     required: true,
   },
+  imdbLink: {
+    type: String,
+    required: true,
+  },
   downloadSearchResult: {
     type: String,
     required: true,

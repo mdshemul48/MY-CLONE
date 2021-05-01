@@ -8,4 +8,6 @@ const moviesControllers = require("../controllers/movies-controllers");
 // if movie not exist on db it will return false
 router.get("/", moviesControllers.getMovieById);
 
+// this will add movie to the db
+router.post("/", moviesControllers.enterMovieIn);
 module.exports = router;
