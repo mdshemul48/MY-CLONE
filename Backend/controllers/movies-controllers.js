@@ -36,6 +36,7 @@ const enterMovieIn = async (req, res, next) => {
     imdbLink,
     downloadSearchResult,
     movieRating,
+    posterLink,
   } = req.body;
 
   const now = new Date();
@@ -80,6 +81,7 @@ const enterMovieIn = async (req, res, next) => {
     downloadSearchResult,
     movieRating,
     creatorDate: date,
+    posterLink,
   });
 
   try {

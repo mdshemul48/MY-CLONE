@@ -16,6 +16,10 @@ const movieShema = new Schema({
     type: String,
     required: true,
   },
+  posterLink: {
+    type: String,
+    required: true,
+  },
   imdbLink: {
     type: String,
     required: true,
