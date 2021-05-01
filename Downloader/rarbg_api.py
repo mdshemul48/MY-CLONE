@@ -14,7 +14,7 @@ from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
 
 
 # importing importent info
-from info import geckhodriver_location, tesseract
+from ..info import geckhodriver_location, tesseract
 
 options = Options()
 options.add_argument('--no-sandbox')
