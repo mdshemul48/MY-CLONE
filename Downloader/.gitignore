@@ -2,3 +2,4 @@ info.py
 final.png
 geckodriver.log
 image.png
+/__pycache__
