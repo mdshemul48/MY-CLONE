@@ -7,6 +7,8 @@ import Card from "../../shared/components/UIElements/Card";
 import Title from "../../shared/components/UIElements/Title";
 import Button from "../../shared/components/UIElements/Button";
 import "./DownloadHistory.css";
+
+import AllMovies from "../components/AllMovies";
 const DownloadHistory = () => {
   const { dayId } = useParams();
   return (
@@ -22,7 +24,7 @@ const DownloadHistory = () => {
         </div>
 
         <Card>
-          <h1>is this a joke</h1>
+          <AllMovies />
         </Card>
       </div>
     </React.Fragment>

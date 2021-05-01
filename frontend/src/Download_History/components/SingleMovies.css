@@ -1,0 +1,27 @@
+.single-movie {
+  height: 400px;
+  width: auto;
+}
+
+.poster-session {
+  height: auto;
+  width: auto;
+  display: block;
+  float: left;
+}
+.movie-poster {
+  width: 250px;
+  border-radius: 15px;
+}
+.data-session {
+  margin: 10px 0 0 50px;
+  display: inline-block;
+  height: auto;
+  width: auto;
+}
+.imdb,
+.results-a {
+  color: #383e56;
+  text-decoration: none;
+  font-weight: 600;
+}
