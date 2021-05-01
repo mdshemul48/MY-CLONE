@@ -4,12 +4,28 @@ const mongoose = require("mongoose");
 const Movie = require("../models/movies");
 const MovieDate = require("../models/downloadDate");
 
-const getMovieById = (req, res, next) => {
+const getMovies = (req, res, next) => {
   // this will get movie from db
 
   return res.send("hello world");
 };
 
+const getMovieByTitle = async (req, res, next) => {
+  // this will get movie from db
+  const { movieTitle } = req.params;
+  let movie;
+  try {
+    movie = await Movie.findOne({ title: movieTitle });
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ successful: false, message: "something wrong with the server" });
+  }
+  if (!movie) {
+    return res.status(200).json({ successful: true, found: false });
+  }
+  return res.status(200).json({ successful: true, found: true, title: movie });
+};
 const enterMovieIn = async (req, res, next) => {
   // this will add a movie to the db
 
@@ -20,7 +36,6 @@ const enterMovieIn = async (req, res, next) => {
     imdbLink,
     downloadSearchResult,
     movieRating,
-    creatorDate,
   } = req.body;
 
   const now = new Date();
@@ -79,5 +94,6 @@ const enterMovieIn = async (req, res, next) => {
     return res.status(500).json({ successful: false, message: err });
   }
 };
-exports.getMovieById = getMovieById;
+exports.getMovies = getMovies;
+exports.getMovieByTitle = getMovieByTitle;
 exports.enterMovieIn = enterMovieIn;
