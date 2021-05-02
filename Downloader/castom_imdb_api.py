@@ -25,7 +25,11 @@ class Imdb_api:
     
     def get_rated_movie(self):
         restricted_content = self.imdb_api.get_movie_parents_guide(self.id)
-        return restricted_content["data"]
+        try:
+            return restricted_content["data"]
+        except:
+            return {}
+
 
 
 
