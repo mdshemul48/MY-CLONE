@@ -80,6 +80,22 @@ class Db_request_api:
 
         return {"found": responseText["found"], "movie": responseText["movie"]}
 
+    def search_movie_in_db(self, only_title):
+        response = self.api.get(self.search_movie_in_db_link + "/" + only_title)
+        if response.status_code != 200:
+            raise Exception(
+                "something worng with the server. please check. search_movie_in_db function"
+            )
+
+        responseText = response.json()
+
+        if responseText["successful"] is False:
+            raise Exception(
+                "something worng with the server. please check. search_movie_in_db function"
+            )
+
+        return responseText["movies"]
+
 
 if __name__ == "__main__":
 
@@ -101,4 +117,4 @@ if __name__ == "__main__":
     #     movieRating=movieRating,
     #     posterLink=posterLink,
     # )
-    print(api.check_working_history("Immi.the.Vegan.2021.1080p.WEB.H264-NAISU"))
+    print(api.search_movie_in_db("Honeydripper"))
