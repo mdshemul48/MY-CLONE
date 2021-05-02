@@ -54,5 +54,5 @@ const movieShema = new Schema({
 });
 
 movieShema.plugin(uniqueValidator);
-
+movieShema.index({ title: "text" });
 module.exports = mongoose.model("Movie", movieShema);

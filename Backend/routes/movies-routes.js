@@ -2,14 +2,19 @@ const router = require("express").Router();
 
 // castom import
 const moviesControllers = require("../controllers/movies-controllers");
-// movies routes
 
-// this will return  true if movie exist..
-// if movie not exist on db it will return false
+// -----------------------movies routes--------------------------
 
-router.get("/", moviesControllers.getMovies);
+// movie info
+router.get("/movieinfo/:movieTitle", moviesControllers.getMovieByTitle);
 
-router.get("/:movieTitle", moviesControllers.getMovieByTitle);
-// this will add movie to the db
-router.put("/", moviesControllers.enterMovieIn);
+// movie search
+router.get("/search/:movieTitle", moviesControllers.searchMovie);
+
+// add new movie to db
+router.put("/storeMovie/", moviesControllers.enterMovieIn);
+
+// this will check if movie exsist in the server
+// if exist the it will return true else false with movie insert in db
+router.post("/check/:movieTitle", moviesControllers.checkMovie);
 module.exports = router;
