@@ -1,5 +1,4 @@
 import requests
-from requests.models import Response
 
 from info import (
     get_movie_by_title_with_info_link,
@@ -64,25 +63,42 @@ class Db_request_api:
         elif responce.status_code == 409:
             raise Exception("movie already exist in the server")
 
+    def check_working_history(self, title):
+        response = self.api.post(self.check_or_create_link + "/" + title)
+
+        if response.status_code != 200:
+            raise Exception(
+                "something not right with the server. in check_working_history function."
+            )
+
+        responseText = response.json()
+
+        if responseText["successful"] is False:
+            raise Exception(
+                "something not right with the server. successful false. in check_working_history function."
+            )
+
+        return {"found": responseText["found"], "movie": responseText["movie"]}
+
 
 if __name__ == "__main__":
 
-    title = "Immi.the.Vegan.2021.1080p.WEB.H264-NAISU"
-    language = "English"
-    genres = "Thriller,Crime,"
-    imdbLink = "https://www.imdb.com/title/tt13269536"
-    downloadSearchResult = "[]"
-    movieRating = "R-rated"
-    posterLink = "https://m.media-amazon.com/images/M/MV5BMTdkYWE4ZGQtOGZkMy00ZTg1LWE5ODEtZWRlMjQ3NWQ2N2I2XkEyXkFqcGdeQXVyNjU0NTI0Nw@@._V1_.jpg"
+    # title = "Immi.the.Vegan.2021.1080p.WEB.H264-NAISU"
+    # language = "English"
+    # genres = "Thriller,Crime,"
+    # imdbLink = "https://www.imdb.com/title/tt13269536"
+    # downloadSearchResult = "[]"
+    # movieRating = "R-rated"
+    # posterLink = "https://m.media-amazon.com/images/M/MV5BMTdkYWE4ZGQtOGZkMy00ZTg1LWE5ODEtZWRlMjQ3NWQ2N2I2XkEyXkFqcGdeQXVyNjU0NTI0Nw@@._V1_.jpg"
 
     api = Db_request_api()
-    created = api.create_movie_with_info(
-        title=title,
-        language=language,
-        genres=genres,
-        imdbLink=imdbLink,
-        downloadSearchResult=downloadSearchResult,
-        movieRating=movieRating,
-        posterLink=posterLink,
-    )
-    print(created)
+    # created = api.create_movie_with_info(
+    #     title=title,
+    #     language=language,
+    #     genres=genres,
+    #     imdbLink=imdbLink,
+    #     downloadSearchResult=downloadSearchResult,
+    #     movieRating=movieRating,
+    #     posterLink=posterLink,
+    # )
+    print(api.check_working_history("Immi.the.Vegan.2021.1080p.WEB.H264-NAISU"))
