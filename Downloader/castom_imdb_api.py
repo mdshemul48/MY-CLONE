@@ -10,7 +10,7 @@ class Imdb_api:
         self.movie = self.imdb_api.get_movie(id)
 
     def get_language(self):
-        return self.movie["language"]
+        return self.movie["language"][0]
 
     def get_genres(self):
         genres_array = self.movie.data["genres"]
@@ -26,9 +26,9 @@ class Imdb_api:
     def get_rated_movie(self):
         restricted_content = self.imdb_api.get_movie_parents_guide(self.id)
         try:
-            return restricted_content["data"]
+            return str(restricted_content["data"])
         except:
-            return {}
+            return "{}"
 
 
 if __name__ == "__main__":

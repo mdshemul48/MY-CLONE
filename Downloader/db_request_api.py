@@ -56,7 +56,6 @@ class Db_request_api:
         }
 
         responce = self.api.put(self.create_movie_with_info_link, json=info)
-        print(responce.text)
 
         if responce.status_code != 201 and responce.status_code != 409:
             raise Exception("something worng with the server")
@@ -82,6 +81,7 @@ class Db_request_api:
 
     def search_movie_in_db(self, only_title):
         response = self.api.get(self.search_movie_in_db_link + "/" + only_title)
+        print()
         if response.status_code != 200:
             raise Exception(
                 "something worng with the server. please check. search_movie_in_db function"

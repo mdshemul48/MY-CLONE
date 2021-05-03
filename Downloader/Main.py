@@ -3,9 +3,11 @@ from difflib import SequenceMatcher
 
 # castom imports
 from info import letest_movies_link
-from rarbg_api import download as rargb_letest_torrent
+from rarbg_api import download as rargb_letest_torrent, getMegnet
 from db_request_api import Db_request_api
 from circle_net_search import search_movies
+from castom_imdb_api import Imdb_api
+from qbit_download_api import Qbit_download
 
 
 def get_movie_title_and_year(title):
@@ -28,7 +30,7 @@ def compare_two_movie(first_movie: dict, secend_movie: dict):
 def downloader(movie):
     title = movie["title"]
     size = movie["size"]
-    link = movie["href_link"]
+    megnet_link = movie["megnet_link"]
     imdb_id = movie["imdb"]
 
     # ------- extracting title and year ------------------
@@ -38,9 +40,9 @@ def downloader(movie):
     if size >= 5:
         return
 
+    # -------- movie chaking or insterting in databace working history---------------
     detabace = Db_request_api()
 
-    # -------- movie chaking or insterting in databace working history---------------
     db_response = detabace.check_working_history(title)
     if db_response["found"]:
         return
@@ -59,6 +61,13 @@ def downloader(movie):
             if found:
                 return
 
+    # getting movie info from imdb. like poster genres etc.
+    movie = Imdb_api(imdb_id)
+    language = movie.get_language()
+    genres = movie.get_genres()
+    poster = movie.get_poster()
+    rated_movie = movie.get_rated_movie()
+
     # searching in out ftp server. if movie alredy exist. :- http://circleftp.net
     search_in_circle_ftp = search_movies(movie_title, movie_year)
     search_boolean = search_in_circle_ftp["found"]
@@ -66,7 +75,20 @@ def downloader(movie):
     if search_boolean:
         return
 
-    print("ready to search")
+    # adding data to the db
+    detabace.create_movie_with_info(
+        title=title,
+        language=language,
+        genres=genres,
+        imdbLink=imdb_id,
+        downloadSearchResult=str(search_result),
+        movieRating=rated_movie,
+        posterLink=poster,
+    )
+
+    # download using qbitTorrent
+    qbit = Qbit_download()
+    qbit.download_movie(megnet_link, language)
 
 
 def main():
@@ -78,20 +100,8 @@ def main():
     for movie in letest_movies["data"]:
         print(movie)
         downloader(movie)
-        break
+        print("done")
 
 
 if __name__ == "__main__":
-
-    downloader(
-        {
-            "title": "No Place (2021) 1080p WEBRip x264",
-            "size": 2.08,
-            "seeds": "1",
-            "leeches": "1",
-            "uploader": "Scene",
-            "href_link": "https://rarbgmirror.org/torrent/xblizw1",
-            "imdb": "4215674",
-        }
-    )
-    # main()
+    main()
