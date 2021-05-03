@@ -1,11 +1,10 @@
 import glob, shutil, os
 
 # castom import
-from info import block_list
+from info import block_list, temp_folder
 
 
 def rename_full_folder(path):
-
     for file_path in glob.glob(glob.escape(path) + "/*", recursive=True):
         file_name = file_path.replace(path, "").replace("\\", "")
         new_name = (
@@ -27,3 +26,8 @@ def rename_full_folder(path):
             elif file_extension in block_list:
                 os.remove(movie_path)
         os.rename(file_path, path + "\\" + new_name)
+
+
+def rename_all_folders_movie():
+    for category in glob.glob(glob.escape(temp_folder) + "/*"):
+        rename_full_folder(category)
