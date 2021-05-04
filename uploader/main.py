@@ -5,7 +5,7 @@ import shutil
 from qbit_api import Qbit
 from day_added import total_added_days
 from file_mover import move_to_temp_folder
-from renamer import rename_all_folders_movie
+from junk import remove_junk
 from upload_with_rclone import upload
 from info import temp_folder, bot_name, upload_folder
 from db_request_api import Db_request_api
@@ -44,7 +44,6 @@ def torrent_mover(torrent):
     # if file download not 100% complete then return.
     if progress != 1:
         return
-
     # pausing torrent for moving.
     qbit.pause_torrent(info_hash)
 
@@ -85,13 +84,12 @@ def main():
     # this will move all the complete file to the temp folder.
     for torrent in all_torrents:
         torrent_mover(torrent)
-        break
 
     if movie_on_temp == 0:
         return
 
     # renameing all file(movies).
-    rename_all_folders_movie()
+    remove_junk()
 
     # this will upload content from temp to
     upload()
@@ -109,5 +107,4 @@ if __name__ == "__main__":
             save_error(bot_name, str(err))
 
         print("end..")
-
         time.sleep(300)
