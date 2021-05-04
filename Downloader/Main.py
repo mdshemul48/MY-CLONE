@@ -1,13 +1,19 @@
+import time
 from guessit import guessit
 from difflib import SequenceMatcher
 
 # castom imports
-from info import letest_movies_link
-from rarbg_api import download as rargb_letest_torrent, getMegnet
+from info import letest_movies_link, bot_name
+from rarbg_api import download as rargb_letest_torrent
 from db_request_api import Db_request_api
 from circle_net_search import search_movies
 from castom_imdb_api import Imdb_api
 from qbit_download_api import Qbit_download
+
+
+def save_error(bot_title, error_message):
+    detabase = Db_request_api()
+    detabase.log_error(bot_title, error_message)
 
 
 def get_movie_title_and_year(title):
@@ -92,16 +98,30 @@ def downloader(movie):
 
 
 def main():
-
-    letest_movies = rargb_letest_torrent(letest_movies_link)
-    if letest_movies["success"] is False:
+    letest_movies = {}
+    for i in range(0, 3):
+        try:
+            letest_movies = rargb_letest_torrent(letest_movies_link)
+            break
+        except Exception as err:
+            save_error(bot_name, str(err))
+    if len(letest_movies) == 0 or letest_movies["success"] is False:
         raise Exception("RARBG torrent not return valid data.")
 
     for movie in letest_movies["data"]:
-        print(movie)
-        downloader(movie)
-        print("done")
+        try:
+            downloader(movie)
+        except Exception as err:
+            save_error(bot_name, str(err))
 
 
 if __name__ == "__main__":
-    main()
+    while True:
+        print("start..")
+        try:
+            main()
+        except Exception as err:
+            save_error(bot_name, str(err))
+        print("end..")
+
+        time.sleep(300)

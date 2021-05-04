@@ -5,6 +5,7 @@ from info import (
     create_movie_with_info_link,
     search_movie_in_db_link,
     check_or_create_link,
+    error_link,
 )
 
 
@@ -15,6 +16,7 @@ class Db_request_api:
         self.create_movie_with_info_link = create_movie_with_info_link
         self.search_movie_in_db_link = search_movie_in_db_link
         self.check_or_create_link = check_or_create_link
+        self.error_link = error_link
 
     def get_movie_by_title_with_info(self, movieTitle):
 
@@ -81,20 +83,27 @@ class Db_request_api:
 
     def search_movie_in_db(self, only_title):
         response = self.api.get(self.search_movie_in_db_link + "/" + only_title)
-        print()
         if response.status_code != 200:
             raise Exception(
-                "something worng with the server. please check. search_movie_in_db function"
+                "something worng with the server. please check. search_movie_in_db function. error 1 "
             )
 
         responseText = response.json()
 
         if responseText["successful"] is False:
             raise Exception(
-                "something worng with the server. please check. search_movie_in_db function"
+                "something worng with the server. please check. search_movie_in_db function error 2"
             )
 
         return responseText["movies"]
+
+    def log_error(self, bot_title: str, error_text: str):
+        error = {"botName": bot_title, "errorText": error_text}
+
+        response = self.api.put(self.error_link, json=error)
+
+        if response.status_code != 201:
+            raise Exception("log error function not working.")
 
 
 if __name__ == "__main__":
@@ -117,4 +126,4 @@ if __name__ == "__main__":
     #     movieRating=movieRating,
     #     posterLink=posterLink,
     # )
-    print(api.search_movie_in_db("Honeydripper"))
+    print(api.log_error("uploader", "error"))
