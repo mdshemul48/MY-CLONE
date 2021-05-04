@@ -46,10 +46,14 @@ const movieShema = new Schema({
     type: String,
     required: true,
   },
+  status: {
+    type: String,
+    required: true,
+  },
   creatorDate: {
     type: mongoose.Types.ObjectId,
     required: true,
-    ref: "",
+    ref: "creatorDate",
   },
 });
 

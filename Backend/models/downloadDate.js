@@ -25,4 +25,4 @@ const MovieDateSchema = new Schema({
 });
 MovieDateSchema.plugin(uniqueValidator);
 
-module.exports = mongoose.model("MovieDate", MovieDateSchema);
+module.exports = mongoose.model("creatorDate", MovieDateSchema);

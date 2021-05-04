@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const Movie = require("../models/movies");
 const MovieDate = require("../models/downloadDate");
 const Check = require("../models/checkHistory");
+
 const searchMovie = async (req, res, next) => {
   // this will search movie on db.
   const { movieTitle } = req.params;
@@ -65,6 +66,9 @@ const enterMovieIn = async (req, res, next) => {
     date = new MovieDate({
       date: todayDate,
     });
+    try {
+      await date.save();
+    } catch (err) {}
   }
 
   let existingMovie;
@@ -93,6 +97,7 @@ const enterMovieIn = async (req, res, next) => {
     movieRating,
     creatorDate: date,
     posterLink,
+    status: "Downloading..",
   });
 
   try {
@@ -104,7 +109,8 @@ const enterMovieIn = async (req, res, next) => {
     await sess.commitTransaction();
     return res.status(201).json({ successful: true, createdMovie });
   } catch (err) {
-    return res.status(500).json({ successful: false, message: err });
+    console.log(err);
+    return res.status(501).json({ successful: false, message: err });
   }
 };
 
