@@ -1,3 +1,4 @@
+import time
 import shutil
 
 # ------------------ castom imports ------------------------
@@ -6,7 +7,14 @@ from day_added import total_added_days
 from file_mover import move_to_temp_folder
 from renamer import rename_all_folders_movie
 from upload_with_rclone import upload
-from info import temp_folder
+from info import temp_folder, bot_name, upload_folder
+from db_request_api import Db_request_api
+
+
+def save_error(bot_title: str, error_message: str):
+    detabase = Db_request_api()
+    detabase.log_error(bot_title, error_message)
+
 
 # if any movie moves to temp folder then this will update.
 movie_on_temp = 0
@@ -43,8 +51,9 @@ def torrent_mover(torrent):
     # moving to the temp folder..
     # it can throw FileNotFoundError error. so if it throw error then i will delete the torrent from qbit.
     try:
-        move_to_temp_folder(category, folder_path)
-    except FileNotFoundError:
+        file_location = move_to_temp_folder(category, folder_path)
+    except FileNotFoundError as err:
+        save_error(bot_name, str(err))
         qbit.delete_torrent(info_hash)
         return
 
@@ -54,6 +63,17 @@ def torrent_mover(torrent):
     # this will tigger the rename function latter
     global movie_on_temp
     movie_on_temp += 1
+
+    # getting upload location folder.
+    new_location = file_location.replace(temp_folder, upload_folder)
+
+    # initalizing db connection with api.
+    detabase = Db_request_api()
+
+    # creating update content
+    updated_content = {"status": "uploaded..", "path": new_location}
+    # updating movie status and path
+    detabase.update_content(title, updated_content)
 
 
 def main():
@@ -81,4 +101,13 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    while True:
+        print("start.. uploader.")
+        try:
+            main()
+        except Exception as err:
+            save_error(bot_name, str(err))
+
+        print("end..")
+
+        time.sleep(300)

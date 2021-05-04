@@ -12,7 +12,14 @@ def move_to_temp_folder(category, content_path):
 
     # creating new folder in temp folder and moving to the temp folder.
     folder_name = content_path[::-1].replace("\\", "$$$$$$", 1)[::-1].split("$$$$$$")[1]
-    final_temp_folder = temp_folder + "\\" + category + "\\" + folder_name
+
+    # this will remove uploader name from back of the title.
+    new_folder_name = (
+        folder_name[::-1].replace("-", "###", 1)[::-1].split("###")[0].replace(".", " ")
+    )
+    final_temp_folder = temp_folder + "\\" + category + "\\" + new_folder_name
     if not os.path.exists(temp_folder + "\\" + category):
         os.makedirs(temp_folder + "\\" + category)
     shutil.move(content_path, final_temp_folder)
+
+    return final_temp_folder

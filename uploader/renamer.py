@@ -7,12 +7,7 @@ from info import block_list, temp_folder
 def rename_full_folder(path):
     for file_path in glob.glob(glob.escape(path) + "/*", recursive=True):
         file_name = file_path.replace(path, "").replace("\\", "")
-        new_name = (
-            file_name[::-1]
-            .replace("-", "###", 1)[::-1]
-            .split("###")[0]
-            .replace(".", " ")
-        )
+
         for movie_path in glob.glob(glob.escape(file_path) + "/*", recursive=True):
             try:
                 file_extension = (
@@ -25,7 +20,6 @@ def rename_full_folder(path):
                 shutil.rmtree(movie_path)
             elif file_extension in block_list:
                 os.remove(movie_path)
-        os.rename(file_path, path + "\\" + new_name)
 
 
 def rename_all_folders_movie():
