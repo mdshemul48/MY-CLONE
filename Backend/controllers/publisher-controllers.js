@@ -6,7 +6,13 @@ const createEntry = async (req, res, next) => {
 
   let existedEntry;
   try {
-    existedEntry = await Publisher.findOne({ input });
+    existedEntry = await Publisher.findOne({
+      note,
+      input,
+      output,
+      link,
+      category,
+    });
   } catch (err) {
     return res.status(500).json({ successful: false, err });
   }
