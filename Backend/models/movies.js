@@ -32,7 +32,7 @@ const movieShema = new Schema({
     type: String,
     required: false,
   },
-  publishPath: {
+  path: {
     type: String,
     required: false,
   },

@@ -14,6 +14,8 @@ router.get("/search/:movieTitle", moviesControllers.searchMovie);
 // add new movie to db
 router.put("/storeMovie/", moviesControllers.enterMovieIn);
 
+// this will edit movie data..
+router.patch("/edit/", moviesControllers.editMovie);
 // this will check if movie exsist in the server
 // if exist the it will return true else false with movie insert in db
 router.post("/check/:movieTitle", moviesControllers.checkMovie);

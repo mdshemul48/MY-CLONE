@@ -101,7 +101,7 @@ const enterMovieIn = async (req, res, next) => {
   });
 
   try {
-    const sess = await mongoose.startSession();
+    const sess = await new mongoose.startSession();
     sess.startTransaction();
     await createdMovie.save({ session: sess });
     date.movies.push(createdMovie);
@@ -152,7 +152,18 @@ const checkMovie = async (req, res, next) => {
     .json({ successful: true, found: false, movie: createdMovie });
 };
 
+const editMovie = async (req, res, next) => {
+  const { title, content } = req.body;
+  try {
+    updatedMovie = await Movie.findOneAndUpdate({ title }, content);
+    return res.json({ successful: true, movie: updatedMovie });
+  } catch (err) {
+    return res.status(500).json({ successful: false, err });
+  }
+};
+
 exports.searchMovie = searchMovie;
 exports.getMovieByTitle = getMovieByTitle;
 exports.enterMovieIn = enterMovieIn;
 exports.checkMovie = checkMovie;
+exports.editMovie = editMovie;
