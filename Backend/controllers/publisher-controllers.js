@@ -4,6 +4,18 @@ const Publisher = require("../models/publisher");
 const createEntry = async (req, res, next) => {
   const { note, input, output, link, category } = req.body;
 
+  let existedEntry;
+  try {
+    existedEntry = await Publisher.findOne({ input });
+  } catch (err) {
+    return res.status(500).json({ successful: false, err });
+  }
+  if (existedEntry) {
+    return res
+      .status(422)
+      .json({ successful: true, message: "already exist." });
+  }
+
   const createdPublisherEntry = new Publisher({
     note,
     input,
