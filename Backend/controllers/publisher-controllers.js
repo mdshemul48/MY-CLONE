@@ -32,4 +32,14 @@ const createEntry = async (req, res, next) => {
   }
 };
 
+const getAllEntry = async (req, res, next) => {
+  try {
+    const allEntry = await Publisher.find({});
+    return res.status(200).json({ successful: true, allEntry });
+  } catch (err) {
+    return res.status(500).json({ successful: false, err });
+  }
+};
+
 exports.createEntry = createEntry;
+exports.getAllEntry = getAllEntry;
