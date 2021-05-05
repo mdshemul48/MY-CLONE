@@ -20,7 +20,7 @@ def save_error(bot_title: str, error_message: str):
 movie_on_temp = 0
 
 
-def torrent_mover(torrent):
+def move_torrent_and_remove_junk_file(torrent):
     title = torrent["name"]
     progress = torrent["progress"]
     state = torrent["state"]
@@ -28,7 +28,6 @@ def torrent_mover(torrent):
     info_hash = torrent["hash"]
     folder_path = torrent["content_path"]
     added_on_time = total_added_days(torrent["added_on"])
-
     # if file was moving then it will return from here.
     if state == "moving":
         return
@@ -37,13 +36,13 @@ def torrent_mover(torrent):
     qbit = Qbit()
 
     # deleting torernt because added time > 3days.
-    if progress != 1 and added_on_time >= 3:
+    if progress != 1 and added_on_time >= 3 or state == "missingFiles":
         qbit.delete_torrent(info_hash)
-        return
+        return {"file_moved": False}
 
     # if file download not 100% complete then return.
     if progress != 1:
-        return
+        return {"file_moved": False}
     # pausing torrent for moving.
     qbit.pause_torrent(info_hash)
 
@@ -54,7 +53,7 @@ def torrent_mover(torrent):
     except FileNotFoundError as err:
         save_error(bot_name, str(err))
         qbit.delete_torrent(info_hash)
-        return
+        return {"file_moved": False}
 
     # deleting torernt from qbitTorrent
     qbit.delete_torrent(info_hash)
@@ -73,19 +72,23 @@ def torrent_mover(torrent):
     updated_content = {"status": "uploaded..", "path": new_location}
     # updating movie status and path
     detabase.update_content(title, updated_content)
+    return {"file_moved": True}
 
 
 def main():
     qbit = Qbit()
-    global movie_on_temp
-    movie_on_temp = 0
     all_torrents = qbit.get_all_torrent()
+
+    file_moved_to_temp = False
 
     # this will move all the complete file to the temp folder.
     for torrent in all_torrents:
-        torrent_mover(torrent)
+        is_moved = move_torrent_and_remove_junk_file(torrent)
+        if is_moved["file_moved"]:
+            file_moved_to_temp = True
 
-    if movie_on_temp == 0:
+    if file_moved_to_temp is not True:
+        print("hello ass")
         return
 
     # renameing all file(movies).
