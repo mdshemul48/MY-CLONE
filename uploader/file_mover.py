@@ -18,8 +18,18 @@ def move_to_temp_folder(category, content_path):
         folder_name[::-1].replace("-", "###", 1)[::-1].split("###")[0].replace(".", " ")
     )
     final_temp_folder = temp_folder + "\\" + category + "\\" + new_folder_name
-    if not os.path.exists(temp_folder + "\\" + category):
-        os.makedirs(temp_folder + "\\" + category)
-    shutil.move(content_path, final_temp_folder)
+
+    for i in range(0, 2):
+        try:
+            os.makedirs(temp_folder + "\\" + category, exist_ok=True)
+            os.rename(content_path, final_temp_folder)
+        except FileExistsError:
+            shutil.rmtree(final_temp_folder)
 
     return final_temp_folder
+
+
+if __name__ == "__main__":
+    move_to_temp_folder(
+        "English", r"E:\downloads\English\A.Dangerous.Son.2018.1080p.WEBRip.x265-RARBG"
+    )
