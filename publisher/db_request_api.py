@@ -1,6 +1,11 @@
 import requests
 
-from auth_info import error_link, movie_edit_link, publish_command
+from auth_info import (
+    error_link,
+    movie_edit_link,
+    publish_command,
+    get_movie_by_title_with_info_link,
+)
 
 
 class Db_request_api:
@@ -14,25 +19,6 @@ class Db_request_api:
 
         if response.status_code != 201:
             raise Exception("log error function not working.")
-
-    def get_movie_by_title_with_info(self, movieTitle):
-
-        response = self.api.get(
-            self.get_movie_by_title_with_info_link + "/" + movieTitle
-        )
-        if response.status_code != 200:
-            raise Exception("fail to get 200 response at get_movie_by_title_with_info")
-
-        response_data = response.json()
-
-        if response_data["successful"] is False:
-            raise Exception(
-                "something went wrong with the server at get_movie_by_title_with_info"
-            )
-        if response_data["successful"] is False:
-            return {}
-
-        return response_data["movie"]
 
     def update_content(self, title: str, content: dict):
         data = {
@@ -56,10 +42,26 @@ class Db_request_api:
         response_content = response.json()
         if not response_content["successful"]:
             raise Exception(
-                "response  not successful.. maybe some server error. please check.. in get_all_arguments function."
+                "response not successful.. maybe some server error. please check.. in get_all_arguments function."
             )
 
         return response_content["allEntry"]
+
+    def get_movie_by_title_with_info(self, movieTitle):
+
+        response = self.api.get(get_movie_by_title_with_info_link + "/" + movieTitle)
+        if response.status_code != 200:
+            raise Exception("fail to get 200 response at get_movie_by_title_with_info")
+
+        response_data = response.json()
+
+        if response_data["successful"] is False:
+            raise Exception(
+                "something went wrong with the server at get_movie_by_title_with_info"
+            )
+        if not response_data["found"]:
+            return "fuck"
+        return response_data["movie"]
 
 
 if __name__ == "__main__":

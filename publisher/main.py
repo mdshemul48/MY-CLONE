@@ -25,7 +25,12 @@ from auth_info import Main_data
 
 # castom imports
 from db_request_api import Db_request_api
-from auth_info import headless, sleep_mode, tv_series
+from auth_info import (
+    headless,
+    sleep_mode,
+    tv_series,
+    movie_genres_and_poster_not_found_store_path,
+)
 
 colorama.init(autoreset=True)
 
@@ -634,11 +639,12 @@ def move_to_main_folder(category_no, year, input_path, output_folder, folder_nam
     return moving_log
 
 
-def move_to_already_exist_folder(movie_to_move):
+def move_to_already_exist_folder(
+    movie_to_move, output_folder=Main_data().already_exist_folder
+):
     file_path = str(movie_to_move)[::-1].replace("\\", "**", 1)[::-1].split("**")
     lenguage = file_path[0][::-1].replace("\\", "**", 1)[::-1].split("**")[1]
     file_name = file_path[1]
-    output_folder = Main_data().already_exist_folder
     os.makedirs(output_folder + "\\" + lenguage, exist_ok=True)
     movie_output = output_folder + "\\" + lenguage + "\\" + file_name
     os.rename(movie_to_move, movie_output)
@@ -986,27 +992,42 @@ def cetagory_name(category_select):
         return ""
 
 
-def single_publish(
-    movie,
-    working_path,
-    category_select,
-    publish_link,
-    output_folder,
-    headless,
-    date_time_or_not,
-    Chrome_profile_path,
-    movie_no,
-    movie_data_set,
-    movie_queue,
-    tv_series,
-    db_api,
-):
+def single_publish(*args):
+    (
+        movie,
+        working_path,
+        category_select,
+        publish_link,
+        output_folder,
+        headless,
+        date_time_or_not,
+        Chrome_profile_path,
+        movie_no,
+        movie_queue,
+        tv_series,
+        db_api,
+    ) = args
+
     movie_search = Queue()
     begin_time = datetime.datetime.now()
     movie_title, movie_path, video_file_title = movie_file_dir_and_name(
         working_path, movie
     )
+
     movie_name, movie_year = name_and_year(movie_title, tv_series)
+    try:
+        movie_info = db_api.get_movie_by_title_with_info(video_file_title)
+        genres = movie_info["genres"]
+        poster_link = movie_info["posterLink"]
+    except:
+        genres, poster_link = get_movie_genres_and_poster_tmdb(
+            movie_name, movie_year, sleep_mode, tv_series
+        )
+        if genres == None or poster_link == None:
+            move_to_already_exist_folder(
+                movie, movie_genres_and_poster_not_found_store_path
+            )
+
     search = Thread(
         target=search_movies, args=(movie_name, movie_year, movie_no, movie_search)
     )
@@ -1014,23 +1035,12 @@ def single_publish(
     movie_link = file_path_to_url(
         working_path, movie_path, publish_link, category_select, movie_year
     )
-    image_path = save_the_image_and_get_the_path(movie_data_set[1], movie_no)
-    print(f"{Fore.GREEN}Movie or TV series full title:- {movie_title}")
-    print(f"{Fore.GREEN}Movie or TV series  Name:- {movie_name} {movie_year} ")
-    if tv_series:
-        print(f"{Fore.GREEN}Movie or TV series  full path:- {movie}")
-    else:
-        print(f"{Fore.GREEN}Movie or TV series  full path:- {movie_path}")
-    print(f"{Fore.GREEN}Genres:- {movie_data_set[0]} || Poster:- {movie_data_set[1]}")
-    print(f"{Fore.RED}Language:- {str(movie_data_set[2])} ")
-    print(f"{Fore.RED}Restriction:- {str(movie_data_set[3])}")
-    print(f"{Fore.RED}Chrome Profile: {movie_no}")
-    print(f"{Fore.GREEN}_____________________________________")
+    image_path = save_the_image_and_get_the_path(poster_link, movie_no)
     published_link = publish_system(
         movie_title,
         category_select,
         movie_year,
-        movie_data_set[0],
+        genres,
         image_path,
         movie_link,
         headless,
@@ -1098,24 +1108,11 @@ def publisher_and_all(*args):
                 movie = next(movie_directories)
 
                 try:
-                    movie_title, movie_path, video_file_title = movie_file_dir_and_name(
-                        publish_input, movie
-                    )
+                    movie_title = movie_file_dir_and_name(publish_input, movie)
                 except Exception as error:
                     print(error)
                     continue
-                try:
-                    print(db_api.get_movie_by_title_with_info(video_file_title))
-                except Exception as err:
-                    print(err)
 
-                movie_name, movie_year = name_and_year(movie_title, tv_series)
-                data_set = get_movie_genres_and_poster_tmdb(
-                    movie_name, movie_year, sleep_mode, tv_series
-                )
-
-                if data_set[0] == None or data_set[1] == None:
-                    continue
                 try:
                     profile_key = next(chrome_profile)
                     profile = publish_chrome_profile[profile_key]
@@ -1134,7 +1131,6 @@ def publisher_and_all(*args):
                         date_time_or_not,
                         profile["profile_path"],
                         profile["profile_number"],
-                        data_set,
                         movie_queue,
                         tv_series,
                         db_api,
