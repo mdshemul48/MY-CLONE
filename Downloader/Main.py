@@ -39,7 +39,7 @@ def downloader(movie):
     imdb_id = movie["episode_info"]["imdb"][2:]
     # ------- extracting title and year ------------------
     movie_title, movie_year = get_movie_title_and_year(title)
-
+    print(title)
     # ----------checking if movie size under 5gb---------
     if size >= 5:
         return
@@ -93,6 +93,7 @@ def downloader(movie):
     # download using qbitTorrent
     qbit = Qbit_download()
     qbit.download_movie(megnet_link, language)
+    print("done")
 
 
 def main():
@@ -105,7 +106,6 @@ def main():
             downloader(movie)
         except Exception as err:
             save_error(bot_name, str(err))
-        break
 
 
 if __name__ == "__main__":
