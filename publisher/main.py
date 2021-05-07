@@ -1065,7 +1065,7 @@ def single_publish(
     )
 
 
-def publisher_and_all():
+def publisher_and_all(*args):
     (
         working_path,
         category_select,
@@ -1074,7 +1074,7 @@ def publisher_and_all():
         headless,
         sleep_mode,
         tv_series,
-    ) = get_arguments()
+    ) = args
     print(
         "=================================================================================="
     )
@@ -1083,7 +1083,8 @@ def publisher_and_all():
     data = Main_data()
     publish_chrome_profile = data.publish_chrome_profile
     not_done = True
-    while not_done:
+    total_publish = 0
+    while not_done and total_publish <= 2:
         store_ = {}
         chrome_profile = iter(publish_chrome_profile)
         while True:
@@ -1141,58 +1142,34 @@ def publisher_and_all():
 
         [store_[movie]["Thread_obj"].join() for movie in store_]
 
-        for movie_queue in store_:
-            movie_data = []
-            while store_[movie_queue]["movie_queue"].empty() is False:
-                movie_data = store_[movie_queue]["movie_queue"].get()
-            try:
-                (
-                    movie_title,
-                    category_name,
-                    moving_log,
-                    published_link,
-                    begin_time,
-                    publishing_time,
-                    results,
-                ) = (
-                    movie_data[0],
-                    movie_data[1],
-                    movie_data[2],
-                    movie_data[3],
-                    movie_data[4],
-                    movie_data[5],
-                    movie_data[6],
-                )
-            except IndexError:
-                continue
-            try:
-                publish_log(
-                    movie_title,
-                    category_name,
-                    moving_log,
-                    published_link,
-                    begin_time,
-                    publishing_time,
-                    str(results),
-                    date_time_or_not,
-                )
-            except:
-                input("Please close the Sheets and type ok to continue: ")
-                publish_log(
-                    movie_title,
-                    category_name,
-                    moving_log,
-                    published_link,
-                    begin_time,
-                    publishing_time,
-                    str(results),
-                    date_time_or_not,
-                )
-            date_time_or_not = False
+        total_publish += 1
         print(
             "=================================================================================="
         )
+    print(total_publish)
+
+    return total_publish
+
+
+def get_arguments_from_api():
+    working_path = r"V:\.uploading 1tb\ready to publish\Cantonese"
+    category_select = "3"
+    output_folder = "V:\Foreign Language Movies\china"
+    publish_link = "http://index.circleftp.net/FILE/Foreign%20Language%20Movies/china"
+    headless = True
+    sleep_mode = True
+    tv_series = False
+
+    publisher_and_all(
+        working_path,
+        category_select,
+        publish_link,
+        output_folder,
+        headless,
+        sleep_mode,
+        tv_series,
+    )
 
 
 if __name__ == "__main__":
-    publisher_and_all()
+    get_arguments_from_api()
