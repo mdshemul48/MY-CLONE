@@ -6,8 +6,6 @@ import pathlib
 import re
 from threading import Thread
 from queue import Queue
-from os import path
-import optparse
 import shutil
 import requests
 from collections import OrderedDict
@@ -16,8 +14,6 @@ import time
 
 import colorama
 from colorama import Fore
-import openpyxl as op
-from openpyxl.styles import Alignment, Font, PatternFill
 import imdb
 from bs4 import BeautifulSoup
 from guessit import guessit
@@ -26,6 +22,10 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import Select, WebDriverWait
 from auth_info import Main_data
+
+# castom imports
+from db_request_api import Db_request_api
+from auth_info import headless, sleep_mode, tv_series
 
 colorama.init(autoreset=True)
 
@@ -1066,24 +1066,23 @@ def single_publish(
 
 
 def publisher_and_all(*args):
-    (
-        working_path,
-        category_select,
-        publish_link,
-        output_folder,
-        headless,
-        sleep_mode,
-        tv_series,
-    ) = args
+    # all the impouts from function arguments
+    command, movie_published_counter, db_api = args
+
+    publish_input = command["input"]
+    publish_output = command["output"]
+    publish_link = command["link"]
+    publish_category = str(command["category"])
+
     print(
         "=================================================================================="
     )
-    movie_directories = iter(get_all_movie(working_path))
+    movie_directories = iter(get_all_movie(publish_input))
     date_time_or_not = True
     data = Main_data()
     publish_chrome_profile = data.publish_chrome_profile
     not_done = True
-    total_publish = 0
+    total_publish = movie_published_counter
     while not_done and total_publish <= 2:
         store_ = {}
         chrome_profile = iter(publish_chrome_profile)
@@ -1093,7 +1092,7 @@ def publisher_and_all(*args):
                 movie = next(movie_directories)
 
                 try:
-                    movie_title = movie_file_dir_and_name(working_path, movie)[0]
+                    movie_title = movie_file_dir_and_name(publish_input, movie)[0]
                 except Exception as error:
                     print(error)
                     continue
@@ -1115,10 +1114,10 @@ def publisher_and_all(*args):
                     target=single_publish,
                     args=(
                         movie,
-                        working_path,
-                        category_select,
+                        publish_input,
+                        publish_category,
                         publish_link,
-                        output_folder,
+                        publish_output,
                         headless,
                         date_time_or_not,
                         profile["profile_path"],
@@ -1146,29 +1145,18 @@ def publisher_and_all(*args):
         print(
             "=================================================================================="
         )
-    print(total_publish)
 
     return total_publish
 
 
 def get_arguments_from_api():
-    working_path = r"V:\.uploading 1tb\ready to publish\Cantonese"
-    category_select = "3"
-    output_folder = "V:\Foreign Language Movies\china"
-    publish_link = "http://index.circleftp.net/FILE/Foreign%20Language%20Movies/china"
-    headless = True
-    sleep_mode = True
-    tv_series = False
-
-    publisher_and_all(
-        working_path,
-        category_select,
-        publish_link,
-        output_folder,
-        headless,
-        sleep_mode,
-        tv_series,
-    )
+    api = Db_request_api()
+    publish_command = api.get_all_arguments()
+    movie_published_counter = 0
+    for command in publish_command:
+        movie_published_counter += publisher_and_all(
+            command, movie_published_counter, api
+        )
 
 
 if __name__ == "__main__":
