@@ -6,6 +6,7 @@ from info import (
     search_movie_in_db_link,
     check_or_create_link,
     error_link,
+    letest_movies_link,
 )
 
 
@@ -19,22 +20,18 @@ class Db_request_api:
         self.error_link = error_link
 
     def get_movie_by_title_with_info(self, movieTitle):
-
         response = self.api.get(
             self.get_movie_by_title_with_info_link + "/" + movieTitle
         )
         if response.status_code != 200:
             raise Exception("fail to get 200 response at get_movie_by_title_with_info")
-
         response_data = response.json()
-
         if response_data["successful"] is False:
             raise Exception(
                 "something went wrong with the server at get_movie_by_title_with_info"
             )
         if response_data["successful"] is False:
             return {}
-
         return response_data["movie"]
 
     def create_movie_with_info(self, **kwargs):
@@ -58,7 +55,6 @@ class Db_request_api:
         }
 
         responce = self.api.put(self.create_movie_with_info_link, json=info)
-
         if responce.status_code != 201 and responce.status_code != 409:
             raise Exception("something worng with the server")
         elif responce.status_code == 409:
@@ -73,12 +69,10 @@ class Db_request_api:
             )
 
         responseText = response.json()
-
         if responseText["successful"] is False:
             raise Exception(
                 "something not right with the server. successful false. in check_working_history function."
             )
-
         return {"found": responseText["found"], "movie": responseText["movie"]}
 
     def search_movie_in_db(self, only_title):
@@ -87,23 +81,32 @@ class Db_request_api:
             raise Exception(
                 "something worng with the server. please check. search_movie_in_db function. error 1 "
             )
-
         responseText = response.json()
 
         if responseText["successful"] is False:
             raise Exception(
                 "something worng with the server. please check. search_movie_in_db function error 2"
             )
-
         return responseText["movies"]
 
     def log_error(self, bot_title: str, error_text: str):
         error = {"botName": bot_title, "errorText": error_text}
-
         response = self.api.put(self.error_link, json=error)
-
         if response.status_code != 201:
             raise Exception("log error function not working.")
+
+    def get_letest_movie(self):
+        response = self.api.get(letest_movies_link)
+
+        if response.status_code != 200:
+            raise Exception(response.text)
+
+        response_content = response.json()
+
+        if not response_content["successful"]:
+            raise Exception(response.text)
+
+        return response_content["movies"]
 
 
 if __name__ == "__main__":

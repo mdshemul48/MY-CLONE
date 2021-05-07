@@ -3,8 +3,7 @@ from guessit import guessit
 from difflib import SequenceMatcher
 
 # castom imports
-from info import letest_movies_link, bot_name
-from rarbg_api import download as rargb_letest_torrent
+from info import bot_name
 from db_request_api import Db_request_api
 from circle_net_search import search_movies
 from castom_imdb_api import Imdb_api
@@ -35,10 +34,9 @@ def compare_two_movie(first_movie: dict, secend_movie: dict):
 
 def downloader(movie):
     title = movie["title"]
-    size = movie["size"]
-    megnet_link = movie["megnet_link"]
-    imdb_id = movie["imdb"]
-
+    size = movie["size"] / 1024 / 1024 / 1024
+    megnet_link = movie["download"]
+    imdb_id = movie["episode_info"]["imdb"][2:]
     # ------- extracting title and year ------------------
     movie_title, movie_year = get_movie_title_and_year(title)
 
@@ -98,21 +96,16 @@ def downloader(movie):
 
 
 def main():
-    letest_movies = {}
-    for i in range(0, 3):
-        try:
-            letest_movies = rargb_letest_torrent(letest_movies_link)
-            break
-        except Exception as err:
-            save_error(bot_name, str(err))
-    if len(letest_movies) == 0 or letest_movies["success"] is False:
-        raise Exception("RARBG torrent not return valid data.")
+    api = Db_request_api()
 
-    for movie in letest_movies["data"]:
+    letest_movies = api.get_letest_movie()
+
+    for movie in letest_movies:
         try:
             downloader(movie)
         except Exception as err:
             save_error(bot_name, str(err))
+        break
 
 
 if __name__ == "__main__":
