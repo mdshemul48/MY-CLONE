@@ -888,7 +888,7 @@ def publish_system(
             publish.click()
         except:
             pass
-        for i in range(0, 10):
+        for i in range(0, 15):
             try:
                 page_title = w.title
                 if page_title[:4] == "Edit":
@@ -1019,14 +1019,13 @@ def single_publish(*args):
         movie_info = db_api.get_movie_by_title_with_info(video_file_title)
         genres = movie_info["genres"]
         poster_link = movie_info["posterLink"]
-    except:
-        genres, poster_link = get_movie_genres_and_poster_tmdb(
-            movie_name, movie_year, sleep_mode, tv_series
-        )
-        if genres == None or poster_link == None:
-            move_to_already_exist_folder(
-                movie, movie_genres_and_poster_not_found_store_path
-            )
+
+    except Exception as err:
+        print(err)
+        exit()
+        # move_to_already_exist_folder(
+        #     movie, movie_genres_and_poster_not_found_store_path
+        # )
 
     search = Thread(
         target=search_movies, args=(movie_name, movie_year, movie_no, movie_search)
@@ -1063,8 +1062,14 @@ def single_publish(*args):
     results = ""
     while movie_search.empty() is False:
         results = movie_search.get()
+
+    db_api.update_content(
+        video_file_title,
+        {"publishLink": published_link, "path": moving_log, "status": "published.."},
+    )
     print(published_link, moving_log)
     category_name = cetagory_name(category_select)
+
     movie_queue.put(
         list(
             (
