@@ -116,10 +116,11 @@ def movie_file_dir_and_name(working_dir, movie_dir):
     # ! need to fix here. IndexError: list index out of range
     try:
         file_path = file_dir[0]
+        video_file_title = file_dir[0].replace(movie_dir, "").replace("\\", "")[:-4]
     except:
         os.rmdir(movie_dir)
         raise Exception(f"{Fore.RED}No Movie found in working directory", movie_dir)
-    return movie_title, file_path
+    return movie_title, file_path, video_file_title
 
 
 def name_and_year(movie_title, tv_series):
@@ -776,6 +777,7 @@ def publish_system(
     movie_path,
     publish_link,
     movie_no,
+    db_api,
 ):
     options = webdriver.ChromeOptions()
     if headless:
@@ -997,10 +999,13 @@ def single_publish(
     movie_data_set,
     movie_queue,
     tv_series,
+    db_api,
 ):
     movie_search = Queue()
     begin_time = datetime.datetime.now()
-    movie_title, movie_path = movie_file_dir_and_name(working_path, movie)
+    movie_title, movie_path, video_file_title = movie_file_dir_and_name(
+        working_path, movie
+    )
     movie_name, movie_year = name_and_year(movie_title, tv_series)
     search = Thread(
         target=search_movies, args=(movie_name, movie_year, movie_no, movie_search)
@@ -1034,6 +1039,7 @@ def single_publish(
         movie,
         publish_link,
         movie_no,
+        db_api,
     )
     if published_link:
         moving_log = move_to_main_folder(
@@ -1092,10 +1098,16 @@ def publisher_and_all(*args):
                 movie = next(movie_directories)
 
                 try:
-                    movie_title = movie_file_dir_and_name(publish_input, movie)[0]
+                    movie_title, movie_path, video_file_title = movie_file_dir_and_name(
+                        publish_input, movie
+                    )
                 except Exception as error:
                     print(error)
                     continue
+                try:
+                    print(db_api.get_movie_by_title_with_info(video_file_title))
+                except Exception as err:
+                    print(err)
 
                 movie_name, movie_year = name_and_year(movie_title, tv_series)
                 data_set = get_movie_genres_and_poster_tmdb(
@@ -1125,6 +1137,7 @@ def publisher_and_all(*args):
                         data_set,
                         movie_queue,
                         tv_series,
+                        db_api,
                     ),
                 )
                 store_[profile_key] = {
@@ -1140,8 +1153,13 @@ def publisher_and_all(*args):
             time.sleep(1)
 
         [store_[movie]["Thread_obj"].join() for movie in store_]
+        movie_data = []
 
-        total_publish += 1
+        for movie_queue in store_:
+            while store_[movie_queue]["movie_queue"].empty() is False:
+                movie_data = store_[movie_queue]["movie_queue"].get()
+        if len(movie_data) != 0:
+            total_publish += 1
         print(
             "=================================================================================="
         )
@@ -1154,6 +1172,8 @@ def get_arguments_from_api():
     publish_command = api.get_all_arguments()
     movie_published_counter = 0
     for command in publish_command:
+        if movie_published_counter > 2:
+            break
         movie_published_counter += publisher_and_all(
             command, movie_published_counter, api
         )
