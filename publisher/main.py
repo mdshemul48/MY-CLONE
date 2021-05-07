@@ -32,78 +32,34 @@ colorama.init(autoreset=True)
 global_search_results = {}
 
 
-def get_arguments():
-    parser = optparse.OptionParser()
-    parser.add_option("-i", "--input_path", dest="input_path",
-                      help="input your folder path where you want to work. this is input")
-    parser.add_option("-c", "--category", dest="category",
-                      help="input your category as number. your options:\n 1.Hindi Movies \n2.English Movies \n3.Foreign Movies \n4.Animation Movies \n5.English & Foreign Dubbed Movies \n6.South Indian Movies")
-    parser.add_option("-l", "--publish_link", dest="publish_link",
-                      help="Enter your publish web link(index).")
-    parser.add_option("-o", "--output_path", dest="output_path",
-                      help="output path where you want to store after work.")
-    parser.add_option("-g", "--headless", action="store_true", dest="headless", default=False,
-                      help="for no chrome window")
-    parser.add_option("-s", "--sleep_mode", action="store_true", dest="sleep_mode", default=False,
-                      help="for no genre and poster input")
-    parser.add_option("-t", "--tv_series", action="store_true", dest="tv_series", default=False,
-                      help="input this if your content is tv series")
-    arguments = parser.parse_args()[0]
-    if not arguments.input_path and len(Main_data().input_path) != 0:
-        input_path = Main_data().input_path
-    elif arguments.input_path:
-        input_path = arguments.input_path
-    else:
-        print(
-            "1.Hindi Movies \n2.English Movies \n3.Foreign Movies \n4.Animation Movies \n5.English & Foreign Dubbed Movies \n6.South Indian Movies\n7.English and foreign Tv Series")
-        input_path = input("[-] Your Folder path: ")
-
-    if not arguments.category and len(Main_data().category) != 0:
-        category = Main_data().input_path
-    elif arguments.category:
-        category = arguments.category
-    else:
-        category = input("[-] Enter you choice: ")
-    if not arguments.publish_link and len(Main_data().publish_link) != 0:
-        publish_link = Main_data().publish_link
-    elif arguments.publish_link:
-        publish_link = arguments.publish_link
-    else:
-        publish_link = input(f"[-] Upload Location Link: ")
-    if not arguments.output_path and len(Main_data().output_path) != 0:
-        output_path = Main_data().output_path
-    elif arguments.output_path:
-        output_path = arguments.output_path
-    else:
-        output_path = input(
-            "[-] Enter the folder path whare you want to move after publish: ")
-    headless = arguments.headless
-    sleep_mode = arguments.sleep_mode
-    tv_series = arguments.tv_series
-    return input_path, category, publish_link, output_path, headless, sleep_mode, tv_series
-
-
 class Telegram_bot:
-    def __init__(self, ):
+    def __init__(
+        self,
+    ):
         self.token = Main_data().telegram_api
         self.api_url = "https://api.telegram.org/bot{}/".format(self.token)
 
     def get_updates(self, offset=0, timeout=30):
-        method = 'getUpdates'
-        params = {'timeout': timeout, 'offset': offset}
+        method = "getUpdates"
+        params = {"timeout": timeout, "offset": offset}
         resp = requests.get(self.api_url + method, params)
-        result_json = resp.json()['result']
+        result_json = resp.json()["result"]
         return result_json
 
     def send_message(self, chat_id, text):
-        params = {'chat_id': chat_id, 'text': text, 'parse_mode': 'HTML', }
-        method = 'sendMessage'
+        params = {
+            "chat_id": chat_id,
+            "text": text,
+            "parse_mode": "HTML",
+        }
+        method = "sendMessage"
         resp = requests.post(self.api_url + method, params)
         return resp
 
     def ask_question(self, chat_id, text):
         resp = requests.post(
-            f"https://api.telegram.org/bot1160547575:AAG6jUOknn9VwBGrNboxw6YVukjoN65pYwg/sendMessage?chat_id={chat_id}&text={text}&reply_markup=%7B%22force_reply%22%3A+true%7D")
+            f"https://api.telegram.org/bot1160547575:AAG6jUOknn9VwBGrNboxw6YVukjoN65pYwg/sendMessage?chat_id={chat_id}&text={text}&reply_markup=%7B%22force_reply%22%3A+true%7D"
+        )
         return resp
 
     def get_first_update(self):
@@ -129,16 +85,16 @@ def chat_bot_telegram(question, telegram_bot_or_not=Main_data().telegram_bot_on_
         except IndexError:
             new_offset_id = 0
         magnito_bot.ask_question(Main_data().telegram_id, question)
-        massage = ''
+        massage = ""
         while True:
             all_updates = magnito_bot.get_updates(new_offset_id)
             if len(all_updates) > 0:
                 for current_update in all_updates:
-                    first_update_id = current_update['update_id']
-                    if 'text' not in current_update['message']:
-                        first_chat_text = 'New member'
+                    first_update_id = current_update["update_id"]
+                    if "text" not in current_update["message"]:
+                        first_chat_text = "New member"
                     else:
-                        first_chat_text = current_update['message']['text']
+                        first_chat_text = current_update["message"]["text"]
                 new_offset_id = first_update_id + 1
                 massage = first_chat_text
                 break
@@ -148,22 +104,21 @@ def chat_bot_telegram(question, telegram_bot_or_not=Main_data().telegram_bot_on_
 
 
 def get_all_movie(working_directories):
-    folders = [f for f in glob.glob(glob.escape(
-        working_directories) + "/*", recursive=True)]
+    folders = [
+        f for f in glob.glob(glob.escape(working_directories) + "/*", recursive=True)
+    ]
     return folders
 
 
 def movie_file_dir_and_name(working_dir, movie_dir):
     movie_title = movie_dir.replace(working_dir, "").replace("\\", "")
-    file_dir = [f for f in glob.glob(
-        glob.escape(movie_dir) + "/*", recursive=True)]
+    file_dir = [f for f in glob.glob(glob.escape(movie_dir) + "/*", recursive=True)]
     # ! need to fix here. IndexError: list index out of range
     try:
         file_path = file_dir[0]
     except:
         os.rmdir(movie_dir)
-        raise Exception(
-            f"{Fore.RED}No Movie found in working directory", movie_dir)
+        raise Exception(f"{Fore.RED}No Movie found in working directory", movie_dir)
     return movie_title, file_path
 
 
@@ -173,8 +128,12 @@ def name_and_year(movie_title, tv_series):
         if tv_series:
             movie_name = movie_title.split(" (")[0]
         else:
-            movie_name = movie_deta["title"].replace(
-                "-", " ").replace(":", " ").replace("_", " ")
+            movie_name = (
+                movie_deta["title"]
+                .replace("-", " ")
+                .replace(":", " ")
+                .replace("_", " ")
+            )
     except:
         movie_name = input("Enter Movie Name: ")
     try:
@@ -194,7 +153,7 @@ class Imdb_api:
     def get_language(self, id_):
         try:
             the_matrix = self.ia.get_movie(id_)
-            return the_matrix['language'][0]
+            return the_matrix["language"][0]
         except:
             return "Not Listed"
 
@@ -219,8 +178,10 @@ class TMDb:
             tv_or_movie = "tv"
         else:
             tv_or_movie = "movie"
-        link = self.bace_url + \
-            f"/search/{tv_or_movie}?api_key={self.key}&language=en-US&page={self.page}&query={self.name}&include_adult=false"
+        link = (
+            self.bace_url
+            + f"/search/{tv_or_movie}?api_key={self.key}&language=en-US&page={self.page}&query={self.name}&include_adult=false"
+        )
         deta = requests.get(link)
         content = json.loads(deta.content)
         try:
@@ -234,8 +195,10 @@ class TMDb:
             tv_or_movie = "tv"
         else:
             tv_or_movie = "movie"
-        link = self.bace_url + \
-            f"/{tv_or_movie}/{self.id}?api_key={self.key}&language=en-US"
+        link = (
+            self.bace_url
+            + f"/{tv_or_movie}/{self.id}?api_key={self.key}&language=en-US"
+        )
         deta = requests.get(link)
         try:
             content = json.loads(deta.content)
@@ -245,12 +208,17 @@ class TMDb:
 
     def get_restriction(self, movie_id):
         responce = requests.get(
-            f"{self.bace_url}/movie/{movie_id}/release_dates?api_key={self.key}").text
+            f"{self.bace_url}/movie/{movie_id}/release_dates?api_key={self.key}"
+        ).text
         release_date_and_certification = json.loads(responce)
         try:
 
-            rated = [release["iso_3166_1"]+": "+release["release_dates"][0]["certification"]
-                     for release in release_date_and_certification["results"]]
+            rated = [
+                release["iso_3166_1"]
+                + ": "
+                + release["release_dates"][0]["certification"]
+                for release in release_date_and_certification["results"]
+            ]
         except:
             rated = []
         return rated
@@ -258,16 +226,16 @@ class TMDb:
     def get_language(self, movie_id):
         try:
             movie_language = requests.get(
-                f"{self.bace_url}/movie/{movie_id}?api_key={self.key}&language=us")
-            movie_data = movie_language.json(
-            )["spoken_languages"][0]["english_name"]
+                f"{self.bace_url}/movie/{movie_id}?api_key={self.key}&language=us"
+            )
+            movie_data = movie_language.json()["spoken_languages"][0]["english_name"]
             return movie_data
         except:
             return ""
 
 
 def getting_genres_and_poster_manually(name, year):
-    massange = name + ' ' + str(year)
+    massange = name + " " + str(year)
     genres = input(f"Enter the genres for {massange}: ").replace("/", ",")
     poster_url = input(f"Enter the Poster url for {massange}: ")
     print("---")
@@ -297,12 +265,16 @@ def get_movie_genres_and_poster_tmdb(name, year, sleep_mode, tv_series):
         except:
             continue
         try:
-            search_output[str(movie_name)+" "+str(movie_year)] = {
-                "year": movie_year, "id": movie["id"], "movie_poster": image_puth+movie["poster_path"]}
+            search_output[str(movie_name) + " " + str(movie_year)] = {
+                "year": movie_year,
+                "id": movie["id"],
+                "movie_poster": image_puth + movie["poster_path"],
+            }
         except:
             continue
     movie_close = get_close_matches(
-        str(name)+" "+str(year), search_output.keys(), n=4, cutoff=0.7)
+        str(name) + " " + str(year), search_output.keys(), n=4, cutoff=0.7
+    )
     for search in movie_close:
         try:
             if int(search_output[search]["year"]) == year:
@@ -311,11 +283,9 @@ def get_movie_genres_and_poster_tmdb(name, year, sleep_mode, tv_series):
                     poster_path = search_output[search]["movie_poster"]
                     break
                 else:
-                    movie_data_set = get_movie_genres_and_poster(
-                        name, year, sleep_mode)
+                    movie_data_set = get_movie_genres_and_poster(name, year, sleep_mode)
         except:
-            movie_data_set = get_movie_genres_and_poster(
-                name, year, sleep_mode)
+            movie_data_set = get_movie_genres_and_poster(name, year, sleep_mode)
             return movie_data_set
 
     if movie_id != 0:
@@ -345,12 +315,15 @@ def get_movie_genres_and_poster(name, year, sleep_mode):
             movie_data = {}
             for movies in search:
                 try:
-                    movie_data[str(movies)+" "+str(movies['year'])
-                               ] = {"id": movies.movieID, "year": movies['year']}
+                    movie_data[str(movies) + " " + str(movies["year"])] = {
+                        "id": movies.movieID,
+                        "year": movies["year"],
+                    }
                 except:
                     continue
             movie_close = get_close_matches(
-                name+" "+str(year), movie_data.keys(), n=4, cutoff=0.7)
+                name + " " + str(year), movie_data.keys(), n=4, cutoff=0.7
+            )
             for name_imdb in movie_close:
                 if str(movie_data[name_imdb]["year"]) == str(year):
                     ids = movie_data[name_imdb]["id"]
@@ -359,33 +332,32 @@ def get_movie_genres_and_poster(name, year, sleep_mode):
                     ids = "None"
             if ids != "None" and ids != "":
                 series = ia.get_movie(ids)
-                genre = series.data['genres']
+                genre = series.data["genres"]
                 genres = ""
                 for i in genre:
                     genres = f"{i},{genres}"
                 movie_get = ia.get_movie(ids)
                 try:
-                    movie = movie_get.data['cover url']
+                    movie = movie_get.data["cover url"]
                     movie = movie.split("._", 1)[0]
                     movie_poster = movie + "._V1_.jpg"
                 except:
                     if sleep_mode:
                         return None, None
                     genres, movie_poster = getting_genres_and_poster_manually(
-                        name, year)
+                        name, year
+                    )
                 language = imdb_api.get_language(ids)
                 restriction = imdb_api.get_rated_movie(ids)
             else:
                 if sleep_mode:
                     return None, None
-                genres, movie_poster = getting_genres_and_poster_manually(
-                    name, year)
+                genres, movie_poster = getting_genres_and_poster_manually(name, year)
 
         else:
             if sleep_mode:
                 return None, None
-            genres, movie_poster = getting_genres_and_poster_manually(
-                name, year)
+            genres, movie_poster = getting_genres_and_poster_manually(name, year)
     except:
         if sleep_mode:
             return None, None
@@ -398,8 +370,7 @@ def get_movie_genres_and_poster(name, year, sleep_mode):
 
 
 def file_path_to_url(working_path, movie_path, publish_link, catagory_no, year):
-    link_without_source = movie_path.replace(
-        working_path, "").replace("\\", "/")
+    link_without_source = movie_path.replace(working_path, "").replace("\\", "/")
     name = link_without_source.replace(".", ".")
     name = name.replace("_", " ")
     a_string = name.replace("%", "%25")
@@ -616,17 +587,19 @@ def get_year_and_category(category_no, year):
 
 
 def get_publish_code(link):
-    movie_publish_code = '[fluid-player video="_$_" vast_file="vast.xml"  vtt_file="thumbs.vtt" ' \
-                         'vtt_sprite="thumbs.jpg" layout="default"]<hr /><a class="alignnone" title="_$_" ' \
-                         'href="_$_"><img class="aligncenter wp-image-244 size-medium" ' \
-                         'src="http://circleftp.net/download.png" alt="Dwn Ico" width="300" height="64" /></a> '
+    movie_publish_code = (
+        '[fluid-player video="_$_" vast_file="vast.xml"  vtt_file="thumbs.vtt" '
+        'vtt_sprite="thumbs.jpg" layout="default"]<hr /><a class="alignnone" title="_$_" '
+        'href="_$_"><img class="aligncenter wp-image-244 size-medium" '
+        'src="http://circleftp.net/download.png" alt="Dwn Ico" width="300" height="64" /></a> '
+    )
     final_code = movie_publish_code.replace("_$_", link)
     return final_code
 
 
 def save_the_image_and_get_the_path(image_link, movie_no):
     img = requests.get(image_link)
-    with open(f'temp\\captcha{movie_no}.jpg', 'wb') as f:
+    with open(f"temp\\captcha{movie_no}.jpg", "wb") as f:
         f.write(img.content)
     return os.path.join(pathlib.Path().absolute(), f"temp\\captcha{movie_no}.jpg")
 
@@ -661,23 +634,23 @@ def move_to_main_folder(category_no, year, input_path, output_folder, folder_nam
 
 
 def move_to_already_exist_folder(movie_to_move):
-    file_path = str(movie_to_move)[
-        ::-1].replace("\\", "**", 1)[::-1].split("**")
-    lenguage = file_path[0][
-        ::-1].replace("\\", "**", 1)[::-1].split("**")[1]
+    file_path = str(movie_to_move)[::-1].replace("\\", "**", 1)[::-1].split("**")
+    lenguage = file_path[0][::-1].replace("\\", "**", 1)[::-1].split("**")[1]
     file_name = file_path[1]
     output_folder = Main_data().already_exist_folder
-    os.makedirs(output_folder+"\\" + lenguage, exist_ok=True)
-    movie_output = output_folder+"\\" + lenguage+"\\"+file_name
+    os.makedirs(output_folder + "\\" + lenguage, exist_ok=True)
+    movie_output = output_folder + "\\" + lenguage + "\\" + file_name
     os.rename(movie_to_move, movie_output)
     print(f"{Fore.RED}Moving Done.. {movie_output}")
 
 
 def tv_series_table(tv_series_path, publish_link, text_box):
-    tv_series_name = str(tv_series_path)[
-        ::-1].replace("\\", "**", 1)[::-1].split("**")[1]
-    tv_series_working_dir = str(tv_series_path)[
-        ::-1].replace("\\", "**", 1)[::-1].split("**")[0]
+    tv_series_name = (
+        str(tv_series_path)[::-1].replace("\\", "**", 1)[::-1].split("**")[1]
+    )
+    tv_series_working_dir = (
+        str(tv_series_path)[::-1].replace("\\", "**", 1)[::-1].split("**")[0]
+    )
     text_box.send_keys("[su_tabs]")
     season_dir = {}
     season_number = 5000
@@ -691,19 +664,26 @@ def tv_series_table(tv_series_path, publish_link, text_box):
     for season in OrderedDict(sorted(season_dir.items())).values():
         only_season_name = season.replace(tv_series_path, "").replace("\\", "")
         try:
-            season_number = "Season " + \
-                str(guessit(only_season_name)["season"])
+            season_number = "Season " + str(guessit(only_season_name)["season"])
         except:
             try:
-                season_number = "Season " + str(guessit(
-                    [f for f in glob.glob(glob.escape(season) + "**/*", recursive=True)][0].replace(season, "").replace(
-                        "\\",
-                        ""))[
-                    "season"])
+                season_number = "Season " + str(
+                    guessit(
+                        [
+                            f
+                            for f in glob.glob(
+                                glob.escape(season) + "**/*", recursive=True
+                            )
+                        ][0]
+                        .replace(season, "")
+                        .replace("\\", "")
+                    )["season"]
+                )
             except:
                 season_number = only_season_name
         text_box.send_keys(
-            f'[su_tab title="{season_number}" disabled="no" anchor="" url="" target="blank" class="btnplayvid"]')
+            f'[su_tab title="{season_number}" disabled="no" anchor="" url="" target="blank" class="btnplayvid"]'
+        )
         text_box.send_keys('<table style="height: 247px;" width="459">')
         text_box.send_keys("<tr><th>Episode</th><th>Download URL</th></tr>")
         episode_dir = {}
@@ -721,14 +701,21 @@ def tv_series_table(tv_series_path, publish_link, text_box):
             if episode[-4:] in Main_data().extension_block_list_for_tv_series:
                 continue
             try:
-                episode_title = tv_series_name.split(" (")[0] + ".S" + str(
-                    guessit(only_episode_name)["season"]) + ":E" + str(guessit(only_episode_name)["episode"])
+                episode_title = (
+                    tv_series_name.split(" (")[0]
+                    + ".S"
+                    + str(guessit(only_episode_name)["season"])
+                    + ":E"
+                    + str(guessit(only_episode_name)["episode"])
+                )
             except:
                 episode_title = only_episode_name
-            link = file_path_to_url(tv_series_working_dir, episode,
-                                    publish_link, 7, "year")
+            link = file_path_to_url(
+                tv_series_working_dir, episode, publish_link, 7, "year"
+            )
             text_box.send_keys(
-                f'<tr><td>{episode_title}</td><td><a href="{link}">Download</a></td></tr>')
+                f'<tr><td>{episode_title}</td><td><a href="{link}">Download</a></td></tr>'
+            )
         text_box.send_keys("</tbody></table>")
         text_box.send_keys("[/su_tab]")
     text_box.send_keys("[/su_tabs]")
@@ -747,16 +734,23 @@ def login_check_and_proceed(w):
 
                     # TODO: need to check here..
 
-                    WebDriverWait(w, 60).until(EC.presence_of_element_located(
-                        (By.XPATH, '//*[@id="user_login"]')))
-                    w.find_element_by_xpath(
-                        '//*[@id="user_login"]').send_keys(Main_data().circle_user)
-                    w.find_element_by_xpath(
-                        '//*[@id="user_pass"]').send_keys(Main_data().circle_password)
-                    w.find_element_by_xpath(
-                        '//*[@id="loginform"]/p[2]').click()
-                    WebDriverWait(w, 60).until(EC.presence_of_element_located(
-                        (By.XPATH, '//*[@id="wp-submit"]'))).click()
+                    WebDriverWait(w, 60).until(
+                        EC.presence_of_element_located(
+                            (By.XPATH, '//*[@id="user_login"]')
+                        )
+                    )
+                    w.find_element_by_xpath('//*[@id="user_login"]').send_keys(
+                        Main_data().circle_user
+                    )
+                    w.find_element_by_xpath('//*[@id="user_pass"]').send_keys(
+                        Main_data().circle_password
+                    )
+                    w.find_element_by_xpath('//*[@id="loginform"]/p[2]').click()
+                    WebDriverWait(w, 60).until(
+                        EC.presence_of_element_located(
+                            (By.XPATH, '//*[@id="wp-submit"]')
+                        )
+                    ).click()
                 page_title = w.title
                 if page_title[:4] == "Add ":
                     break
@@ -769,16 +763,29 @@ def login_check_and_proceed(w):
     w.find_element_by_xpath('//*[@id="title"]')
 
 
-def publish_system(movie_title, cata_no, movie_year, genres, image_path, movie_link, headless, Chrome_profile_path,
-                   tv_series, movie_path, publish_link, movie_no):
+def publish_system(
+    movie_title,
+    cata_no,
+    movie_year,
+    genres,
+    image_path,
+    movie_link,
+    headless,
+    Chrome_profile_path,
+    tv_series,
+    movie_path,
+    publish_link,
+    movie_no,
+):
     options = webdriver.ChromeOptions()
     if headless:
-        options.add_argument('--headless')
+        options.add_argument("--headless")
         options.add_argument("--window-size=1920,1080")
     options.add_argument(f"user-data-dir={Chrome_profile_path}")
     try:
-        w = webdriver.Chrome(executable_path="chromedriver.exe",
-                             options=options, service_log_path='NUL')
+        w = webdriver.Chrome(
+            executable_path="chromedriver.exe", options=options, service_log_path="NUL"
+        )
     except Exception as err:
         print("Please fix this error", err)
         exit()
@@ -807,8 +814,7 @@ def publish_system(movie_title, cata_no, movie_year, genres, image_path, movie_l
         """
 
         try:
-            w.execute_script(
-                f"document.title = '{movie_no}:{movie_title}';{castom_js}")
+            w.execute_script(f"document.title = '{movie_no}:{movie_title}';{castom_js}")
         except:
             pass
         main_catagory, catagory_no = get_year_and_category(cata_no, movie_year)
@@ -830,23 +836,31 @@ def publish_system(movie_title, cata_no, movie_year, genres, image_path, movie_l
         if tv_series:
             pass
         else:
-            download_url = w.find_element_by_id('metakeyselect')
+            download_url = w.find_element_by_id("metakeyselect")
             download_url = Select(download_url)
             download_url.select_by_visible_text("download_url")
             down_text = w.find_element_by_xpath('//*[@id="metavalue"]')
             down_text.send_keys(movie_link)
         w.execute_script("arguments[0].scrollIntoView();", genres1)
-        WebDriverWait(w, 120).until(EC.element_to_be_clickable(
-            (By.XPATH, '//*[@id="set-post-thumbnail"]'))).click()
+        WebDriverWait(w, 120).until(
+            EC.element_to_be_clickable((By.XPATH, '//*[@id="set-post-thumbnail"]'))
+        ).click()
         w.find_element_by_xpath('//*[@id="menu-item-upload"]').click()
-        w.find_element_by_xpath(
-            "//input[starts-with(@id,'html5_')]").send_keys(image_path)
+        w.find_element_by_xpath("//input[starts-with(@id,'html5_')]").send_keys(
+            image_path
+        )
         WebDriverWait(w, 60).until(
-            EC.element_to_be_clickable((By.XPATH, '//*[@id="__wp-uploader-id-0"]/div[4]/div/div[2]/button'))).click()
+            EC.element_to_be_clickable(
+                (By.XPATH, '//*[@id="__wp-uploader-id-0"]/div[4]/div/div[2]/button')
+            )
+        ).click()
         for i in range(0, 9):
             try:
-                WebDriverWait(w, 60).until(EC.presence_of_element_located(
-                    (By.XPATH, '//*[@id="remove-post-thumbnail"]')))
+                WebDriverWait(w, 60).until(
+                    EC.presence_of_element_located(
+                        (By.XPATH, '//*[@id="remove-post-thumbnail"]')
+                    )
+                )
                 break
             except:
                 pass
@@ -854,7 +868,10 @@ def publish_system(movie_title, cata_no, movie_year, genres, image_path, movie_l
 
         global global_search_results
 
-        if Main_data().already_exist_check == True and global_search_results[movie_no] == 1:
+        if (
+            Main_data().already_exist_check == True
+            and global_search_results[movie_no] == 1
+        ):
             move_to_already_exist_folder(movie_path)
             w.close()
             raise Exception("found")
@@ -872,14 +889,14 @@ def publish_system(movie_title, cata_no, movie_year, genres, image_path, movie_l
             except:
                 pass
         published_link = w.find_element_by_xpath(
-            '//*[@id="message"]/p/a').get_attribute('href')
+            '//*[@id="message"]/p/a'
+        ).get_attribute("href")
         w.close()
         print(f"{Fore.GREEN}Publish Done!")
         return published_link
     except Exception as error:
         if str(error) == "found":
-            print(
-                f"{Fore.RED}{movie_no}:{movie_title} movie already exist in server.")
+            print(f"{Fore.RED}{movie_no}:{movie_title} movie already exist in server.")
         else:
             try:
                 w.close()
@@ -898,10 +915,8 @@ def search_movies(movie_name, movie_year, id_, queue):
     data_of_all_movie_or_tv = {}
 
     for article in all_article:
-        found_name = article.find(
-            "h3", class_="entry-title").text.strip()
-        link = article.find(
-            "h3", class_="entry-title").find("a").get("href")
+        found_name = article.find("h3", class_="entry-title").text.strip()
+        link = article.find("h3", class_="entry-title").find("a").get("href")
         try:
             title = guessit(found_name)
         except:
@@ -912,101 +927,42 @@ def search_movies(movie_name, movie_year, id_, queue):
                 title_year = title["year"]
             except:
                 title_year = re.search(r"\d\d\d\d", found_name)[0]
-            match_ratio = SequenceMatcher(
-                None, title_name, movie_name).ratio() * 100
+            match_ratio = SequenceMatcher(None, title_name, movie_name).ratio() * 100
             if match_ratio >= 70:
                 if title_year == movie_year:
                     global global_search_results
                     global_search_results[id_] = 1
             data_of_all_movie_or_tv[f"{title_name.lower()} {title_year}"] = {
-                found_name: link}
+                found_name: link
+            }
         except:
             pass
 
     searched_content = f"{movie_name.lower()} {movie_year}"
     results = get_close_matches(
-        searched_content, data_of_all_movie_or_tv, n=5, cutoff=0.5)
+        searched_content, data_of_all_movie_or_tv, n=5, cutoff=0.5
+    )
     data = []
-    search_name = f"\n{Fore.RED}----------{movie_name, str(movie_year)} Result----------\n"
+    search_name = (
+        f"\n{Fore.RED}----------{movie_name, str(movie_year)} Result----------\n"
+    )
     for item in results:
-        final_result = (data_of_all_movie_or_tv[item])
+        final_result = data_of_all_movie_or_tv[item]
         search_name += str(final_result) + "\n"
         data.append(final_result)
     end = datetime.datetime.now() - begining
-    search_name += ("--\n")
+    search_name += "--\n"
     if global_search_results[id_] == 1:
-        search_name += (f"{Fore.RED}already exist in server.\n")
-        search_name += ("--\n")
-    search_name += (str(end)+"\n")
+        search_name += f"{Fore.RED}already exist in server.\n"
+        search_name += "--\n"
+    search_name += str(end) + "\n"
 
-    search_name += (f"{Fore.RED}--------------------------------------------------------\n")
+    search_name += (
+        f"{Fore.RED}--------------------------------------------------------\n"
+    )
 
     print(search_name)
     queue.put(data)
-
-
-def publish_log(movie_title, movie_category, movie_path, movie_link, publish_date, publishing_time, search_results,
-                date_time_or_not):
-    alignment = Alignment(horizontal='center',
-                          vertical='bottom',
-                          text_rotation=0,
-                          wrap_text=False,
-                          shrink_to_fit=True,
-                          indent=0)
-    if path.exists('Publish_log.xlsx'):
-        pass
-    else:
-        z = op.Workbook()
-        s = z.sheetnames
-        s = s[0]
-        s = z[s]
-        s.cell(row=1, column=1).value = "Movie Title"
-        s.cell(row=1, column=2).value = "Movie Category"
-        s.cell(row=1, column=3).value = "Movie Path"
-        s.cell(row=1, column=4).value = "Movie Link"
-        s.cell(row=1, column=5).value = "Published Date"
-        s.cell(row=1, column=6).value = "Publishing Time"
-        s.cell(row=1, column=7).value = "Search Result For This Movie"
-        for i in range(1, 8):
-            s.cell(row=1, column=i).alignment = alignment
-            s.cell(row=1, column=i).font = Font(
-                size=14, color="2c612e", bold=True)
-            s.cell(row=1, column=i).fill = PatternFill(
-                fgColor="c6efce", fill_type="solid")
-        s.merge_cells("G1:J1")
-        z.save("Publish_log.xlsx")
-        date_time_or_not = False
-
-    if date_time_or_not:
-        z = op.load_workbook('Publish_log.xlsx')
-        s = z.sheetnames
-        s = s[0]
-        s = z[s]
-        row_next = s.max_row + 1
-        s.cell(row=row_next, column=1).value = f"Starting Time: {publish_date}"
-        s.cell(row=row_next, column=1).alignment = alignment
-        s.cell(row=row_next, column=1).font = Font(
-            size=11, color="2c612e", bold=True)
-        s.cell(row=row_next, column=1).fill = PatternFill(
-            fgColor="c6efce", fill_type="solid")
-        s.merge_cells(f"A{row_next}:J{row_next}")
-        z.save("Publish_log.xlsx")
-
-    z = op.load_workbook('Publish_log.xlsx')
-    s = z.sheetnames
-    s = s[0]
-    s = z[s]
-    row_next = s.max_row + 1
-    s.cell(row=row_next, column=1).value = movie_title
-    s.cell(row=row_next, column=2).value = movie_category
-    s.cell(row=row_next, column=3).value = movie_path
-    s.cell(row=row_next, column=4).value = movie_link
-    s.cell(row=row_next, column=5).value = publish_date
-    s.cell(row=row_next, column=6).value = publishing_time
-    s.cell(row=row_next,
-           column=7).value = search_results
-    s.merge_cells(f"G{row_next}:J{row_next}")
-    z.save("Publish_log.xlsx")
 
 
 def cetagory_name(category_select):
@@ -1028,17 +984,31 @@ def cetagory_name(category_select):
         return ""
 
 
-def single_publish(movie, working_path, category_select, publish_link, output_folder, headless,
-                   date_time_or_not, Chrome_profile_path, movie_no, movie_data_set, movie_queue, tv_series):
+def single_publish(
+    movie,
+    working_path,
+    category_select,
+    publish_link,
+    output_folder,
+    headless,
+    date_time_or_not,
+    Chrome_profile_path,
+    movie_no,
+    movie_data_set,
+    movie_queue,
+    tv_series,
+):
     movie_search = Queue()
     begin_time = datetime.datetime.now()
     movie_title, movie_path = movie_file_dir_and_name(working_path, movie)
     movie_name, movie_year = name_and_year(movie_title, tv_series)
-    search = Thread(target=search_movies, args=(
-        movie_name, movie_year, movie_no, movie_search))
+    search = Thread(
+        target=search_movies, args=(movie_name, movie_year, movie_no, movie_search)
+    )
     search.start()
     movie_link = file_path_to_url(
-        working_path, movie_path, publish_link, category_select, movie_year)
+        working_path, movie_path, publish_link, category_select, movie_year
+    )
     image_path = save_the_image_and_get_the_path(movie_data_set[1], movie_no)
     print(f"{Fore.GREEN}Movie or TV series full title:- {movie_title}")
     print(f"{Fore.GREEN}Movie or TV series  Name:- {movie_name} {movie_year} ")
@@ -1046,17 +1016,29 @@ def single_publish(movie, working_path, category_select, publish_link, output_fo
         print(f"{Fore.GREEN}Movie or TV series  full path:- {movie}")
     else:
         print(f"{Fore.GREEN}Movie or TV series  full path:- {movie_path}")
-    print(
-        f"{Fore.GREEN}Genres:- {movie_data_set[0]} || Poster:- {movie_data_set[1]}")
+    print(f"{Fore.GREEN}Genres:- {movie_data_set[0]} || Poster:- {movie_data_set[1]}")
     print(f"{Fore.RED}Language:- {str(movie_data_set[2])} ")
     print(f"{Fore.RED}Restriction:- {str(movie_data_set[3])}")
     print(f"{Fore.RED}Chrome Profile: {movie_no}")
     print(f"{Fore.GREEN}_____________________________________")
-    published_link = publish_system(movie_title, category_select, movie_year, movie_data_set[0], image_path, movie_link, headless,
-                                    Chrome_profile_path, tv_series, movie, publish_link, movie_no)
+    published_link = publish_system(
+        movie_title,
+        category_select,
+        movie_year,
+        movie_data_set[0],
+        image_path,
+        movie_link,
+        headless,
+        Chrome_profile_path,
+        tv_series,
+        movie,
+        publish_link,
+        movie_no,
+    )
     if published_link:
         moving_log = move_to_main_folder(
-            category_select, movie_year, movie, output_folder, movie_title)
+            category_select, movie_year, movie, output_folder, movie_title
+        )
     else:
         print("failed")
     publishing_time = datetime.datetime.now() - begin_time
@@ -1067,13 +1049,35 @@ def single_publish(movie, working_path, category_select, publish_link, output_fo
         results = movie_search.get()
     print(published_link, moving_log)
     category_name = cetagory_name(category_select)
-    movie_queue.put(list((movie_title, category_name, moving_log, published_link, str(begin_time), str(publishing_time),
-                          str(results), date_time_or_not)))
+    movie_queue.put(
+        list(
+            (
+                movie_title,
+                category_name,
+                moving_log,
+                published_link,
+                str(begin_time),
+                str(publishing_time),
+                str(results),
+                date_time_or_not,
+            )
+        )
+    )
 
 
 def publisher_and_all():
-    working_path, category_select, publish_link, output_folder, headless, sleep_mode, tv_series = get_arguments()
-    print("==================================================================================")
+    (
+        working_path,
+        category_select,
+        publish_link,
+        output_folder,
+        headless,
+        sleep_mode,
+        tv_series,
+    ) = get_arguments()
+    print(
+        "=================================================================================="
+    )
     movie_directories = iter(get_all_movie(working_path))
     date_time_or_not = True
     data = Main_data()
@@ -1088,15 +1092,15 @@ def publisher_and_all():
                 movie = next(movie_directories)
 
                 try:
-                    movie_title = movie_file_dir_and_name(
-                        working_path, movie)[0]
+                    movie_title = movie_file_dir_and_name(working_path, movie)[0]
                 except Exception as error:
                     print(error)
                     continue
 
                 movie_name, movie_year = name_and_year(movie_title, tv_series)
                 data_set = get_movie_genres_and_poster_tmdb(
-                    movie_name, movie_year, sleep_mode, tv_series)
+                    movie_name, movie_year, sleep_mode, tv_series
+                )
 
                 if data_set[0] == None or data_set[1] == None:
                     continue
@@ -1106,10 +1110,27 @@ def publisher_and_all():
                 except StopIteration:
                     break
                 global_search_results[profile["profile_number"]] = 0
-                thread_args = Thread(target=single_publish, args=(movie, working_path, category_select, publish_link, output_folder,
-                                                                  headless, date_time_or_not, profile["profile_path"], profile["profile_number"], data_set, movie_queue, tv_series))
+                thread_args = Thread(
+                    target=single_publish,
+                    args=(
+                        movie,
+                        working_path,
+                        category_select,
+                        publish_link,
+                        output_folder,
+                        headless,
+                        date_time_or_not,
+                        profile["profile_path"],
+                        profile["profile_number"],
+                        data_set,
+                        movie_queue,
+                        tv_series,
+                    ),
+                )
                 store_[profile_key] = {
-                    "movie_queue": movie_queue, "Thread_obj": thread_args}
+                    "movie_queue": movie_queue,
+                    "Thread_obj": thread_args,
+                }
             except StopIteration:
                 not_done = False
                 break
@@ -1125,20 +1146,53 @@ def publisher_and_all():
             while store_[movie_queue]["movie_queue"].empty() is False:
                 movie_data = store_[movie_queue]["movie_queue"].get()
             try:
-                movie_title, category_name, moving_log, published_link, begin_time, publishing_time, results = \
-                    movie_data[0], movie_data[1], movie_data[2], movie_data[3], movie_data[4], movie_data[5], movie_data[6]
+                (
+                    movie_title,
+                    category_name,
+                    moving_log,
+                    published_link,
+                    begin_time,
+                    publishing_time,
+                    results,
+                ) = (
+                    movie_data[0],
+                    movie_data[1],
+                    movie_data[2],
+                    movie_data[3],
+                    movie_data[4],
+                    movie_data[5],
+                    movie_data[6],
+                )
             except IndexError:
                 continue
             try:
-                publish_log(movie_title, category_name, moving_log, published_link, begin_time, publishing_time,
-                            str(results), date_time_or_not)
+                publish_log(
+                    movie_title,
+                    category_name,
+                    moving_log,
+                    published_link,
+                    begin_time,
+                    publishing_time,
+                    str(results),
+                    date_time_or_not,
+                )
             except:
                 input("Please close the Sheets and type ok to continue: ")
-                publish_log(movie_title, category_name, moving_log, published_link, begin_time, publishing_time,
-                            str(results), date_time_or_not)
+                publish_log(
+                    movie_title,
+                    category_name,
+                    moving_log,
+                    published_link,
+                    begin_time,
+                    publishing_time,
+                    str(results),
+                    date_time_or_not,
+                )
             date_time_or_not = False
-        print("==================================================================================")
+        print(
+            "=================================================================================="
+        )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     publisher_and_all()
