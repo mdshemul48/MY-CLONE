@@ -1,5 +1,6 @@
+from os.path import expanduser
 import time
-import shutil
+import shutil, os
 
 # ------------------ castom imports ------------------------
 from qbit_api import Qbit
@@ -16,11 +17,7 @@ def save_error(bot_title: str, error_message: str):
     detabase.log_error(bot_title, error_message)
 
 
-# if any movie moves to temp folder then this will update.
-movie_on_temp = 0
-
-
-def move_torrent_and_remove_junk_file(torrent):
+def move_torrent_and_remove_junk_file(torrent, api):
     title = torrent["name"]
     progress = torrent["progress"]
     state = torrent["state"]
@@ -28,6 +25,8 @@ def move_torrent_and_remove_junk_file(torrent):
     info_hash = torrent["hash"]
     folder_path = torrent["content_path"]
     added_on_time = total_added_days(torrent["added_on"])
+
+    print(title)
     # if file was moving then it will return from here.
     if state == "moving":
         return
@@ -38,11 +37,11 @@ def move_torrent_and_remove_junk_file(torrent):
     # deleting torernt because added time > 3days.
     if progress != 1 and added_on_time >= 3 or state == "missingFiles":
         qbit.delete_torrent(info_hash)
-        return {"file_moved": False}
+        return
 
     # if file download not 100% complete then return.
     if progress != 1:
-        return {"file_moved": False}
+        return
     # pausing torrent for moving.
     qbit.pause_torrent(info_hash)
 
@@ -53,48 +52,47 @@ def move_torrent_and_remove_junk_file(torrent):
     except FileNotFoundError as err:
         save_error(bot_name, str(err))
         qbit.delete_torrent(info_hash)
-        return {"file_moved": False}
+        return
 
     # deleting torernt from qbitTorrent
     qbit.delete_torrent(info_hash)
 
-    # this will tigger the rename function latter
-    global movie_on_temp
-    movie_on_temp += 1
-
     # getting upload location folder.
     new_location = file_location.replace(temp_folder, upload_folder)
 
-    # initalizing db connection with api.
-    detabase = Db_request_api()
-
-    # creating update content
-    updated_content = {"status": "uploaded..", "path": new_location}
     # updating movie status and path
-    detabase.update_content(title, updated_content)
-    return {"file_moved": True}
+    api.update_content(
+        title,
+        {"path": new_location, "status": "uploading.."},
+    )
 
 
 def main():
+    # initalizing db connection with api.
+    api = Db_request_api()
+
+    # initalizing db connection with qbitTorrent.
     qbit = Qbit()
     all_torrents = qbit.get_all_torrent()
 
-    file_moved_to_temp = False
-
     # this will move all the complete file to the temp folder.
     for torrent in all_torrents:
-        is_moved = move_torrent_and_remove_junk_file(torrent)
-        if is_moved["file_moved"]:
-            file_moved_to_temp = True
+        try:
+            move_torrent_and_remove_junk_file(torrent, api)
+        except Exception as err:
+            print(err)
 
-    if file_moved_to_temp is not True:
+    print(os.path.exists(temp_folder))
+    if not os.path.exists(temp_folder):
         print("hello ass")
         return
 
     # renameing all file(movies).
+    print("here")
     remove_junk()
 
     # this will upload content from temp to
+    print("now here.")
     upload()
 
     # deleteting full temp folder.
@@ -110,4 +108,4 @@ if __name__ == "__main__":
             save_error(bot_name, str(err))
 
         print("end..")
-        time.sleep(300)
+        time.sleep(60)

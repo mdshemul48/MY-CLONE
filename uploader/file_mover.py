@@ -22,7 +22,8 @@ def move_to_temp_folder(category, content_path):
     for i in range(0, 2):
         try:
             os.makedirs(temp_folder + "\\" + category, exist_ok=True)
-            os.rename(content_path, final_temp_folder)
+            shutil.move(content_path, final_temp_folder)
+            break
         except FileExistsError:
             shutil.rmtree(final_temp_folder)
 

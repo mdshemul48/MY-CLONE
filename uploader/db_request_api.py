@@ -27,11 +27,13 @@ class Db_request_api:
 
         if response.json()["successful"] != True:
             raise Exception(response.json())
+        print("ok")
+        return response.json()
 
 
 if __name__ == "__main__":
     api = Db_request_api()
     api.update_content(
-        "Treasure.Lies.2020.1080p.WEBRip.x264-RARBG",
-        {"status": "uploaded..", "path": "E:\\Temp\\Record"},
+        "To.Each.His.Own.1946.1080p.WEBRip.x265-RARBG",
+        {"status": "uploaded....", "path": "E:\\Temp\\Record"},
     )
