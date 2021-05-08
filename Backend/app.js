@@ -16,6 +16,8 @@ app.use("/api/error", require("./routes/errors-routes"));
 // responsible for publish data related work.
 app.use("/api/publisher", require("./routes/publisher-routes"));
 
+app.use("/api/downloader", require("./routes/downloader-routes"));
+
 // --------------- connecting db and running the express server ------------
 mongoose
   .connect(process.env.DATABACE_LINK, {

@@ -8,7 +8,7 @@ const Check = require("../models/checkHistory");
 const searchMovie = async (req, res, next) => {
   // this will search movie on db.
   const { movieTitle } = req.params;
-
+  console.log(movieTitle);
   let movies;
   try {
     movies = await Movie.find(
@@ -18,7 +18,7 @@ const searchMovie = async (req, res, next) => {
   } catch (err) {
     return res.status(500).json({ successful: false, message: err });
   }
-
+  console.log(movies);
   return res.status(200).json({ successful: true, movies });
 };
 
@@ -107,11 +107,11 @@ const enterMovieIn = async (req, res, next) => {
     date.movies.push(createdMovie);
     await date.save({ session: sess });
     await sess.commitTransaction();
-    return res.status(201).json({ successful: true, createdMovie });
   } catch (err) {
     console.log(err);
     return res.status(501).json({ successful: false, message: err });
   }
+  return res.status(201).json({ successful: true, createdMovie });
 };
 
 const checkMovie = async (req, res, next) => {
