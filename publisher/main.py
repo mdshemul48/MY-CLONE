@@ -1015,19 +1015,20 @@ def single_publish(*args):
     )
 
     movie_name, movie_year = name_and_year(movie_title, tv_series)
-    print(movie_name)
+    print(video_file_title)
     try:
         movie_info = db_api.get_movie_by_title_with_info(video_file_title)
+        movie_title_from_db = movie_info["title"]
         genres = movie_info["genres"]
         poster_link = movie_info["posterLink"]
 
     except Exception as err:
         print("hello", err)
 
-        move_to_already_exist_folder(
-            movie, movie_genres_and_poster_not_found_store_path
-        )
-        exit()
+        # move_to_already_exist_folder(
+        #     movie, movie_genres_and_poster_not_found_store_path
+        # )
+        return []
 
     search = Thread(
         target=search_movies, args=(movie_name, movie_year, movie_no, movie_search)
@@ -1066,8 +1067,13 @@ def single_publish(*args):
         results = movie_search.get()
 
     db_api.update_content(
-        video_file_title,
-        {"publishLink": published_link, "path": moving_log, "status": "published.."},
+        movie_title_from_db,
+        {
+            "publishLink": published_link,
+            "path": moving_log,
+            "status": "published..",
+            "downloadSearchResult": str(results),
+        },
     )
     print(published_link, moving_log)
     category_name = cetagory_name(category_select)
@@ -1183,4 +1189,9 @@ def get_arguments_from_api():
 
 
 if __name__ == "__main__":
-    get_arguments_from_api()
+    while True:
+        try:
+            get_arguments_from_api()
+        except Exception as err:
+            print(err)
+        time.sleep(100)
