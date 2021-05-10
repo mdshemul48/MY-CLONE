@@ -3,7 +3,7 @@ from guessit import guessit
 from difflib import SequenceMatcher
 
 # castom imports
-from info import bot_name
+from info import bot_name, block_word_in_parents_guide
 from db_request_api import Db_request_api
 from circle_net_search import search_movies
 from castom_imdb_api import Imdb_api
@@ -71,6 +71,17 @@ def downloader(movie):
     genres = movie.get_genres()
     poster = movie.get_poster()
     rated_movie = movie.get_rated_movie()
+
+    # this will ignore movie that include animation genres.
+    if "animation" in genres.lower():
+        print("animation")
+        print("-----------------------------------------------------------------")
+        return
+
+    # this will return if the movie has any adult tag in its MPAA
+    for word in block_word_in_parents_guide:
+        if word in movie.get_rated_movie().lower():
+            return
 
     # searching in out ftp server. if movie alredy exist. :- http://circleftp.net
     search_in_circle_ftp = search_movies(movie_title, movie_year)

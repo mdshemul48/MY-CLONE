@@ -1,5 +1,7 @@
 from imdb import IMDb
 
+from info import block_word_in_parents_guide
+
 
 class Imdb_api:
 
