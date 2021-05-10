@@ -8,7 +8,6 @@ const Check = require("../models/checkHistory");
 const searchMovie = async (req, res, next) => {
   // this will search movie on db.
   const { movieTitle } = req.params;
-  console.log(movieTitle);
   let movies;
   try {
     movies = await Movie.find(
@@ -18,7 +17,7 @@ const searchMovie = async (req, res, next) => {
   } catch (err) {
     return res.status(500).json({ successful: false, message: err });
   }
-  console.log(movies);
+
   return res.status(200).json({ successful: true, movies });
 };
 
@@ -38,6 +37,7 @@ const getMovieByTitle = async (req, res, next) => {
   }
   return res.status(200).json({ successful: true, found: true, movie });
 };
+
 const enterMovieIn = async (req, res, next) => {
   // this will add a movie to the db
 
@@ -90,7 +90,7 @@ const enterMovieIn = async (req, res, next) => {
 
   const createdMovie = new Movie({
     title,
-    language,
+    language_name: language,
     genres,
     imdbLink,
     downloadSearchResult,
@@ -108,7 +108,7 @@ const enterMovieIn = async (req, res, next) => {
     await date.save({ session: sess });
     await sess.commitTransaction();
   } catch (err) {
-    console.log(err);
+    console.log("error 121", err);
     return res.status(501).json({ successful: false, message: err });
   }
   return res.status(201).json({ successful: true, createdMovie });

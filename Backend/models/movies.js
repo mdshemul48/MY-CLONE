@@ -8,7 +8,7 @@ const movieShema = new Schema({
     type: String,
     required: true,
   },
-  language: {
+  language_name: {
     type: String,
     required: true,
   },
