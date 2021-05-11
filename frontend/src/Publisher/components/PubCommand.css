@@ -1,0 +1,14 @@
+.folder {
+  padding: 15px 10px;
+  border-radius: 10px;
+  display: inline-block;
+}
+.folder-input {
+  width: 80%;
+  background: #04aa6d;
+  color: #fff;
+  display: inline-block;
+}
+.input-title {
+  font-weight: 600;
+}

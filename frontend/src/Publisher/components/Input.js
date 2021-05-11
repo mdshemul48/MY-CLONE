@@ -9,6 +9,7 @@ const Input = (props) => {
         type={props.type || "text"}
         id={props.element}
         placeholder={props.placeholder}
+        value={props.value}
       />
     </React.Fragment>
   );

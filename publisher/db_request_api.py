@@ -78,7 +78,6 @@ class Db_request_api:
             )
         # if movie found by the title then it will return or continue the process
         if response_data["found"]:
-            print(response_data["movie"])
             return response_data["movie"]
         # this will search movie and find the right movie and return the movie..
         search_movie = self.search_movie_in_db(movieTitle)

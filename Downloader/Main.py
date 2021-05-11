@@ -1,6 +1,7 @@
 import time
 from guessit import guessit
 from difflib import SequenceMatcher
+import traceback
 
 # castom imports
 from info import bot_name, block_word_in_parents_guide
@@ -81,6 +82,8 @@ def downloader(movie):
     # this will return if the movie has any adult tag in its MPAA
     for word in block_word_in_parents_guide:
         if word in movie.get_rated_movie().lower():
+            print(word)
+            print("-----------------------------------------------------------------")
             return
 
     # searching in out ftp server. if movie alredy exist. :- http://circleftp.net
@@ -115,7 +118,8 @@ def main():
     for movie in letest_movies:
         try:
             downloader(movie)
-        except Exception as err:
+        except:
+            err = traceback.format_exc()
             save_error(bot_name, str(err))
 
 
@@ -124,8 +128,9 @@ if __name__ == "__main__":
         print("start..")
         try:
             main()
-        except Exception as err:
+        except:
+            err = traceback.format_exc()
             save_error(bot_name, str(err))
         print("end..")
 
-        time.sleep(300)
+        time.sleep(1000)

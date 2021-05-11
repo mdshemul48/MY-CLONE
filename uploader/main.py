@@ -80,9 +80,8 @@ def main():
         try:
             move_torrent_and_remove_junk_file(torrent, api)
         except Exception as err:
-            print(err)
+            save_error(bot_name, str(err))
 
-    print(os.path.exists(temp_folder))
     if not os.path.exists(temp_folder):
         print("hello ass")
         return

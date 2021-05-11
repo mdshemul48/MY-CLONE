@@ -1023,7 +1023,7 @@ def single_publish(*args):
         poster_link = movie_info["posterLink"]
 
     except Exception as err:
-        print("hello", err)
+        print("hello", err.message)
 
         # move_to_already_exist_folder(
         #     movie, movie_genres_and_poster_not_found_store_path
@@ -1104,7 +1104,7 @@ def publisher_and_all(*args):
     publish_category = str(command["category"])
 
     print(
-        "=================================================================================="
+        "=====================================1============================================="
     )
     movie_directories = iter(get_all_movie(publish_input))
     date_time_or_not = True
@@ -1119,12 +1119,6 @@ def publisher_and_all(*args):
             try:
                 movie_queue = Queue()
                 movie = next(movie_directories)
-
-                try:
-                    movie_title = movie_file_dir_and_name(publish_input, movie)
-                except Exception as error:
-                    print(error)
-                    continue
 
                 try:
                     profile_key = next(chrome_profile)
@@ -1167,10 +1161,12 @@ def publisher_and_all(*args):
         for movie_queue in store_:
             while store_[movie_queue]["movie_queue"].empty() is False:
                 movie_data = store_[movie_queue]["movie_queue"].get()
+        print("111", total_publish)
         if len(movie_data) != 0:
             total_publish += 1
+        print("133", total_publish)
         print(
-            "=================================================================================="
+            "===================================2==============================================="
         )
 
     return total_publish
@@ -1193,5 +1189,5 @@ if __name__ == "__main__":
         try:
             get_arguments_from_api()
         except Exception as err:
-            print(err)
+            print(err.message)
         time.sleep(100)
