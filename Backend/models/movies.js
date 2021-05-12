@@ -39,7 +39,6 @@ const movieShema = new Schema({
   downloadTime: {
     type: Date,
     default: Date.now,
-    required: false,
   },
 
   movieRating: {

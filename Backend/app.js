@@ -18,6 +18,9 @@ app.use("/api/publisher", require("./routes/publisher-routes"));
 
 app.use("/api/downloader", require("./routes/downloader-routes"));
 
+// responsible for all frontend related work.
+app.use("/api/front-page", require("./routes/front-page-routes"));
+
 // --------------- connecting db and running the express server ------------
 mongoose
   .connect(process.env.DATABACE_LINK, {
