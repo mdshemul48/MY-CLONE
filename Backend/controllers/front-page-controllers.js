@@ -1,6 +1,7 @@
 const dateFormat = require("dateFormat");
 const Movie = require("../models/movies");
 const DownloadDate = require("../models/downloadDate");
+const Error = require("../models/error");
 
 const documentCounter = async (date, status) => {
   searchModal = {};
@@ -21,12 +22,22 @@ const documentCounter = async (date, status) => {
   }
 };
 
+const gettingError = async (botName) => {
+  try {
+    const error = await Error.find({ botName: botName })
+      .sort({ _id: -1 })
+      .limit(15);
+    return error;
+  } catch (err) {
+    return [];
+  }
+};
 const frontPageData = async (req, res, next) => {
   let fullData = {};
   // getting todayDate
   const now = new Date();
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-
+  // getting todays bot status
   fullData.todayTotal = await documentCounter(today);
 
   fullData.todayDownload = await documentCounter(today, "Downloading..");
@@ -65,6 +76,9 @@ const frontPageData = async (req, res, next) => {
     }
   }
   fullData.botWorkingData = botWorkingData;
+  //  getting message from error database
+  fullData.downloaderError = await gettingError("Downloader");
+  fullData.uploaderError = await gettingError("uploader");
 
   res.json(fullData);
 };

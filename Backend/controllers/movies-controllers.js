@@ -111,11 +111,12 @@ const enterMovieIn = async (req, res, next) => {
     console.log("error 121", err);
     return res.status(501).json({ successful: false, message: err });
   }
+
   return res.status(201).json({ successful: true, createdMovie });
 };
 
 const checkMovie = async (req, res, next) => {
-  // this will check if movie exsist in the server
+  // this will check if movie exist in the server
   // if exist the it will return true else false with movie insert in db
   const { movieTitle } = req.params;
 
@@ -126,7 +127,7 @@ const checkMovie = async (req, res, next) => {
   } catch (err) {
     return res.status(500).json({
       successful: false,
-      message: "something worng with checkmovie fuchtion.",
+      message: "something wrong with checkmovie fuchtion.",
     });
   }
 
@@ -143,7 +144,7 @@ const checkMovie = async (req, res, next) => {
   } catch (err) {
     return res.status(500).json({
       successful: false,
-      message: "something worng with checkmovie fuchtion.",
+      message: "something wrong with checkmovie fuchtion.",
     });
   }
 
