@@ -3,16 +3,14 @@ import React from "react";
 const Command = (props) => {
   return (
     <React.Fragment>
-      <p className="folder input-title">FOLDER INPUT:</p>
+      <p className="folder input-title">{props.name}</p>
       <p
         className="folder-input folder"
         onClick={() => {
-          navigator.clipboard.writeText(
-            "V:\\.uploading 1tb\\test pub\\English"
-          );
+          navigator.clipboard.writeText(props.value);
         }}
       >
-        V:\.uploading 1tb\test pub\English
+        {props.value}
       </p>
     </React.Fragment>
   );

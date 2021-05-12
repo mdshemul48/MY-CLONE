@@ -4,11 +4,18 @@
   display: inline-block;
 }
 .folder-input {
-  width: 80%;
+  width: 70%;
   background: #04aa6d;
   color: #fff;
   display: inline-block;
 }
 .input-title {
   font-weight: 600;
+  width: 20%;
+}
+.publish-buttons {
+  margin: 10px;
+}
+.publish-card {
+  margin-bottom: 50px;
 }
