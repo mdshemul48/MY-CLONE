@@ -1095,7 +1095,7 @@ def publisher_and_all(*args):
     publish_category = str(command["category"])
 
     print(
-        "=====================================1============================================="
+        "=================================================================================="
     )
     movie_directories = iter(get_all_movie(publish_input))
     data = Main_data()
@@ -1131,9 +1131,10 @@ def publisher_and_all(*args):
 def get_arguments_from_api():
     api = Db_request_api()
     publish_command = api.get_all_arguments()
+    global published_counter
+    published_counter = 0
 
     for command in publish_command:
-        global published_counter
         print("global", published_counter)
         if published_counter >= 2:
             return
