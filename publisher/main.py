@@ -35,6 +35,7 @@ from auth_info import (
 colorama.init(autoreset=True)
 
 global_search_results = {}
+published_counter = 0
 
 
 class Telegram_bot:
@@ -729,7 +730,7 @@ def tv_series_table(tv_series_path, publish_link, text_box):
 
 
 def login_check_and_proceed(w):
-    # * w means web brower
+    # * w means web browser
     login_status = True
     for i in range(0, 3):
         try:
@@ -875,7 +876,6 @@ def publish_system(
         publish = w.find_element_by_xpath('//*[@id="publish"]')
 
         global global_search_results
-
         if (
             Main_data().already_exist_check == True
             and global_search_results[movie_no] == 1
@@ -904,14 +904,13 @@ def publish_system(
         return published_link
     except Exception as error:
         if str(error) == "found":
-            print(f"{Fore.RED}{movie_no}:{movie_title} movie already exist in server.")
+            raise Exception(f"{movie_title} movie already exist in server.")
         else:
             try:
                 w.close()
-                print(f"{Fore.RED}{movie_no}:{movie_title} Closed by Error.")
+                raise Exception(f"{movie_title} Closed by Error.")
             except:
-                print(f"{Fore.RED}{movie_no}:{movie_title} Closed by Admin.")
-        exit()
+                raise Exception(f"{movie_title} Closed by Admin.")
 
 
 def search_movies(movie_name, movie_year, id_, queue):
@@ -999,12 +998,8 @@ def single_publish(*args):
         category_select,
         publish_link,
         output_folder,
-        headless,
-        date_time_or_not,
         Chrome_profile_path,
         movie_no,
-        movie_queue,
-        tv_series,
         db_api,
     ) = args
 
@@ -1015,7 +1010,7 @@ def single_publish(*args):
     )
 
     movie_name, movie_year = name_and_year(movie_title, tv_series)
-    print(video_file_title)
+
     try:
         movie_info = db_api.get_movie_by_title_with_info(video_file_title)
         movie_title_from_db = movie_info["title"]
@@ -1023,21 +1018,26 @@ def single_publish(*args):
         poster_link = movie_info["posterLink"]
 
     except Exception as err:
-        print("hello", err.message)
+        print("hello", err)
 
         # move_to_already_exist_folder(
         #     movie, movie_genres_and_poster_not_found_store_path
         # )
         return []
 
-    search = Thread(
-        target=search_movies, args=(movie_name, movie_year, movie_no, movie_search)
-    )
-    search.start()
     movie_link = file_path_to_url(
         working_path, movie_path, publish_link, category_select, movie_year
     )
     image_path = save_the_image_and_get_the_path(poster_link, movie_no)
+
+    global global_search_results
+    global_search_results[movie_no] = 0
+
+    search = Thread(
+        target=search_movies, args=(movie_name, movie_year, movie_no, movie_search)
+    )
+    search.start()
+
     published_link = publish_system(
         movie_title,
         category_select,
@@ -1053,15 +1053,20 @@ def single_publish(*args):
         movie_no,
         db_api,
     )
+
     if published_link:
         moving_log = move_to_main_folder(
             category_select, movie_year, movie, output_folder, movie_title
         )
+
     else:
-        print("failed")
+        raise Exception("Movie could not be published. link not found.")
+
     publishing_time = datetime.datetime.now() - begin_time
+
     print(f"{Fore.GREEN}total time to publish: ", publishing_time)
     search.join()
+
     results = ""
     while movie_search.empty() is False:
         results = movie_search.get()
@@ -1076,27 +1081,13 @@ def single_publish(*args):
         },
     )
     print(published_link, moving_log)
-    category_name = cetagory_name(category_select)
-
-    movie_queue.put(
-        list(
-            (
-                movie_title,
-                category_name,
-                moving_log,
-                published_link,
-                str(begin_time),
-                str(publishing_time),
-                str(results),
-                date_time_or_not,
-            )
-        )
-    )
+    global published_counter
+    published_counter += 1
 
 
 def publisher_and_all(*args):
     # all the impouts from function arguments
-    command, movie_published_counter, db_api = args
+    command, db_api = args
 
     publish_input = command["input"]
     publish_output = command["output"]
@@ -1107,81 +1098,49 @@ def publisher_and_all(*args):
         "=====================================1============================================="
     )
     movie_directories = iter(get_all_movie(publish_input))
-    date_time_or_not = True
     data = Main_data()
-    publish_chrome_profile = data.publish_chrome_profile
-    not_done = True
-    total_publish = movie_published_counter
-    while not_done and total_publish <= 2:
-        store_ = {}
-        chrome_profile = iter(publish_chrome_profile)
-        while True:
-            try:
-                movie_queue = Queue()
-                movie = next(movie_directories)
+    # getting chrome profiles for publish
+    publish_chrome_profile = data.publish_chrome_profile["movie_0"]
+    chrome_profile_key, chrome_profile = (
+        publish_chrome_profile["profile_number"],
+        publish_chrome_profile["profile_path"],
+    )
+    global published_counter
 
-                try:
-                    profile_key = next(chrome_profile)
-                    profile = publish_chrome_profile[profile_key]
-                except StopIteration:
-                    break
-                global_search_results[profile["profile_number"]] = 0
-                thread_args = Thread(
-                    target=single_publish,
-                    args=(
-                        movie,
-                        publish_input,
-                        publish_category,
-                        publish_link,
-                        publish_output,
-                        headless,
-                        date_time_or_not,
-                        profile["profile_path"],
-                        profile["profile_number"],
-                        movie_queue,
-                        tv_series,
-                        db_api,
-                    ),
-                )
-                store_[profile_key] = {
-                    "movie_queue": movie_queue,
-                    "Thread_obj": thread_args,
-                }
-            except StopIteration:
-                not_done = False
-                break
-
-        for movie in store_:
-            store_[movie]["Thread_obj"].start()
-            time.sleep(1)
-
-        [store_[movie]["Thread_obj"].join() for movie in store_]
-        movie_data = []
-
-        for movie_queue in store_:
-            while store_[movie_queue]["movie_queue"].empty() is False:
-                movie_data = store_[movie_queue]["movie_queue"].get()
-        print("111", total_publish)
-        if len(movie_data) != 0:
-            total_publish += 1
-        print("133", total_publish)
-        print(
-            "===================================2==============================================="
-        )
-
-    return total_publish
+    while published_counter <= 2:
+        try:
+            movie = next(movie_directories)
+            print(movie)
+        except StopIteration:
+            return 0
+        try:
+            single_publish(
+                movie,
+                publish_input,
+                publish_category,
+                publish_link,
+                publish_output,
+                chrome_profile,
+                chrome_profile_key,
+                db_api,
+            )
+        except Exception as err:
+            print(err)
 
 
 def get_arguments_from_api():
     api = Db_request_api()
     publish_command = api.get_all_arguments()
-    movie_published_counter = 0
+
     for command in publish_command:
-        if movie_published_counter > 2:
-            break
-        movie_published_counter += publisher_and_all(
-            command, movie_published_counter, api
-        )
+        global published_counter
+        print("global", published_counter)
+        if published_counter >= 2:
+            return
+        try:
+            publisher_and_all(command, api)
+        except Exception as err:
+            print(err)
 
 
 if __name__ == "__main__":
@@ -1189,5 +1148,7 @@ if __name__ == "__main__":
         try:
             get_arguments_from_api()
         except Exception as err:
-            print(err.message)
+            print(err)
+
+        print("sleep", 100)
         time.sleep(100)
