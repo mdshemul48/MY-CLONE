@@ -5,12 +5,9 @@ import "./AllMovies.css";
 const AllMovies = (props) => {
   return (
     <div className="AllMovies">
-      <SingleMovie />
-      <SingleMovie />
-      <SingleMovie />
-      <SingleMovie />
-      <SingleMovie />
-      <SingleMovie />
+      {props.movies.map((movie) => {
+        return <SingleMovie movie={movie} />;
+      })}
     </div>
   );
 };
