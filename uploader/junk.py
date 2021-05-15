@@ -10,7 +10,10 @@ def remove_junk_files(path):
         for file_path in glob.glob(glob.escape(folder_path) + "/*", recursive=True):
             # this will delete any files except video..
             if os.path.isfile(file_path):
-                if mimetypes.guess_type(file_path)[0].startswith("video") is False:
+                if mimetypes.guess_type(file_path)[0] == None:
+                    os.remove(file_path)
+                    continue
+                if not mimetypes.guess_type(file_path)[0].startswith("video"):
                     os.remove(file_path)
 
             # this will delete every folder with movie..

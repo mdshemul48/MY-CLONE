@@ -2,7 +2,7 @@ from qbittorrent import Client
 
 
 # -- castom import -----
-from info import qbit_link, qbit_username, qbit_password, block_list
+from info import qbit_link, qbit_username, qbit_password, block_category
 
 
 class Qbit:
@@ -12,10 +12,13 @@ class Qbit:
 
     def get_all_torrent(self):
         all_torents = self.qbit.torrents()
-        torrent_without_blocked_catagory = [
-            torrent for torrent in all_torents if torrent["category"] not in block_list
+        torrent_without_blocked_cetagory = [
+            torrent
+            for torrent in all_torents
+            if not torrent["category"] in block_category
         ]
-        return torrent_without_blocked_catagory
+
+        return torrent_without_blocked_cetagory
 
     def pause_torrent(self, info_hash):
         self.qbit.pause(info_hash)
@@ -26,4 +29,4 @@ class Qbit:
 
 if __name__ == "__main__":
     qbit = Qbit()
-    qbit.get_all_torrent()
+    print(qbit.get_all_torrent())

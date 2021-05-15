@@ -5,38 +5,40 @@ import React from "react";
 import "./MainStatusArea.css";
 import StatusCard from "../../shared/components/UIElements/StatusCard";
 export default function MainStatusArea(props) {
+  console.log(props.status);
   return (
     <React.Fragment>
       <div className="main-status-area">
         <StatusCard
-          countValue="59"
-          statusTitle="Today Upload"
+          countValue={props.status.todayOnDownload}
+          statusTitle="Today Movie Added"
           className="total-uploaded"
-          background="#0074e0"
+          background="#7868e6"
         />
         <StatusCard
-          countValue="10"
-          statusTitle="Downloading"
+          countValue={props.status.TotalInDownload}
+          statusTitle="In Downloading"
           className="total-uploaded"
           background="#fa9905"
         />
         <StatusCard
-          countValue="18"
-          statusTitle="Yesterday Uploaded"
+          countValue={props.status.TotalInUpload}
+          statusTitle="Uploaded In Server"
           className="total-uploaded"
           background="#764ba2"
         />
+
         <StatusCard
-          countValue="19"
-          statusTitle="Yesterday Uploaded"
-          className="Total uploaded"
+          countValue={props.status.TotalInPublish}
+          statusTitle="Total Published"
+          className="total-uploaded"
           background="#04aa6d"
         />
         <StatusCard
-          countValue="23"
-          statusTitle="Download Failed"
-          className="total-uploaded"
-          background="#f45801"
+          countValue={props.status.allMovies}
+          statusTitle="Total Movies Added"
+          className="Total uploaded"
+          background="#0074e0"
         />
       </div>
     </React.Fragment>

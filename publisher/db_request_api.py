@@ -54,13 +54,13 @@ class Db_request_api:
         response = self.api.get(search_movie_in_db_link + "/" + only_title)
         if response.status_code != 200:
             raise Exception(
-                "something worng with the server. please check. search_movie_in_db function. error 1 "
+                "something wrong with the server. please check. search_movie_in_db function. error 1 "
             )
         responseText = response.json()
 
         if responseText["successful"] is False:
             raise Exception(
-                "something worng with the server. please check. search_movie_in_db function error 2"
+                "something wrong with the server. please check. search_movie_in_db function error 2"
             )
         return responseText["movies"]
 
@@ -82,7 +82,7 @@ class Db_request_api:
         # this will search movie and find the right movie and return the movie..
         search_movie = self.search_movie_in_db(movieTitle)
         for result in search_movie:
-            if not SequenceMatcher(None, result["title"], movieTitle).ratio() > 0.7:
+            if SequenceMatcher(None, result["title"], movieTitle).ratio() < 0.5:
                 continue
             if compare_two_movie(result["title"], movieTitle):
                 return result
@@ -90,8 +90,4 @@ class Db_request_api:
 
 if __name__ == "__main__":
     api = Db_request_api()
-    print(
-        api.get_movie_by_title_with_info(
-            "Murder.She.Baked.A.Chocolate.Chip.Cookie.Murder.2015.1080p.WEB-DL.DD5.1.H264-IFLIX2"
-        )
-    )
+    print(api.get_movie_by_title_with_info("i.am.all.girls.2021.1080p.web.h264-naisu"))

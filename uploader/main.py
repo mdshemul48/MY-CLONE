@@ -2,7 +2,7 @@ from os.path import expanduser
 import time
 import shutil, os
 
-# ------------------ castom imports ------------------------
+# ------------------ custom imports ------------------------
 from qbit_api import Qbit
 from day_added import total_added_days
 from file_mover import move_to_temp_folder
@@ -13,8 +13,8 @@ from db_request_api import Db_request_api
 
 
 def save_error(bot_title: str, error_message: str):
-    detabase = Db_request_api()
-    detabase.log_error(bot_title, error_message)
+    database = Db_request_api()
+    database.log_error(bot_title, error_message)
 
 
 def move_torrent_and_remove_junk_file(torrent, api):
@@ -34,7 +34,7 @@ def move_torrent_and_remove_junk_file(torrent, api):
     # initalizing qbit again because after someting it can't login. for that i'm initalizing it in every time.
     qbit = Qbit()
 
-    # deleting torernt because added time > 3days.
+    # deleting torrent because added time > 3days.
     if progress != 1 and added_on_time >= 3 or state == "missingFiles":
         qbit.delete_torrent(info_hash)
         return
@@ -54,7 +54,7 @@ def move_torrent_and_remove_junk_file(torrent, api):
         qbit.delete_torrent(info_hash)
         return
 
-    # deleting torernt from qbitTorrent
+    # deleting torrent from qbitTorrent
     qbit.delete_torrent(info_hash)
 
     # getting upload location folder.
@@ -83,7 +83,7 @@ def main():
             save_error(bot_name, str(err))
 
     if not os.path.exists(temp_folder):
-        print("hello ass")
+        print("NO Temp folder")
         return
 
     # renameing all file(movies).
@@ -107,4 +107,7 @@ if __name__ == "__main__":
             save_error(bot_name, str(err))
 
         print("end..")
-        time.sleep(60)
+
+        for i in range(1000):
+            print(f"counter:   {str(i)}", end="\r")
+            time.sleep(1)

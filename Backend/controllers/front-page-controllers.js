@@ -38,18 +38,20 @@ const frontPageData = async (req, res, next) => {
   const now = new Date();
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
   // getting todays bot status
-  fullData.todayTotal = await documentCounter(today);
+  const status = {};
+  status.todayOnDownload = await documentCounter(today);
 
-  fullData.todayDownload = await documentCounter(today, "Downloading..");
+  status.TotalInDownload = await documentCounter(0, "Downloading..");
 
-  fullData.todayUpload = await documentCounter(today, "uploading..");
+  status.TotalInUpload = await documentCounter(0, "uploading..");
 
-  fullData.todayPublish = await documentCounter(today, "published..");
+  status.TotalInPublish = await documentCounter(0, "published..");
 
-  fullData.allTimeMovies = await documentCounter();
-
+  status.allMovies = await documentCounter();
+  fullData.status = status;
   // getting last 7days working info..
   const botWorkingData = [];
+
   for (let i = 0; i < 7; i++) {
     const dates = new Date();
     dates.setDate(dates.getDate() - i);
@@ -77,9 +79,11 @@ const frontPageData = async (req, res, next) => {
   }
   fullData.botWorkingData = botWorkingData;
   //  getting message from error database
-  fullData.downloaderError = await gettingError("Downloader");
-  fullData.uploaderError = await gettingError("uploader");
-
+  const errors = {};
+  errors.downloaderError = await gettingError("Downloader");
+  errors.uploaderError = await gettingError("uploader");
+  errors.publisherError = await gettingError("publisher");
+  fullData.errors = errors;
   res.json(fullData);
 };
 

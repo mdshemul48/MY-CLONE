@@ -3,10 +3,8 @@ import { Tabs, TabList, Tab, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import "./BotReport.css";
 
-// dummy content
-import { errorText } from "./DUMMYeRROR";
-
-const BotReport = () => {
+const BotReport = (props) => {
+  console.log(props.botError);
   return (
     <React.Fragment>
       <Tabs className="botReport">
@@ -18,24 +16,33 @@ const BotReport = () => {
 
         <TabPanel>
           <div className="logs">
-            {errorText.map((errorText) => (
-              <p>{errorText}</p>
+            {props.botError.publisherError.map((errorText) => (
+              <p key={errorText["_id"]}>
+                {errorText["errorText"]}
+                <br /> {"___________________________"}
+              </p>
             ))}
           </div>
         </TabPanel>
 
         <TabPanel>
           <div className="logs">
-            {errorText.map((errorText) => (
-              <p>{errorText}</p>
+            {props.botError.downloaderError.map((errorText) => (
+              <p key={errorText["_id"]}>
+                {errorText["errorText"]}
+                <br /> {"___________________________"}
+              </p>
             ))}
           </div>
         </TabPanel>
 
         <TabPanel>
           <div className="logs">
-            {errorText.map((errorText) => (
-              <p>{errorText}</p>
+            {props.botError.uploaderError.map((errorText) => (
+              <p key={errorText["_id"]}>
+                {errorText["errorText"]}
+                <br /> {"___________________________"}
+              </p>
             ))}
           </div>
         </TabPanel>

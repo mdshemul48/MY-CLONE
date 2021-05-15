@@ -56,7 +56,7 @@ class Db_request_api:
 
         responce = self.api.put(self.create_movie_with_info_link, json=info)
         if responce.status_code != 201 and responce.status_code != 409:
-            raise Exception("something worng with the server")
+            raise Exception("something wrong with the server")
         elif responce.status_code == 409:
             raise Exception("movie already exist in the server")
 
@@ -79,13 +79,13 @@ class Db_request_api:
         response = self.api.get(self.search_movie_in_db_link + "/" + only_title)
         if response.status_code != 200:
             raise Exception(
-                "something worng with the server. please check. search_movie_in_db function. error 1 "
+                "something wrong with the server. please check. search_movie_in_db function. error 1 "
             )
         responseText = response.json()
 
         if responseText["successful"] is False:
             raise Exception(
-                "something worng with the server. please check. search_movie_in_db function error 2"
+                "something wrong with the server. please check. search_movie_in_db function error 2"
             )
         return responseText["movies"]
 
@@ -96,7 +96,7 @@ class Db_request_api:
             raise Exception("log error function not working.")
 
     def get_letest_movie(self):
-        response = self.api.get(letest_movies_link)
+        response = self.api.get(letest_movies_link, timeout=30)
 
         if response.status_code != 200:
             raise Exception(response.text)

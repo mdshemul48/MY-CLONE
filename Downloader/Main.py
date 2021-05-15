@@ -3,7 +3,7 @@ from guessit import guessit
 from difflib import SequenceMatcher
 import traceback
 
-# castom imports
+# custom imports
 from info import bot_name, block_word_in_parents_guide
 from db_request_api import Db_request_api
 from circle_net_search import search_movies
@@ -12,8 +12,8 @@ from qbit_download_api import Qbit_download
 
 
 def save_error(bot_title, error_message):
-    detabase = Db_request_api()
-    detabase.log_error(bot_title, error_message)
+    database = Db_request_api()
+    database.log_error(bot_title, error_message)
 
 
 def get_movie_title_and_year(title):
@@ -46,14 +46,14 @@ def downloader(movie):
         return
 
     # -------- movie chaking or insterting in databace working history---------------
-    detabace = Db_request_api()
+    database = Db_request_api()
 
-    db_response = detabace.check_working_history(title)
+    db_response = database.check_working_history(title)
     if db_response["found"]:
         return
 
     # search on our database and check if exist.
-    search_response = detabace.search_movie_in_db(movie_title)
+    search_response = database.search_movie_in_db(movie_title)
     if len(search_response) != 0:
         for result in search_response:
             result_full_title = result["title"]
@@ -86,7 +86,7 @@ def downloader(movie):
             print("-----------------------------------------------------------------")
             return
 
-    # searching in out ftp server. if movie alredy exist. :- http://circleftp.net
+    # searching in out ftp server. if movie already exist. :- http://circleftp.net
     search_in_circle_ftp = search_movies(movie_title, movie_year)
     search_boolean = search_in_circle_ftp["found"]
     search_result = search_in_circle_ftp["searchResult"]
@@ -94,7 +94,7 @@ def downloader(movie):
         return
 
     # adding data to the db
-    detabace.create_movie_with_info(
+    database.create_movie_with_info(
         title=title,
         language=language,
         genres=genres,
@@ -132,5 +132,6 @@ if __name__ == "__main__":
             err = traceback.format_exc()
             save_error(bot_name, str(err))
         print("end..")
-
-        time.sleep(1000)
+        for i in range(1000):
+            print(f"counter:   {str(i)}", end="\r")
+            time.sleep(1)

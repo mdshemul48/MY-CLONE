@@ -26,8 +26,8 @@ class Imdb_api:
         return movie + "._V1_.jpg"
 
     def get_rated_movie(self):
-        restricted_content = self.imdb_api.get_movie_parents_guide(self.id)
         try:
+            restricted_content = self.imdb_api.get_movie_parents_guide(self.id)
             return str(restricted_content["data"])
         except:
             return "{}"

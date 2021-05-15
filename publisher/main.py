@@ -30,12 +30,18 @@ from auth_info import (
     sleep_mode,
     tv_series,
     movie_genres_and_poster_not_found_store_path,
+    bot_name,
 )
 
 colorama.init(autoreset=True)
 
 global_search_results = {}
 published_counter = 0
+
+
+def error(message):
+    api = Db_request_api()
+    api.log_error(bot_name, str(message))
 
 
 class Telegram_bot:
@@ -1019,11 +1025,11 @@ def single_publish(*args):
 
     except Exception as err:
         print("hello", err)
-
+        error(err)
         # move_to_already_exist_folder(
         #     movie, movie_genres_and_poster_not_found_store_path
         # )
-        return []
+        return
 
     movie_link = file_path_to_url(
         working_path, movie_path, publish_link, category_select, movie_year
@@ -1125,7 +1131,7 @@ def publisher_and_all(*args):
                 db_api,
             )
         except Exception as err:
-            print(err)
+            error(err)
 
 
 def get_arguments_from_api():
@@ -1135,13 +1141,14 @@ def get_arguments_from_api():
     published_counter = 0
 
     for command in publish_command:
-        print("global", published_counter)
+
         if published_counter >= 2:
             return
         try:
             publisher_and_all(command, api)
         except Exception as err:
-            print(err)
+            error(err)
+        print("global", published_counter)
 
 
 if __name__ == "__main__":
@@ -1149,7 +1156,9 @@ if __name__ == "__main__":
         try:
             get_arguments_from_api()
         except Exception as err:
-            print(err)
+            error(err)
 
-        print("sleep", 100)
-        time.sleep(100)
+        print("sleep", 1000)
+        for i in range(1000):
+            print(f"counter:   {str(i)}", end="\r")
+            time.sleep(1)
