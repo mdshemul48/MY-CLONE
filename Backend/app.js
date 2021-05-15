@@ -31,6 +31,9 @@ app.use("/api/downloader", require("./routes/downloader-routes"));
 // responsible for all frontend related work.
 app.use("/api/front-page", require("./routes/front-page-routes"));
 
+// responsible for all frontend download history related work.
+app.use("/api/download-page", require("./routes/download-page-routes"));
+
 // --------------- connecting db and running the express server ------------
 mongoose
   .connect(process.env.DATABACE_LINK, {

@@ -21,7 +21,6 @@ const Dashboard = (props) => {
       try {
         response = await fetch("http://localhost:5000/api/front-page");
         const responseText = await response.json();
-        console.log(responseText);
         setMainData(responseText);
       } catch (err) {
         alert(err);

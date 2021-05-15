@@ -3,28 +3,17 @@ import HistoryLine from "./HistoryLine";
 
 import Card from "../../shared/components/UIElements/Card";
 import "./DownloadHistory.css";
-const DonwloadHistory = (props) => {
+const DownloadHistory = (props) => {
   return (
     <Card className="download-report">
-      <HistoryLine id="34534535345345345345" checked={true}>
-        01-04-2021 (33 movies)
-      </HistoryLine>
-      <HistoryLine id="34534535345345345345" checked={false}>
-        01-04-2021 (33 movies)
-      </HistoryLine>
-      <HistoryLine id="34534535345345345345" checked={true}>
-        01-04-2021 (33 movies)
-      </HistoryLine>
-      <HistoryLine id="34534535345345345345" checked={true}>
-        01-04-2021 (33 movies)
-      </HistoryLine>
-      <HistoryLine id="34534535345345345345" checked={true}>
-        01-04-2021 (33 movies)
-      </HistoryLine>
-      <HistoryLine id="34534535345345345345" checked={false}>
-        01-04-2021 (33 movies)
-      </HistoryLine>
+      {props.downloads.map((date) => {
+        return (
+          <HistoryLine id={date._id} key={date._id} checked={date.checked}>
+            {date.date} ({date.movies.length})
+          </HistoryLine>
+        );
+      })}
     </Card>
   );
 };
-export default DonwloadHistory;
+export default DownloadHistory;
