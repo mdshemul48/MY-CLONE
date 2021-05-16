@@ -20,5 +20,17 @@ const dateAllMovies = async (req, res, next) => {
   }
   res.send(allDates);
 };
+const checked = async (req, res, next) => {
+  const { dateId } = req.params;
+  const { checked } = req.body;
+  try {
+    await DownloadDate.findByIdAndUpdate(dateId, { checked });
+  } catch (err) {
+    return res.status(500).json({ error: err });
+  }
+
+  return res.json({ checked });
+};
 exports.downloadHistoryAllDate = downloadHistoryAllDate;
 exports.dateAllMovies = dateAllMovies;
+exports.checked = checked;
