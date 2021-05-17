@@ -1,38 +1,46 @@
-import React from "react";
-
-// qbit download table
+import React, { useState, useEffect } from "react";
 
 // castom imports
+import Loading from "../../shared/components/UIElements/Loading";
 import "./QbitDownloadTable.css";
 import TableTh from "./TableTh";
 import TableTd from "./TableTd";
+
+function formatBytes(bytes, decimals = 2) {
+  if (bytes === 0) return "0 Bytes";
+
+  const k = 1024;
+  const dm = decimals < 0 ? 0 : decimals;
+  const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
+}
+// qbit download api call
+const fetchTorrentData = async (setMainData) => {
+  const fetchData = await fetch("http://localhost:5000/api/torrent");
+  const torrents = await fetchData.json();
+  setMainData(torrents);
+};
+
 export default function QbitDownloadTable(props) {
-  const content = [
-    {
-      title: "Into.Our.Own.Hands.2010.FRENCH.1080p.WEBRip.x264-VXT",
-      size: "5.5GB",
-      percentage: "50%",
-      lenguage: "English",
-      state: "Downloading",
-      speed: "1.5MB/PS",
-    },
-    {
-      title: "Into.Our.Own.Hands.2010.FRENCH.1080p.WEBRip.x264-VXT",
-      size: "5.5GB",
-      percentage: "50%",
-      lenguage: "English",
-      state: "Downloading",
-      speed: "1.5MB/PS",
-    },
-    {
-      title: "Into.Our.Own.Hands.2010.FRENCH.1080p.WEBRip.x264-VXT",
-      size: "5.5GB",
-      percentage: "50%",
-      lenguage: "English",
-      state: "Downloading",
-      speed: "1.5MB/PS",
-    },
-  ];
+  const [mainData, setMainData] = useState();
+
+  useEffect(() => {
+    fetchTorrentData(setMainData);
+  }, []);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      fetchTorrentData(setMainData);
+    }, 2000);
+    return () => clearTimeout(timeoutId);
+  });
+
+  if (!mainData) {
+    return <Loading />;
+  }
 
   return (
     <React.Fragment>
@@ -40,15 +48,16 @@ export default function QbitDownloadTable(props) {
         <table className="full-table">
           <TableTh />
           <tbody>
-            {content.map((item) => {
+            {mainData.map((item) => {
               return (
                 <TableTd
-                  title={item.title}
-                  size={item.size}
-                  percentage={item.percentage}
+                  key={item.hash}
+                  title={item.name}
+                  size={formatBytes(item.size)}
+                  percentage={Math.floor(item.progress * 100) + "%"}
                   state={item.state}
-                  lenguage={item.lenguage}
-                  speed={item.speed}
+                  language={item.category}
+                  speed={formatBytes(item.dlspeed)}
                 />
               );
             })}

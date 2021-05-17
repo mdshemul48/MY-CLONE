@@ -120,7 +120,7 @@ def main():
             downloader(movie)
         except:
             err = traceback.format_exc()
-            save_error(bot_name, str(err))
+            save_error(bot_name, str(err + " " + str(movie)))
 
 
 if __name__ == "__main__":

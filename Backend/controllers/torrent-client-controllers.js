@@ -19,7 +19,6 @@ const torrents = async (req, res, next) => {
   }
 
   const blockedCategory = JSON.parse(process.env.BLOCK_LIST_FOR_TORRENT);
-  console.log(blockedCategory.includes("Mohsin"));
 
   const filteredTorrent = allTorrents.filter((torrent) => {
     return !blockedCategory.includes(torrent.category);
