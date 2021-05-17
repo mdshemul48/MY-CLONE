@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 // castom imports
+import Title from "../../shared/components/UIElements/Title";
 import Loading from "../../shared/components/UIElements/Loading";
 import "./QbitDownloadTable.css";
 import TableTh from "./TableTh";
@@ -44,6 +45,9 @@ export default function QbitDownloadTable(props) {
 
   return (
     <React.Fragment>
+      <Title className="all-title">
+        Qbit (Downloading) Status {mainData && <>({mainData.length} Movies)</>}
+      </Title>
       <div className="main-table">
         <table className="full-table">
           <TableTh />

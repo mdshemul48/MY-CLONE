@@ -612,7 +612,9 @@ def get_publish_code(link):
 
 def save_the_image_and_get_the_path(image_link, movie_no):
     img = requests.get(image_link)
-    with open(f"temp\\captcha{movie_no}.jpg", "wb") as f:
+    with open(
+        os.path.join(pathlib.Path().absolute(), f"temp\\captcha{movie_no}.jpg"), "wb"
+    ) as f:
         f.write(img.content)
     return os.path.join(pathlib.Path().absolute(), f"temp\\captcha{movie_no}.jpg")
 

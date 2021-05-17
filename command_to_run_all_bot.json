@@ -1,0 +1,11 @@
+[
+  { "BotName": "uploader", "path": "cd backend && npm start" },
+
+  { "BotName": "uploader", "path": "cd frontend && npm start" },
+
+  { "BotName": "Publisher", "path": "cd publisher && py main.py" },
+
+  { "BotName": "Downloader", "path": "cd downloader && py main.py" },
+
+  { "BotName": "uploader", "path": "cd uploader && py main.py" }
+]

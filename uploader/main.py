@@ -79,6 +79,7 @@ def main():
     for torrent in all_torrents:
         try:
             move_torrent_and_remove_junk_file(torrent, api)
+            break
         except Exception as err:
             save_error(bot_name, str(err))
 
