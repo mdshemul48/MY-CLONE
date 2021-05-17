@@ -4,8 +4,9 @@ import PubCommand from "./PubCommand";
 const PublishCommands = (props) => {
   return (
     <div className="all-publish-commands">
-      <PubCommand />
-      <PubCommand />
+      {props.commands.map((command) => {
+        return <PubCommand key={command._id} command={command} />;
+      })}
     </div>
   );
 };

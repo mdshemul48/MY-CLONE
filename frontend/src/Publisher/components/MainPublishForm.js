@@ -14,6 +14,12 @@ const MainPublishForm = (props) => {
     <Card className="main-publish-form">
       <form onSubmit={handleSubmit(publishForm)}>
         <Input
+          label="Name: "
+          placeholder="Enter Note or a Name for this entry. "
+          name="name"
+          register={register}
+        />
+        <Input
           label="Input: "
           placeholder="Enter your input Path "
           name="input"
