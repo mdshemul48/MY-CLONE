@@ -19,6 +19,7 @@
     "express": "^4.17.1",
     "mongoose": "^5.12.7",
     "mongoose-unique-validator": "^2.0.3",
+    "qbittorrent-api-v2": "^1.2.2",
     "rarbg-api": "^1.1.4"
   }
 }

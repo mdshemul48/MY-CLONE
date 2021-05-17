@@ -52,7 +52,7 @@ const enterMovieIn = async (req, res, next) => {
   } = req.body;
 
   const now = new Date();
-  const todayDate = "11-11-2298"; //dateFormat(now, "dd-mm-yyyy");
+  const todayDate = dateFormat(now, "dd-mm-yyyy");
   let date;
 
   try {
