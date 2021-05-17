@@ -52,7 +52,7 @@ const enterMovieIn = async (req, res, next) => {
   } = req.body;
 
   const now = new Date();
-  const todayDate = dateFormat(now, "dd-mm-yyyy");
+  const todayDate = "11-11-2298"; //dateFormat(now, "dd-mm-yyyy");
   let date;
 
   try {
@@ -65,10 +65,9 @@ const enterMovieIn = async (req, res, next) => {
   if (!date) {
     date = new MovieDate({
       date: todayDate,
+      movies: [],
     });
-    try {
-      await date.save();
-    } catch (err) {}
+    await date.save();
   }
 
   let existingMovie;
@@ -95,21 +94,22 @@ const enterMovieIn = async (req, res, next) => {
     imdbLink,
     downloadSearchResult,
     movieRating,
-    creatorDate: date,
+    creatorDate: date.id,
     posterLink,
     status: "Downloading..",
   });
 
   try {
-    const sess = await new mongoose.startSession();
+    const sess = await mongoose.startSession();
     sess.startTransaction();
     await createdMovie.save({ session: sess });
-    date.movies.push(createdMovie);
+    date.movies.push(createdMovie.id);
     await date.save({ session: sess });
     await sess.commitTransaction();
   } catch (err) {
-    console.log("error 121", err);
-    return res.status(501).json({ successful: false, message: err });
+    return res
+      .status(501)
+      .json({ successful: false, message: "creating fail." });
   }
 
   return res.status(201).json({ successful: true, createdMovie });
