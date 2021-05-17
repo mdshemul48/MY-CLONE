@@ -6,9 +6,17 @@ import Button from "../../shared/components/UIElements/Button";
 import Input from "../components/Input";
 import Option from "./Options";
 const MainPublishForm = (props) => {
-  const { register, handleSubmit } = useForm();
-  const publishForm = (event) => {
+  const { register, handleSubmit, reset } = useForm();
+  const publishForm = async (event) => {
     console.log(event);
+    await props.createNewCommand({
+      note: event.name,
+      input: event.input,
+      output: event.output,
+      link: event.link,
+      category: event.category,
+    });
+    reset();
   };
   return (
     <Card className="main-publish-form">
@@ -34,7 +42,7 @@ const MainPublishForm = (props) => {
         <Option name="category" register={register} />
 
         <Input
-          name="Link"
+          name="link"
           register={register}
           label="publish link: "
           placeholder="Enter your input Path "

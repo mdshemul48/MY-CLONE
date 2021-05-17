@@ -3,7 +3,6 @@ const Publisher = require("../models/publisher");
 
 const createEntry = async (req, res, next) => {
   const { note, input, output, link, category } = req.body;
-
   let existedEntry;
   try {
     existedEntry = await Publisher.findOne({
@@ -40,7 +39,7 @@ const createEntry = async (req, res, next) => {
 
 const getAllEntry = async (req, res, next) => {
   try {
-    const allEntry = await Publisher.find({});
+    const allEntry = await Publisher.find({}).sort({ _id: -1 });
     return res.status(200).json({ successful: true, allEntry });
   } catch (err) {
     return res.status(500).json({ successful: false, err });
