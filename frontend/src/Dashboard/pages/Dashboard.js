@@ -38,7 +38,7 @@ const Dashboard = (props) => {
       <Title className="main-title">Dashboard</Title>
       <MainStatusArea status={mainData.status} />
       <Title className="all-title">Progress</Title>
-      <MainChart />
+      <MainChart downloads={mainData.botWorkingData} />
       <Title className="all-title">Qbit Status</Title>
       <QbitDownloadTable />
       <Title className="all-title">all bot report (error)</Title>
