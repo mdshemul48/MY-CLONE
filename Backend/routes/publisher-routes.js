@@ -6,4 +6,6 @@ router.get("/", publisherControllers.getAllEntry);
 
 router.post("/", publisherControllers.createEntry);
 
+router.delete("/delete/:entryId", publisherControllers.deleteEntry);
+
 module.exports = router;

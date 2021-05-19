@@ -46,5 +46,15 @@ const getAllEntry = async (req, res, next) => {
   }
 };
 
+const deleteEntry = async (req, res, next) => {
+  const { entryId } = req.params;
+  try {
+    await Publisher.findByIdAndDelete(entryId);
+  } catch (err) {
+    return res.status(500).json({ successful: false, message: err });
+  }
+  return res.status(202).json({ successful: true, message: "deleted" });
+};
 exports.createEntry = createEntry;
 exports.getAllEntry = getAllEntry;
+exports.deleteEntry = deleteEntry;

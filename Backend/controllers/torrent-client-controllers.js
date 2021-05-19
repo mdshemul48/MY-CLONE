@@ -1,4 +1,5 @@
 const qbit = require("qbittorrent-api-v2");
+
 const torrents = async (req, res, next) => {
   let api;
   try {
@@ -27,4 +28,24 @@ const torrents = async (req, res, next) => {
   return res.status(200).json(filteredTorrent);
 };
 
+const deleteTorrent = async (req, res, next) => {
+  const { torrentHash: hashes } = req.params;
+  console.log(hashes);
+  try {
+    const api = await qbit.connect(
+      process.env.TORRENT_LINK,
+      process.env.TORRENT_USER,
+      process.env.TORRENT_PASSWORD
+    );
+
+    await api.deleteTorrents(hashes, true);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: err });
+  }
+
+  return res.status(202).send("deleted.");
+};
+
 exports.torrents = torrents;
+exports.deleteTorrent = deleteTorrent;
