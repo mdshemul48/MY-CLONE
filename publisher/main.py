@@ -1138,6 +1138,7 @@ def publisher_and_all(*args):
 
 def get_arguments_from_api():
     api = Db_request_api()
+    status_id = api.bot_status({"botName": bot_name})
     publish_command = api.get_all_arguments()
     global published_counter
     published_counter = 0
@@ -1151,6 +1152,8 @@ def get_arguments_from_api():
         except Exception as err:
             error(err)
         print("global", published_counter)
+
+    api.bot_status({"createdId": status_id})
 
 
 if __name__ == "__main__":

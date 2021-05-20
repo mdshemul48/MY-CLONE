@@ -8,6 +8,7 @@ from auth_info import (
     publish_command,
     get_movie_by_title_with_info_link,
     search_movie_in_db_link,
+    bot_status_link,
 )
 
 
@@ -86,6 +87,21 @@ class Db_request_api:
                 continue
             if compare_two_movie(result["title"], movieTitle):
                 return result
+
+    def bot_status(self, update: dict):
+        response = self.api.post(bot_status_link, json=update)
+        if not response.ok:
+            raise Exception("botStatus function not working..")
+
+        response_text = response.json()
+
+        if not response_text["successful"]:
+            raise Exception("botStatus function not working..")
+
+        try:
+            return response_text["createdStatus"]["_id"]
+        except:
+            return
 
 
 if __name__ == "__main__":
