@@ -71,6 +71,7 @@ def main():
     # initalizing db connection with api.
     api = Db_request_api()
 
+    status_id = api.bot_status({"botName": bot_name})
     # initalizing db connection with qbitTorrent.
     qbit = Qbit()
     all_torrents = qbit.get_all_torrent()
@@ -96,6 +97,7 @@ def main():
 
     # deleteting full temp folder.
     shutil.rmtree(temp_folder)
+    api.bot_status({"createdId": status_id})
 
 
 if __name__ == "__main__":

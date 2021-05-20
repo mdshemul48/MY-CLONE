@@ -1,6 +1,6 @@
 import requests
 
-from info import error_link, movie_edit_link
+from info import error_link, movie_edit_link, bot_status_link
 
 
 class Db_request_api:
@@ -29,6 +29,21 @@ class Db_request_api:
             raise Exception(response.json())
         print("ok")
         return response.json()
+
+    def bot_status(self, update: dict):
+        response = self.api.post(bot_status_link, json=update)
+        if not response.ok:
+            raise Exception("botStatus function not working..")
+
+        response_text = response.json()
+
+        if not response_text["successful"]:
+            raise Exception("botStatus function not working..")
+
+        try:
+            return response_text["createdStatus"]["_id"]
+        except:
+            return
 
 
 if __name__ == "__main__":
