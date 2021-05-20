@@ -44,7 +44,7 @@ const botStatus = async (req, res, next) => {
 
   return res
     .status(200)
-    .json({ successful: true, data: { downloader, uploader, publisher } });
+    .json({ successful: true, botData: [downloader, uploader, publisher] });
 };
 exports.startingTime = startingTime;
 exports.botStatus = botStatus;

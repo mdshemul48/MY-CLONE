@@ -2,7 +2,7 @@ import React from "react";
 
 import "./MainChart.css";
 import StatusChart from "./StatusChart";
-
+import BotStatus from "./BotStatus";
 const MainChart = (props) => {
   const downloads = [].concat(props.downloads).reverse();
   console.log(downloads);
@@ -51,8 +51,10 @@ const MainChart = (props) => {
   return (
     <div className="all-chart">
       <StatusChart labels={labels} datasets={datasets1} />
+
       {/* <StatusChart labels={labels} datasets={datasets2} />
       <StatusChart labels={labels} datasets={datasets3} /> */}
+      <BotStatus />
     </div>
   );
 };

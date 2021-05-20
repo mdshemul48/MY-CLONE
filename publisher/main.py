@@ -1026,11 +1026,9 @@ def single_publish(*args):
         poster_link = movie_info["posterLink"]
 
     except Exception as err:
-        print("hello", err)
-        error(err)
-        # move_to_already_exist_folder(
-        #     movie, movie_genres_and_poster_not_found_store_path
-        # )
+        move_to_already_exist_folder(
+            movie, movie_genres_and_poster_not_found_store_path
+        )
         return
 
     movie_link = file_path_to_url(
@@ -1138,7 +1136,6 @@ def publisher_and_all(*args):
 
 def get_arguments_from_api():
     api = Db_request_api()
-    status_id = api.bot_status({"botName": bot_name})
     publish_command = api.get_all_arguments()
     global published_counter
     published_counter = 0
@@ -1150,19 +1147,21 @@ def get_arguments_from_api():
         try:
             publisher_and_all(command, api)
         except Exception as err:
+            print(err)
             error(err)
         print("global", published_counter)
-
-    api.bot_status({"createdId": status_id})
 
 
 if __name__ == "__main__":
     while True:
+        api = Db_request_api()
+        status_id = api.bot_status({"botName": bot_name})
         try:
             get_arguments_from_api()
         except Exception as err:
             error(err)
 
+        api.bot_status({"createdId": status_id})
         print("sleep", 1000)
         for i in range(1000):
             print(f"counter:   {str(i)}", end="\r")

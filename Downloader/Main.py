@@ -34,10 +34,14 @@ def compare_two_movie(first_movie: dict, secend_movie: dict):
 
 
 def downloader(movie):
-    title = movie["title"]
-    size = movie["size"] / 1024 / 1024 / 1024
-    megnet_link = movie["download"]
-    imdb_id = movie["episode_info"]["imdb"][2:]
+    try:
+        title = movie["title"]
+        size = movie["size"] / 1024 / 1024 / 1024
+        megnet_link = movie["download"]
+        imdb_id = movie["episode_info"]["imdb"][2:]
+    except:
+
+        return
     # ------- extracting title and year ------------------
     movie_title, movie_year = get_movie_title_and_year(title)
     print(title)
@@ -118,8 +122,7 @@ def main():
     for movie in letest_movies:
         try:
             downloader(movie)
-        except:
-            err = traceback.format_exc()
+        except Exception as err:
             save_error(bot_name, str(err + " " + str(movie)))
 
     api.bot_status({"createdId": status_id})
@@ -130,8 +133,7 @@ if __name__ == "__main__":
         print("start..")
         try:
             main()
-        except:
-            err = traceback.format_exc()
+        except Exception as err:
             save_error(bot_name, str(err))
         print("end..")
         for i in range(1000):

@@ -1,5 +1,6 @@
 import React from "react";
 import { Tabs, TabList, Tab, TabPanel } from "react-tabs";
+import dateFormat from "dateformat";
 import "react-tabs/style/react-tabs.css";
 import "./BotReport.css";
 
@@ -18,6 +19,7 @@ const BotReport = (props) => {
           <div className="logs">
             {props.botError.publisherError.map((errorText) => (
               <p key={errorText["_id"]}>
+                [{dateFormat(errorText.time, "h:MM:ss TT d/mm/yy")}]{" "}
                 {errorText["errorText"]}
                 <br /> {"___________________________"}
               </p>
@@ -29,6 +31,7 @@ const BotReport = (props) => {
           <div className="logs">
             {props.botError.downloaderError.map((errorText) => (
               <p key={errorText["_id"]}>
+                [{dateFormat(errorText.time, "h:MM:ss TT d/mm/yy")}]{" "}
                 {errorText["errorText"]}
                 <br /> {"___________________________"}
               </p>
@@ -40,6 +43,7 @@ const BotReport = (props) => {
           <div className="logs">
             {props.botError.uploaderError.map((errorText) => (
               <p key={errorText["_id"]}>
+                [{dateFormat(errorText.time, "h:MM:ss TT d/mm/yy")}]{" "}
                 {errorText["errorText"]}
                 <br /> {"___________________________"}
               </p>

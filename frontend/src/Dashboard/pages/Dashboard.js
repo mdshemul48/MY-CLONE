@@ -7,7 +7,6 @@ import QbitDownloadTable from "../components/QbitDownloadTable";
 import MainChart from "../components/MainChart";
 import BotReport from "../components/BotReport";
 import Loading from "../../shared/components/UIElements/Loading";
-import BotStatus from "../components/BotStatus";
 // importing castom css
 import "./Dashboard.css";
 
@@ -38,8 +37,7 @@ const Dashboard = (props) => {
     <div className="full-dashboard">
       <Title className="main-title">Dashboard</Title>
       <MainStatusArea status={mainData.status} />
-      <Title className="main-title">Bot Status</Title>
-      <BotStatus />
+
       <Title className="all-title">Progress</Title>
       <MainChart downloads={mainData.botWorkingData} />
       <QbitDownloadTable />

@@ -65,6 +65,7 @@ def move_torrent_and_remove_junk_file(torrent, api):
         title,
         {"path": new_location, "status": "uploading.."},
     )
+    return "ok"
 
 
 def main():
@@ -79,12 +80,18 @@ def main():
     # this will move all the complete file to the temp folder.
     for torrent in all_torrents:
         try:
-            move_torrent_and_remove_junk_file(torrent, api)
+            # move_torrent_and_remove_junk_file(torrent, api)
+
+            # test
+            if type(move_torrent_and_remove_junk_file(torrent, api)) == str:
+                break
+
         except Exception as err:
             save_error(bot_name, str(err))
 
     if not os.path.exists(temp_folder):
         print("NO Temp folder")
+        api.bot_status({"createdId": status_id})
         return
 
     # renameing all file(movies).
