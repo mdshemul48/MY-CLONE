@@ -1,4 +1,4 @@
-import requests
+import requests, time
 
 from info import (
     get_movie_by_title_with_info_link,
@@ -7,6 +7,7 @@ from info import (
     check_or_create_link,
     error_link,
     letest_movies_link,
+    bot_status_link,
 )
 
 
@@ -108,6 +109,21 @@ class Db_request_api:
 
         return response_content["movies"]
 
+    def bot_status(self, update: dict):
+        response = self.api.post(bot_status_link, json=update)
+        if not response.ok:
+            raise Exception("botStatus function not working..")
+
+        response_text = response.json()
+
+        if not response_text["successful"]:
+            raise Exception("botStatus function not working..")
+
+        try:
+            return response_text["createdStatus"]["_id"]
+        except:
+            return
+
 
 if __name__ == "__main__":
 
@@ -129,4 +145,5 @@ if __name__ == "__main__":
     #     movieRating=movieRating,
     #     posterLink=posterLink,
     # )
-    print(api.log_error("uploader", "error"))
+    status_id = api.bot_status({"botName": "downloader"})
+    api.bot_status({"createdId": status_id})

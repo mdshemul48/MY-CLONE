@@ -5,7 +5,11 @@ import Command from "./Command";
 import "./PubCommand.css";
 import Button from "../../shared/components/UIElements/Button";
 const PubCommand = (props) => {
-  const { command } = props;
+  const { command, deleteEntry } = props;
+  const deleteBtn = () => {
+    console.log("hola");
+    deleteEntry(command._id);
+  };
   return (
     <React.Fragment>
       <Card className="publish-card">
@@ -16,7 +20,7 @@ const PubCommand = (props) => {
         <Command name="FOLDER LINK:" value={command.link} />
         <Command name="PUBLISH CATEGORY:" value={command.category} />
         <hr />
-        <Button danger className="publish-buttons">
+        <Button danger className="publish-buttons" onClick={deleteBtn}>
           DELETE
         </Button>
       </Card>

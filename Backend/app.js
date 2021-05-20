@@ -36,6 +36,9 @@ app.use("/api/download-page", require("./routes/download-page-routes"));
 
 // responsible for all frontend torrent client related work.
 app.use("/api/torrent", require("./routes/torrent-client-routes"));
+
+// responsible for all frontend bot working status related work.
+app.use("/api/bot-status", require("./routes/botRunning-routes"));
 // --------------- connecting db and running the express server ------------
 mongoose
   .connect(process.env.DATABACE_LINK, {

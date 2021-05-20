@@ -2,6 +2,7 @@ import React from "react";
 
 import "./MainChart.css";
 import StatusChart from "./StatusChart";
+
 const MainChart = (props) => {
   const downloads = [].concat(props.downloads).reverse();
   console.log(downloads);

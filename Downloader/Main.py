@@ -112,7 +112,7 @@ def downloader(movie):
 
 def main():
     api = Db_request_api()
-
+    status_id = api.bot_status({"botName": bot_name})
     letest_movies = api.get_letest_movie()
 
     for movie in letest_movies:
@@ -121,6 +121,8 @@ def main():
         except:
             err = traceback.format_exc()
             save_error(bot_name, str(err + " " + str(movie)))
+
+    api.bot_status({"createdId": status_id})
 
 
 if __name__ == "__main__":

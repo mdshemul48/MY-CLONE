@@ -7,6 +7,7 @@ import Title from "../../shared/components/UIElements/Title";
 import Loading from "../../shared/components/UIElements/Loading";
 // css
 import "./publisher.css";
+
 const Publisher = () => {
   const [publishCommands, setPublishCommands] = useState();
 
@@ -42,15 +43,28 @@ const Publisher = () => {
     };
     fetchCommands();
   }, []);
-
-  console.log(publishCommands);
+  const deleteEntry = async (entryId) => {
+    const response = await fetch(
+      `http://localhost:5000/api/publisher/delete/${entryId}`,
+      {
+        method: "DELETE",
+      }
+    );
+    if (!response.ok) {
+      alert("something wrong with the publisher delete function.");
+    }
+    console.log(response.ok);
+    setPublishCommands((prev) =>
+      prev.filter((command) => command._id !== entryId)
+    );
+  };
   return (
     <div className="publisher">
       <Title>Publish Form</Title>
       <MainPublishForm createNewCommand={createNewCommand} />
       <Title>All publish commands</Title>
       {publishCommands ? (
-        <PublishCommands commands={publishCommands} />
+        <PublishCommands commands={publishCommands} deleteEntry={deleteEntry} />
       ) : (
         <Loading />
       )}
