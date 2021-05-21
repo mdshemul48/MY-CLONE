@@ -5,6 +5,7 @@ const Input = (props) => {
     <React.Fragment>
       <label htmlFor={props.element}>{props.label}</label>
       <input
+        className="inputBox"
         {...props.register(props.name)}
         type={props.type || "text"}
         id={props.element}

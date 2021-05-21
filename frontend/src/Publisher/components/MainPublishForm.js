@@ -39,6 +39,7 @@ const MainPublishForm = (props) => {
           label="Publish Output: "
           placeholder="Enter your input Path "
         />
+
         <Option name="category" register={register} />
 
         <Input
