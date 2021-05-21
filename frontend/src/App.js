@@ -14,10 +14,15 @@ import Publisher from "./Publisher/pages/Publisher";
 import CreateAccount from "./Create_User/pages/CreateAccount";
 import DownloadHistory from "./Download_History/pages/DownloadsHistory";
 import Login from "./login/page/Login";
+import { AuthContext } from "./shared/context/Auth-context";
+import { useAuth } from "./shared/hooks/auth-hook";
 function App() {
-  return (
-    <div className="full-body">
-      <Router>
+  const { login, logout, userId, token } = useAuth();
+
+  let routes;
+  if (token) {
+    routes = (
+      <>
         <MainNavigation />
         <Switch>
           <Route exact path="/">
@@ -35,13 +40,32 @@ function App() {
           <Route exact path="/create-user">
             <CreateAccount />
           </Route>
-          <Route exact path="/login">
-            <Login />
-          </Route>
           <Redirect to="/" />
         </Switch>
-      </Router>
-    </div>
+      </>
+    );
+  } else {
+    routes = (
+      <Switch>
+        <Route exact path="/login">
+          <Login />
+        </Route>
+        <Redirect to="/login" />
+      </Switch>
+    );
+  }
+  return (
+    <AuthContext.Provider
+      value={{
+        isLoggedIn: !!token,
+        token: token,
+        userId: userId,
+        login: login,
+        logout: logout,
+      }}
+    >
+      <Router>{routes}</Router>
+    </AuthContext.Provider>
   );
 }
 

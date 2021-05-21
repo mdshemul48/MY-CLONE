@@ -1,11 +1,39 @@
-import React from "react";
+import React, { useContext } from "react";
+import { useForm } from "react-hook-form";
+import { AuthContext } from "../../shared/context/Auth-context";
+
 import "./Login.css";
 const Login = () => {
+  const auth = useContext(AuthContext);
+  const { register, handleSubmit } = useForm();
+
+  const loginDataHandler = async (data) => {
+    console.log(data);
+
+    const login = await fetch("http://localhost:5000/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username: data.username,
+        password: data.password,
+      }),
+    });
+    if (!login.ok) {
+      alert("login failed.");
+    }
+    const loginData = await login.json();
+
+    auth.login(loginData.userId, loginData.token);
+  };
+
   return (
     <div className="limiter">
       <div className="container-login100">
         <div className="wrap-login100">
-          <form className="login100-form validate-form">
+          <form
+            className="login100-form validate-form"
+            onSubmit={handleSubmit(loginDataHandler)}
+          >
             <span className="login100-form-title p-b-26">Welcome</span>
             <span className="login100-form-title p-b-48">
               <i className="zmdi zmdi-font"></i>
@@ -15,7 +43,12 @@ const Login = () => {
               className="wrap-input100 validate-input"
               data-validate="Valid Username is: test"
             >
-              <input className="input100" type="text" name="Username" />
+              <input
+                className="input100"
+                type="text"
+                name="Username"
+                {...register("username", { required: true })}
+              />
               <span
                 className="focus-input100"
                 data-placeholder="Username"
@@ -29,7 +62,12 @@ const Login = () => {
               <span className="btn-show-pass">
                 <i className="zmdi zmdi-eye"></i>
               </span>
-              <input className="input100" type="password" name="pass" />
+              <input
+                className="input100"
+                type="password"
+                name="pass"
+                {...register("password", { required: true })}
+              />
               <span
                 className="focus-input100"
                 data-placeholder="Password"
