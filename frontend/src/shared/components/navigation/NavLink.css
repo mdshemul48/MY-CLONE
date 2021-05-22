@@ -26,6 +26,7 @@
 }
 .logout {
   float: right;
+  font-size: 15px;
 }
 @media screen and (max-width: 950px) {
   .logout,

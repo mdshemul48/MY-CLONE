@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../shared/context/Auth-context";
-
+import Salam from "../components/salute-emoji.gif";
 import "./Login.css";
 const Login = () => {
   const auth = useContext(AuthContext);
@@ -34,7 +34,9 @@ const Login = () => {
             className="login100-form validate-form"
             onSubmit={handleSubmit(loginDataHandler)}
           >
-            <span className="login100-form-title p-b-26">Welcome</span>
+            <span className="login100-form-title p-b-26">
+              <img src={Salam} alt="" className="salamemoji" /> সালাম সাব!
+            </span>
             <span className="login100-form-title p-b-48">
               <i className="zmdi zmdi-font"></i>
             </span>

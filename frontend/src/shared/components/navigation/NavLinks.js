@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+import { AuthContext } from "../../context/Auth-context";
 // castom css import
 import "./NavLink.css";
 const NavLinks = () => {
+  const auth = useContext(AuthContext);
   return (
     <React.Fragment>
       <ul className="menu-bar">
@@ -29,9 +31,9 @@ const NavLinks = () => {
           </NavLink>
         </li>
         <li className="menu-item logout">
-          <NavLink to="/logout" exact className="menu-link">
+          <button className="menu-link" onClick={auth.logout}>
             <FontAwesomeIcon icon={faSignOutAlt} /> Logout
-          </NavLink>
+          </button>
         </li>
       </ul>
     </React.Fragment>

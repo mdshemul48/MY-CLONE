@@ -11,24 +11,28 @@ import Loading from "../../shared/components/UIElements/Loading";
 import "./Dashboard.css";
 
 // content importer
-
-const Dashboard = (props) => {
+const fetchData = async (setMainData) => {
+  let response;
+  try {
+    response = await fetch("http://localhost:5000/api/front-page");
+    const responseText = await response.json();
+    setMainData(responseText);
+  } catch (err) {
+    alert(err);
+  }
+};
+const Dashboard = () => {
   const [mainData, setMainData] = useState();
 
   useEffect(() => {
-    const fetchData = async () => {
-      let response;
-      try {
-        response = await fetch("http://localhost:5000/api/front-page");
-        const responseText = await response.json();
-        setMainData(responseText);
-      } catch (err) {
-        alert(err);
-      }
-    };
-    fetchData();
+    fetchData(setMainData);
   }, []);
-
+  useEffect(() => {
+    setTimeout(() => {
+      const fetchTimeout = fetchData(setMainData);
+      return clearTimeout(fetchTimeout);
+    }, 60000);
+  });
   if (!mainData) {
     return <Loading />;
   }

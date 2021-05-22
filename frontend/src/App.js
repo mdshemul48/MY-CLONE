@@ -25,20 +25,20 @@ function App() {
       <>
         <MainNavigation />
         <Switch>
-          <Route exact path="/">
-            <Dashboard />
-          </Route>
-          <Route exact path="/downloads/:dayId">
+          <Route path="/downloads/:dayId">
             <DownloadHistory />
           </Route>
-          <Route exact path="/downloads">
+          <Route path="/downloads">
             <Downloads />
           </Route>
-          <Route exact path="/publisher">
+          <Route path="/publisher">
             <Publisher />
           </Route>
-          <Route exact path="/create-user">
+          <Route path="/create-user">
             <CreateAccount />
+          </Route>
+          <Route path="/" exact>
+            <Dashboard />
           </Route>
           <Redirect to="/" />
         </Switch>

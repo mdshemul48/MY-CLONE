@@ -35,7 +35,7 @@ export default function QbitDownloadTable(props) {
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       fetchTorrentData(setMainData);
-    }, 2000);
+    }, 5000);
     return () => clearTimeout(timeoutId);
   });
 

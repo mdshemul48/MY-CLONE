@@ -482,3 +482,9 @@ iframe {
     opacity: 1;
   }
 }
+.salamemoji {
+  width: 100px;
+}
+.login100-form-title {
+  font-family: login100-form-title;
+}

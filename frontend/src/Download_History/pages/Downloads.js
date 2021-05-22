@@ -23,6 +23,7 @@ const Downloads = (props) => {
   if (!mainData) {
     return <Loading />;
   }
+
   return (
     <React.Fragment>
       <div className="download-history">
