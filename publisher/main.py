@@ -1108,7 +1108,7 @@ def get_arguments_from_api():
 
 if __name__ == "__main__":
     while True:
-        print("start f")
+        print("start p")
         api = Db_request_api()
         status_id = api.bot_status({"botName": bot_name})
         try:
@@ -1117,5 +1117,5 @@ if __name__ == "__main__":
             error(err)
 
         api.bot_status({"createdId": status_id})
-        print("stop f")
+        print("stop p")
         time.sleep(3600)

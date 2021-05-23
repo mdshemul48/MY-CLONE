@@ -3,12 +3,7 @@ import requests
 from difflib import SequenceMatcher
 from utils import compare_two_movie
 from auth_info import (
-    error_link,
-    movie_edit_link,
-    publish_command,
-    get_movie_by_title_with_info_link,
-    search_movie_in_db_link,
-    bot_status_link,
+    backend_api_link,
 )
 
 
@@ -19,7 +14,7 @@ class Db_request_api:
     def log_error(self, bot_title: str, error_text: str):
         error = {"botName": bot_title, "errorText": error_text}
 
-        response = self.api.put(error_link, json=error)
+        response = self.api.put(backend_api_link + "/error", json=error)
 
         if response.status_code != 201:
             raise Exception("log error function not working.")
@@ -29,7 +24,7 @@ class Db_request_api:
             "title": title,
             "content": content,
         }
-        response = self.api.patch(movie_edit_link, json=data)
+        response = self.api.patch(backend_api_link + "/movies/edit", json=data)
 
         if response.status_code != 200:
             raise Exception(response.json())
@@ -38,7 +33,7 @@ class Db_request_api:
             raise Exception(response.json())
 
     def get_all_arguments(self):
-        response = self.api.get(publish_command)
+        response = self.api.get(backend_api_link + "/publisher")
         if response.status_code != 200:
             raise Exception(
                 "response code not 200.. maybe some server error. please check.. in get_all_arguments function."
@@ -52,7 +47,7 @@ class Db_request_api:
         return response_content["allEntry"]
 
     def search_movie_in_db(self, only_title):
-        response = self.api.get(search_movie_in_db_link + "/" + only_title)
+        response = self.api.get(backend_api_link + f"/movies/search/{only_title}")
         if response.status_code != 200:
             raise Exception(
                 "something wrong with the server. please check. search_movie_in_db function. error 1 "
@@ -67,7 +62,7 @@ class Db_request_api:
 
     def get_movie_by_title_with_info(self, movieTitle):
 
-        response = self.api.get(get_movie_by_title_with_info_link + "/" + movieTitle)
+        response = self.api.get(backend_api_link + f"/movies/movieinfo/{movieTitle}")
         if response.status_code != 200:
             raise Exception("fail to get 200 response at get_movie_by_title_with_info")
 
@@ -89,7 +84,7 @@ class Db_request_api:
                 return result
 
     def bot_status(self, update: dict):
-        response = self.api.post(bot_status_link, json=update)
+        response = self.api.post(backend_api_link + "/bot-status", json=update)
         if not response.ok:
             raise Exception("botStatus function not working..")
 
