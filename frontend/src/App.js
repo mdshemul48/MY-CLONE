@@ -4,7 +4,6 @@ import {
   Switch,
   Route,
   Redirect,
-  useRouteMatch,
 } from "react-router-dom";
 
 // castom import here

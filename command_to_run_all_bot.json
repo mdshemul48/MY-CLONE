@@ -1,8 +1,6 @@
 [
   { "BotName": "backend", "path": "cd backend && node app.js" },
 
-  { "BotName": "frontend", "path": "cd frontend && node server.js" },
-
   { "BotName": "Publisher", "path": "cd publisher && py main.py" },
 
   { "BotName": "Downloader", "path": "cd downloader && py main.py" },

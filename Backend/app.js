@@ -2,7 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-
+const path = require("path");
 app = express();
 app.use(bodyParser.json());
 
@@ -15,7 +15,7 @@ app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE");
   next();
 });
-
+app.use(express.static(path.join(__dirname, "public")));
 // --------------------- all routes -----------------------------
 // responsible for all movie related work.
 app.use("/api/movies", require("./routes/movies-routes"));
@@ -43,6 +43,10 @@ app.use("/api/bot-status", require("./routes/botRunning-routes"));
 // responsible for all frontend signup and login related work.
 app.use("/api/auth", require("./routes/user-routes"));
 
+// frontend
+app.use((req, res, next) => {
+  res.sendFile(path.join(__dirname, "/public/index.html"));
+});
 // --------------- connecting db and running the express server ------------
 mongoose
   .connect(process.env.DATABACE_LINK, {

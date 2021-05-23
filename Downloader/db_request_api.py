@@ -1,29 +1,16 @@
 import requests, time
 
 from info import (
-    get_movie_by_title_with_info_link,
-    create_movie_with_info_link,
-    search_movie_in_db_link,
-    check_or_create_link,
-    error_link,
-    letest_movies_link,
-    bot_status_link,
+    backend_api_link,
 )
 
 
 class Db_request_api:
     def __init__(self) -> None:
         self.api = requests
-        self.get_movie_by_title_with_info_link = get_movie_by_title_with_info_link
-        self.create_movie_with_info_link = create_movie_with_info_link
-        self.search_movie_in_db_link = search_movie_in_db_link
-        self.check_or_create_link = check_or_create_link
-        self.error_link = error_link
 
     def get_movie_by_title_with_info(self, movieTitle):
-        response = self.api.get(
-            self.get_movie_by_title_with_info_link + "/" + movieTitle
-        )
+        response = self.api.get(backend_api_link + f"/movies/movieinfo/{movieTitle}")
         if response.status_code != 200:
             raise Exception("fail to get 200 response at get_movie_by_title_with_info")
         response_data = response.json()
@@ -62,7 +49,7 @@ class Db_request_api:
             raise Exception("movie already exist in the server")
 
     def check_working_history(self, title):
-        response = self.api.post(self.check_or_create_link + "/" + title)
+        response = self.api.post(backend_api_link + f"/movies/check/{title}")
 
         if response.status_code != 200:
             raise Exception(
@@ -77,7 +64,7 @@ class Db_request_api:
         return {"found": responseText["found"], "movie": responseText["movie"]}
 
     def search_movie_in_db(self, only_title):
-        response = self.api.get(self.search_movie_in_db_link + "/" + only_title)
+        response = self.api.get(backend_api_link + f"/{only_title}")
         if response.status_code != 200:
             raise Exception(
                 "something wrong with the server. please check. search_movie_in_db function. error 1 "
@@ -97,7 +84,7 @@ class Db_request_api:
             raise Exception("log error function not working.")
 
     def get_letest_movie(self):
-        response = self.api.get(letest_movies_link, timeout=30)
+        response = self.api.get(backend_api_link + "/downloader", timeout=30)
 
         if response.status_code != 200:
             raise Exception(response.text)
@@ -110,7 +97,7 @@ class Db_request_api:
         return response_content["movies"]
 
     def bot_status(self, update: dict):
-        response = self.api.post(bot_status_link, json=update)
+        response = self.api.post(backend_api_link + "/bot-status", json=update)
         if not response.ok:
             raise Exception("botStatus function not working..")
 
