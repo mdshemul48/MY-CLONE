@@ -8,7 +8,6 @@ import Option from "./Options";
 const MainPublishForm = (props) => {
   const { register, handleSubmit, reset } = useForm();
   const publishForm = async (event) => {
-    console.log(event);
     await props.createNewCommand({
       note: event.name,
       input: event.input,

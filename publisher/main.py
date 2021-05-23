@@ -251,7 +251,6 @@ def getting_genres_and_poster_manually(name, year):
     massange = name + " " + str(year)
     genres = input(f"Enter the genres for {massange}: ").replace("/", ",")
     poster_url = input(f"Enter the Poster url for {massange}: ")
-    print("---")
     return genres, poster_url
 
 
@@ -657,7 +656,6 @@ def move_to_already_exist_folder(
     os.makedirs(output_folder + "\\" + lenguage, exist_ok=True)
     movie_output = output_folder + "\\" + lenguage + "\\" + file_name
     os.rename(movie_to_move, movie_output)
-    print(f"{Fore.RED}Moving Done.. {movie_output}")
 
 
 def tv_series_table(tv_series_path, publish_link, text_box):
@@ -745,7 +743,6 @@ def login_check_and_proceed(w):
             page_title = w.title
             if page_title[:4] == "Log ":
                 if login_status:
-                    print("loging in!")
                     login_status = False
 
                     # TODO: need to check here..
@@ -804,7 +801,6 @@ def publish_system(
             executable_path="chromedriver.exe", options=options, service_log_path="NUL"
         )
     except Exception as err:
-        print("Please fix this error", err)
         exit()
     w.implicitly_wait(100)
     w.set_page_load_timeout(100)
@@ -816,13 +812,10 @@ def publish_system(
     try:
         login_check_and_proceed(w)
     except Exception as err:
-        print("error 1111", err)
         exit()
 
     w.find_element_by_xpath('//*[@id="title"]').send_keys(movie_title)
     try:
-        print(f"{Fore.GREEN}Publishing")
-
         castom_js = """
         const head = document.head;
         const script = document.createElement("script")
@@ -908,7 +901,6 @@ def publish_system(
             '//*[@id="message"]/p/a'
         ).get_attribute("href")
         w.close()
-        print(f"{Fore.GREEN}Publish Done!")
         return published_link
     except Exception as error:
         if str(error) == "found":
@@ -927,7 +919,7 @@ def search_movies(movie_name, movie_year, id_, queue):
     content = search.content
     html_soup = BeautifulSoup(content, "html.parser")
     all_article = html_soup.find_all("article")
-    data_of_all_movie_or_tv = {}
+    data_of_all_movie_or_tv = []
 
     for article in all_article:
         found_name = article.find("h3", class_="entry-title").text.strip()
@@ -947,37 +939,11 @@ def search_movies(movie_name, movie_year, id_, queue):
                 if title_year == movie_year:
                     global global_search_results
                     global_search_results[id_] = 1
-            data_of_all_movie_or_tv[f"{title_name.lower()} {title_year}"] = {
-                found_name: link
-            }
+            data_of_all_movie_or_tv.append({"title": found_name, "link": link})
         except:
             pass
 
-    searched_content = f"{movie_name.lower()} {movie_year}"
-    results = get_close_matches(
-        searched_content, data_of_all_movie_or_tv, n=5, cutoff=0.5
-    )
-    data = []
-    search_name = (
-        f"\n{Fore.RED}----------{movie_name, str(movie_year)} Result----------\n"
-    )
-    for item in results:
-        final_result = data_of_all_movie_or_tv[item]
-        search_name += str(final_result) + "\n"
-        data.append(final_result)
-    end = datetime.datetime.now() - begining
-    search_name += "--\n"
-    if global_search_results[id_] == 1:
-        search_name += f"{Fore.RED}already exist in server.\n"
-        search_name += "--\n"
-    search_name += str(end) + "\n"
-
-    search_name += (
-        f"{Fore.RED}--------------------------------------------------------\n"
-    )
-
-    print(search_name)
-    queue.put(data)
+    queue.put(data_of_all_movie_or_tv)
 
 
 def cetagory_name(category_select):
@@ -1012,7 +978,6 @@ def single_publish(*args):
     ) = args
 
     movie_search = Queue()
-    begin_time = datetime.datetime.now()
     movie_title, movie_path, video_file_title = movie_file_dir_and_name(
         working_path, movie
     )
@@ -1068,9 +1033,6 @@ def single_publish(*args):
     else:
         raise Exception("Movie could not be published. link not found.")
 
-    publishing_time = datetime.datetime.now() - begin_time
-
-    print(f"{Fore.GREEN}total time to publish: ", publishing_time)
     search.join()
 
     results = ""
@@ -1086,7 +1048,6 @@ def single_publish(*args):
             "downloadSearchResult": str(results),
         },
     )
-    print(published_link, moving_log)
     global published_counter
     published_counter += 1
 
@@ -1099,10 +1060,6 @@ def publisher_and_all(*args):
     publish_output = command["output"]
     publish_link = command["link"]
     publish_category = str(command["category"])
-
-    print(
-        "=================================================================================="
-    )
     movie_directories = iter(get_all_movie(publish_input))
     data = Main_data()
     # getting chrome profiles for publish
@@ -1116,7 +1073,6 @@ def publisher_and_all(*args):
     while published_counter <= 2:
         try:
             movie = next(movie_directories)
-            print(movie)
         except StopIteration:
             return 0
         try:
@@ -1147,13 +1103,12 @@ def get_arguments_from_api():
         try:
             publisher_and_all(command, api)
         except Exception as err:
-            print(err)
             error(err)
-        print("global", published_counter)
 
 
 if __name__ == "__main__":
     while True:
+        print("start f")
         api = Db_request_api()
         status_id = api.bot_status({"botName": bot_name})
         try:
@@ -1162,7 +1117,5 @@ if __name__ == "__main__":
             error(err)
 
         api.bot_status({"createdId": status_id})
-        print("sleep", 1000)
-        for i in range(1000):
-            print(f"counter:   {str(i)}", end="\r")
-            time.sleep(1)
+        print("stop f")
+        time.sleep(3600)

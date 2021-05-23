@@ -26,7 +26,6 @@ def move_torrent_and_remove_junk_file(torrent, api):
     folder_path = torrent["content_path"]
     added_on_time = total_added_days(torrent["added_on"])
 
-    print(title)
     # if file was moving then it will return from here.
     if state == "moving":
         return
@@ -80,26 +79,23 @@ def main():
     # this will move all the complete file to the temp folder.
     for torrent in all_torrents:
         try:
-            # move_torrent_and_remove_junk_file(torrent, api)
+            move_torrent_and_remove_junk_file(torrent, api)
 
-            # test
-            if type(move_torrent_and_remove_junk_file(torrent, api)) == str:
-                break
+            # # test
+            # if type(move_torrent_and_remove_junk_file(torrent, api)) == str:
+            #     break
 
         except Exception as err:
             save_error(bot_name, str(err))
 
     if not os.path.exists(temp_folder):
-        print("NO Temp folder")
         api.bot_status({"createdId": status_id})
         return
 
     # renameing all file(movies).
-    print("here")
     remove_junk()
 
     # this will upload content from temp to
-    print("now here.")
     upload()
 
     # deleteting full temp folder.
@@ -109,14 +105,11 @@ def main():
 
 if __name__ == "__main__":
     while True:
-        print("start.. uploader.")
+        print("start u")
         try:
             main()
         except Exception as err:
             save_error(bot_name, str(err))
 
-        print("end..")
-
-        for i in range(1000):
-            print(f"counter:   {str(i)}", end="\r")
-            time.sleep(1)
+        print("stop u")
+        time.sleep(3600)

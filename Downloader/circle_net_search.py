@@ -10,7 +10,7 @@ def search_movies(movie_name, movie_year):
     content = search.content
     html_soup = BeautifulSoup(content, "html.parser")
     all_article = html_soup.find_all("article")
-    data_of_all_movie_or_tv = {}
+    data_of_all_movie_or_tv = []
 
     movie_Found = False
 
@@ -31,23 +31,22 @@ def search_movies(movie_name, movie_year):
             if match_ratio >= 70:
                 if title_year == movie_year:
                     movie_Found = True
-            data_of_all_movie_or_tv[f"{title_name.lower()} {title_year}"] = {
-                found_name: link
-            }
+
+            data_of_all_movie_or_tv.append({"title": found_name, "link": link})
         except:
             pass
 
-    searched_content = f"{movie_name.lower()} {movie_year}"
-    results = get_close_matches(
-        searched_content, data_of_all_movie_or_tv, n=5, cutoff=0.5
-    )
-    data = []
-    for item in results:
-        final_result = data_of_all_movie_or_tv[item]
-        data.append(final_result)
+    # searched_content = f"{movie_name.lower()} {movie_year}"
+    # results = get_close_matches(
+    #     searched_content, data_of_all_movie_or_tv, n=5, cutoff=0.5
+    # )
+    # data = []
+    # for item in results:
+    #     final_result = data_of_all_movie_or_tv[item]
+    #     data.append(final_result)
 
-    return {"found": movie_Found, "searchResult": data}
+    return {"found": movie_Found, "searchResult": data_of_all_movie_or_tv[:11]}
 
 
 if __name__ == "__main__":
-    search_movies("kick", 2014)
+    print(search_movies("The Ground Beneath My Feet", 2019))

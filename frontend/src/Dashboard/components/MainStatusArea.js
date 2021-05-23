@@ -5,7 +5,6 @@ import React from "react";
 import "./MainStatusArea.css";
 import StatusCard from "../../shared/components/UIElements/StatusCard";
 export default function MainStatusArea(props) {
-  console.log(props.status);
   return (
     <React.Fragment>
       <div className="main-status-area">

@@ -5,7 +5,6 @@ import StatusChart from "./StatusChart";
 import BotStatus from "./BotStatus";
 const MainChart = (props) => {
   const downloads = [].concat(props.downloads).reverse();
-  console.log(downloads);
   const labels = downloads.map((day) => {
     return day.date;
   });

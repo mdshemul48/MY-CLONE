@@ -27,7 +27,6 @@ class Db_request_api:
 
         if response.json()["successful"] != True:
             raise Exception(response.json())
-        print("ok")
         return response.json()
 
     def bot_status(self, update: dict):

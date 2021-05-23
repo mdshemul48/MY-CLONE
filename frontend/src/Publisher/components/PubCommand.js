@@ -7,7 +7,6 @@ import Button from "../../shared/components/UIElements/Button";
 const PubCommand = (props) => {
   const { command, deleteEntry } = props;
   const deleteBtn = () => {
-    console.log("hola");
     deleteEntry(command._id);
   };
   return (

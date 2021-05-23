@@ -4,6 +4,7 @@ import {
   Switch,
   Route,
   Redirect,
+  useRouteMatch,
 } from "react-router-dom";
 
 // castom import here
@@ -16,7 +17,7 @@ import DownloadHistory from "./Download_History/pages/DownloadsHistory";
 import Login from "./login/page/Login";
 import { AuthContext } from "./shared/context/Auth-context";
 import { useAuth } from "./shared/hooks/auth-hook";
-function App() {
+const App = () => {
   const { login, logout, userId, token } = useAuth();
 
   let routes;
@@ -64,9 +65,11 @@ function App() {
         logout: logout,
       }}
     >
-      <Router>{routes}</Router>
+      <Router>
+        <main>{routes}</main>
+      </Router>
     </AuthContext.Provider>
   );
-}
+};
 
 export default App;

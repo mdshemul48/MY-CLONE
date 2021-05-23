@@ -13,11 +13,14 @@ const Publisher = () => {
 
   const createNewCommand = async (command) => {
     try {
-      const response = await fetch("http://localhost:5000/api/publisher/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(command),
-      });
+      const response = await fetch(
+        process.env.REACT_APP_BACKEND_URL + "/publisher/",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(command),
+        }
+      );
       const responseText = await response.json();
       if (!responseText.successful) {
         console.log(responseText);
@@ -34,7 +37,9 @@ const Publisher = () => {
   useEffect(() => {
     const fetchCommands = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/publisher");
+        const response = await fetch(
+          process.env.REACT_APP_BACKEND_URL + "/publisher"
+        );
         const responseText = await response.json();
         setPublishCommands(responseText.allEntry);
       } catch (e) {
@@ -45,7 +50,7 @@ const Publisher = () => {
   }, []);
   const deleteEntry = async (entryId) => {
     const response = await fetch(
-      `http://localhost:5000/api/publisher/delete/${entryId}`,
+      process.env.REACT_APP_BACKEND_URL + `/publisher/delete/${entryId}`,
       {
         method: "DELETE",
       }
@@ -53,7 +58,6 @@ const Publisher = () => {
     if (!response.ok) {
       alert("something wrong with the publisher delete function.");
     }
-    console.log(response.ok);
     setPublishCommands((prev) =>
       prev.filter((command) => command._id !== entryId)
     );

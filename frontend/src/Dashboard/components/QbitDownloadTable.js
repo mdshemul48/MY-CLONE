@@ -20,7 +20,7 @@ function formatBytes(bytes, decimals = 2) {
 }
 // qbit download api call
 const fetchTorrentData = async (setMainData) => {
-  const fetchData = await fetch("http://localhost:5000/api/torrent");
+  const fetchData = await fetch(process.env.REACT_APP_BACKEND_URL + "/torrent");
   const torrents = await fetchData.json();
   setMainData(torrents);
 };

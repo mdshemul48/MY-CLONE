@@ -16,7 +16,9 @@ const BotStatus = () => {
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       const fetchbotStatus = async () => {
-        const fetchData = await fetch("http://localhost:5000/api/bot-status/");
+        const fetchData = await fetch(
+          process.env.REACT_APP_BACKEND_URL + "/bot-status/"
+        );
         const botJsonData = await fetchData.json();
         setData(botJsonData);
       };

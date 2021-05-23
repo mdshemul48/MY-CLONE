@@ -39,6 +39,10 @@ app.use("/api/torrent", require("./routes/torrent-client-routes"));
 
 // responsible for all frontend bot working status related work.
 app.use("/api/bot-status", require("./routes/botRunning-routes"));
+
+// responsible for all frontend signup and login related work.
+app.use("/api/auth", require("./routes/user-routes"));
+
 // --------------- connecting db and running the express server ------------
 mongoose
   .connect(process.env.DATABACE_LINK, {
@@ -48,9 +52,7 @@ mongoose
     useFindAndModify: false,
   })
   .then(() => {
-    app.listen(5000, () => {
-      console.log("api rocking on http://localhost:5000");
-    });
+    app.listen(5000, "0.0.0.0");
   })
   .catch((err) => {
     console.log(err);

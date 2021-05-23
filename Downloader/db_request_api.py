@@ -122,7 +122,7 @@ class Db_request_api:
         try:
             return response_text["createdStatus"]["_id"]
         except:
-            return
+            return response_text
 
 
 if __name__ == "__main__":

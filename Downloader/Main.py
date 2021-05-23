@@ -44,7 +44,6 @@ def downloader(movie):
         return
     # ------- extracting title and year ------------------
     movie_title, movie_year = get_movie_title_and_year(title)
-    print(title)
     # ----------checking if movie size under 5gb---------
     if size >= 5:
         return
@@ -79,15 +78,11 @@ def downloader(movie):
 
     # this will ignore movie that include animation genres.
     if "animation" in genres.lower():
-        print("animation")
-        print("-----------------------------------------------------------------")
         return
 
     # this will return if the movie has any adult tag in its MPAA
     for word in block_word_in_parents_guide:
         if word in movie.get_rated_movie().lower():
-            print(word)
-            print("-----------------------------------------------------------------")
             return
 
     # searching in out ftp server. if movie already exist. :- http://circleftp.net
@@ -111,7 +106,6 @@ def downloader(movie):
     # download using qbitTorrent
     qbit = Qbit_download()
     qbit.download_movie(megnet_link, language)
-    print("done")
 
 
 def main():
@@ -125,17 +119,16 @@ def main():
         except Exception as err:
             save_error(bot_name, str(err + " " + str(movie)))
 
-    api.bot_status({"createdId": status_id})
+    print(api.bot_status({"createdId": status_id}))
 
 
 if __name__ == "__main__":
     while True:
-        print("start..")
+        print("start d")
         try:
             main()
         except Exception as err:
             save_error(bot_name, str(err))
-        print("end..")
-        for i in range(1000):
-            print(f"counter:   {str(i)}", end="\r")
-            time.sleep(1)
+        print("stop d")
+
+        time.sleep(3600)

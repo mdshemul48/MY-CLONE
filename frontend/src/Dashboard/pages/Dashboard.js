@@ -14,7 +14,7 @@ import "./Dashboard.css";
 const fetchData = async (setMainData) => {
   let response;
   try {
-    response = await fetch("http://localhost:5000/api/front-page");
+    response = await fetch(process.env.REACT_APP_BACKEND_URL + "/front-page");
     const responseText = await response.json();
     setMainData(responseText);
   } catch (err) {

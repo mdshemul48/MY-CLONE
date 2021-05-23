@@ -30,7 +30,6 @@ const torrents = async (req, res, next) => {
 
 const deleteTorrent = async (req, res, next) => {
   const { torrentHash: hashes } = req.params;
-  console.log(hashes);
   try {
     const api = await qbit.connect(
       process.env.TORRENT_LINK,

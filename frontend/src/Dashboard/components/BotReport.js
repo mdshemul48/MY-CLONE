@@ -5,7 +5,6 @@ import "react-tabs/style/react-tabs.css";
 import "./BotReport.css";
 
 const BotReport = (props) => {
-  console.log(props.botError);
   return (
     <React.Fragment>
       <Tabs className="botReport">

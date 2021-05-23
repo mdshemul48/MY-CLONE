@@ -11,7 +11,9 @@ const Downloads = (props) => {
     const fetchData = async () => {
       let response;
       try {
-        response = await fetch("http://localhost:5000/api/download-page");
+        response = await fetch(
+          process.env.REACT_APP_BACKEND_URL + "/download-page"
+        );
         const responseText = await response.json();
         setMainData(responseText);
       } catch (err) {

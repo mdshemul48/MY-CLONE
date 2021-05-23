@@ -19,7 +19,7 @@ const DownloadHistory = () => {
       let response;
       try {
         response = await fetch(
-          `http://localhost:5000/api/download-page/${dayId}`
+          process.env.REACT_APP_BACKEND_URL + `/download-page/${dayId}`
         );
         const responseText = await response.json();
         setMainData(responseText);
@@ -31,17 +31,19 @@ const DownloadHistory = () => {
     fetchData();
   }, [dayId]);
   const checked = async () => {
-    console.log("Checking");
     try {
-      await fetch(`http://localhost:5000/api/download-page/check/${dayId}`, {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify({
-          checked: !checkBtn,
-        }),
-      });
+      await fetch(
+        process.env.REACT_APP_BACKEND_URL + `/download-page/check/${dayId}`,
+        {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify({
+            checked: !checkBtn,
+          }),
+        }
+      );
 
       setcheckBtn(!checkBtn);
     } catch (err) {

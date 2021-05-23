@@ -1,7 +1,7 @@
 [
-  { "BotName": "uploader", "path": "cd backend && npm start" },
+  { "BotName": "backend", "path": "cd backend && node app.js" },
 
-  { "BotName": "uploader", "path": "cd frontend && npm start" },
+  { "BotName": "frontend", "path": "cd frontend && node server.js" },
 
   { "BotName": "Publisher", "path": "cd publisher && py main.py" },
 

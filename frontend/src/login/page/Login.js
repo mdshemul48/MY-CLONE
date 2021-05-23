@@ -8,16 +8,17 @@ const Login = () => {
   const { register, handleSubmit } = useForm();
 
   const loginDataHandler = async (data) => {
-    console.log(data);
-
-    const login = await fetch("http://localhost:5000/api/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        username: data.username,
-        password: data.password,
-      }),
-    });
+    const login = await fetch(
+      process.env.REACT_APP_BACKEND_URL + "/auth/login",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: data.username,
+          password: data.password,
+        }),
+      }
+    );
     if (!login.ok) {
       alert("login failed.");
     }

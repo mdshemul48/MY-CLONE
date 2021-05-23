@@ -31,7 +31,7 @@ const NavLinks = () => {
           </NavLink>
         </li>
         <li className="menu-item logout">
-          <button className="menu-link" onClick={auth.logout}>
+          <button className="menu-link logout-btn" onClick={auth.logout}>
             <FontAwesomeIcon icon={faSignOutAlt} /> Logout
           </button>
         </li>
