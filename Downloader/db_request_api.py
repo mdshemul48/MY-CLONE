@@ -42,7 +42,7 @@ class Db_request_api:
             "posterLink": posterLink,
         }
 
-        responce = self.api.put(self.create_movie_with_info_link, json=info)
+        responce = self.api.put(backend_api_link + "/movies/storeMovie", json=info)
         if responce.status_code != 201 and responce.status_code != 409:
             raise Exception("something wrong with the server")
         elif responce.status_code == 409:
@@ -64,7 +64,7 @@ class Db_request_api:
         return {"found": responseText["found"], "movie": responseText["movie"]}
 
     def search_movie_in_db(self, only_title):
-        response = self.api.get(backend_api_link + f"/{only_title}")
+        response = self.api.get(backend_api_link + f"/movies/search/{only_title}")
         if response.status_code != 200:
             raise Exception(
                 "something wrong with the server. please check. search_movie_in_db function. error 1 "
@@ -79,7 +79,7 @@ class Db_request_api:
 
     def log_error(self, bot_title: str, error_text: str):
         error = {"botName": bot_title, "errorText": error_text}
-        response = self.api.put(self.error_link, json=error)
+        response = self.api.put(backend_api_link + "/error/", json=error)
         if response.status_code != 201:
             raise Exception("log error function not working.")
 
@@ -132,5 +132,7 @@ if __name__ == "__main__":
     #     movieRating=movieRating,
     #     posterLink=posterLink,
     # )
-    status_id = api.bot_status({"botName": "downloader"})
-    api.bot_status({"createdId": status_id})
+    # status_id = api.bot_status({"botName": "downloader"})
+    # api.bot_status({"createdId": status_id})
+    # print(api.search_movie_in_db("Wrong.Place.Wrong"))
+    print(api.log_error("Downloader ", "error test"))

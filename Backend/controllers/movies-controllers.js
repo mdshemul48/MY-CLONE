@@ -96,7 +96,7 @@ const enterMovieIn = async (req, res, next) => {
     movieRating,
     creatorDate: date.id,
     posterLink,
-    status: "Downloading..",
+    status: "downloading..",
   });
 
   try {

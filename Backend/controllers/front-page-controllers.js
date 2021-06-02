@@ -41,7 +41,7 @@ const frontPageData = async (req, res, next) => {
   const status = {};
   status.todayOnDownload = await documentCounter(today);
 
-  status.TotalInDownload = await documentCounter(0, "Downloading..");
+  status.TotalInDownload = await documentCounter(0, "downloading..");
 
   status.TotalInUpload = await documentCounter(0, "uploading..");
 
@@ -80,7 +80,7 @@ const frontPageData = async (req, res, next) => {
   fullData.botWorkingData = botWorkingData;
   //  getting message from error database
   const errors = {};
-  errors.downloaderError = await gettingError("Downloader");
+  errors.downloaderError = await gettingError("downloader");
   errors.uploaderError = await gettingError("uploader");
   errors.publisherError = await gettingError("publisher");
   fullData.errors = errors;

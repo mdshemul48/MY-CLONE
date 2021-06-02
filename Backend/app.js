@@ -56,7 +56,7 @@ mongoose
     useFindAndModify: false,
   })
   .then(() => {
-    app.listen(5000, "0.0.0.0");
+    app.listen(80, "0.0.0.0");
   })
   .catch((err) => {
     console.log(err);

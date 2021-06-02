@@ -70,11 +70,14 @@ def downloader(movie):
                 return
 
     # getting movie info from imdb. like poster genres etc.
-    movie = Imdb_api(imdb_id)
-    language = movie.get_language()
-    genres = movie.get_genres()
-    poster = movie.get_poster()
-    rated_movie = movie.get_rated_movie()
+    try:
+        movie = Imdb_api(imdb_id)
+        language = movie.get_language()
+        genres = movie.get_genres()
+        poster = movie.get_poster()
+        rated_movie = movie.get_rated_movie()
+    except:
+        return
 
     # this will ignore movie that include animation genres.
     if "animation" in genres.lower():
@@ -115,11 +118,13 @@ def main():
 
     for movie in letest_movies:
         try:
+            print(movie["title"])
             downloader(movie)
         except Exception as err:
-            save_error(bot_name, str(err + " " + str(movie)))
+            traceback.print_exc()
 
-    print(api.bot_status({"createdId": status_id}))
+            save_error(bot_name, str(err) + " " + str(movie))
+    api.bot_status({"createdId": status_id})
 
 
 if __name__ == "__main__":
@@ -128,7 +133,9 @@ if __name__ == "__main__":
         try:
             main()
         except Exception as err:
+            print("hello", err)
             save_error(bot_name, str(err))
+
         print("stop d")
 
         time.sleep(3600)
