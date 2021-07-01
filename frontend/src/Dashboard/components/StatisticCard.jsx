@@ -1,24 +1,24 @@
 import React from "react";
 import { Container } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faDownload } from "@fortawesome/free-solid-svg-icons";
 
 import "./StatisticCard.css";
 // this will show single statistic for single info
-const StatisticCard = () => {
+const StatisticCard = (props) => {
   return (
     <Container
-      className="d-flex justify-content-between align-items-center w-100 mt-2 pt-3 pb-1 Statistic-Card text-white"
-      style={{ backgroundColor: "#29314F" }}
+      className={`d-flex justify-content-between align-items-center w-100 mt-2 pt-3 pb-1 Statistic-Card text-white ${
+        props.backgroundColor || "bg-dark"
+      } ${props.color || "text-white"}`}
     >
       <div className="info">
-        <h5 className="counter">50</h5>
+        <h5 className="counter">{props.count}</h5>
         <p>
-          <small>Tody Download</small>
+          <small>{props.label}</small>
         </p>
       </div>
       <div>
-        <FontAwesomeIcon icon={faDownload} className="statistic__icon" />
+        <FontAwesomeIcon icon={props.icon} className="statistic__icon" />
       </div>
     </Container>
   );
