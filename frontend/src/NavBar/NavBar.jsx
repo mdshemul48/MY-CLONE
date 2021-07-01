@@ -3,7 +3,7 @@ import { Navbar, Nav, Form, FormControl, Button } from "react-bootstrap";
 
 const NavBar = () => {
   return (
-    <Navbar bg="dark" extend="lg" variant="dark">
+    <Navbar bg="dark" expand="lg" variant="dark">
       <Navbar.Brand>MY CLONE 2.0</Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
