@@ -7,7 +7,7 @@ import "./StatisticCard.css";
 const StatisticCard = (props) => {
   return (
     <Container
-      className={`d-flex justify-content-between align-items-center w-100 mt-2 pt-3 pb-1 Statistic-Card text-white ${
+      className={`d-flex justify-content-between align-items-center w-100 mt-2 pt-3 Statistic-Card text-white ${
         props.backgroundColor || "bg-dark"
       } ${props.color || "text-white"}`}
     >
