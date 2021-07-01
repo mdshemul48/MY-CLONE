@@ -1,28 +1,46 @@
 import React from "react";
 import { Container, OverlayTrigger, Popover } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMicrochip, faToggleOn } from "@fortawesome/free-solid-svg-icons";
+import {
+  faMicrochip,
+  faToggleOn,
+  faToggleOff,
+  faHourglass,
+  faRedoAlt,
+} from "@fortawesome/free-solid-svg-icons";
 
 import BotTime from "./BotTime";
 import "./BotStatus.css";
 const BotStatus = () => {
-  const botDummyStatus = {
-    status: "stopped",
-    _id: "60ddd1a9662a8846f4b45b54",
-    botName: "downloader",
-    StartingTime: "2021-07-01T14:31:05.100Z",
-    __v: 0,
-    StoppedTime: "2021-07-01T14:33:52.331Z",
-  };
   const botStatusOverlay = (
     <Popover className="popover-basic">
       <Popover.Title>Publisher</Popover.Title>
       <Popover.Content>
         <Container fluid>
-          <BotTime title="Starting Time" icon={faToggleOn} time="9:02:42 PM" />
-          <BotTime title="end Time" icon={faToggleOn} time="9:02:42 PM" />
-          <BotTime title="Total Worked Time" icon={faToggleOn} time="5min" />
-          <BotTime title="Next Run" icon={faToggleOn} time="9:02:42 PM" />
+          <BotTime
+            title="Starting Time"
+            icon={faToggleOn}
+            time="9:02:42 PM"
+            color="#2ecc71"
+          />
+          <BotTime
+            title="end Time"
+            icon={faToggleOff}
+            time="9:02:42 PM"
+            color="#e74c3c"
+          />
+          <BotTime
+            title="Total Worked Time"
+            icon={faHourglass}
+            time="5min"
+            color="#f39c12"
+          />
+          <BotTime
+            title="Next Run"
+            icon={faRedoAlt}
+            time="9:02:42 PM"
+            color="#4edfb1"
+          />
         </Container>
       </Popover.Content>
     </Popover>
