@@ -2,12 +2,22 @@
 import NavBar from "./NavBar/NavBar"
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 
+import dashboard from "./Dashboard/Dashboard"
+import MovieDownloads from "./MovieDownloads/MovieDownloads"
+import MoviePublish from "./MoviePublish/MoviePublish"
+import CreateAccount from "./CreateAccount/CreateAccount"
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 function App() {
   return (
     <Router>
       <NavBar />
-      <h1>hello world</h1>
+      <Switch>
+        <Route path="/" exact component={dashboard} />
+        <Route path="/downloads" exact component={MovieDownloads} />
+        <Route path="/publish" exact component={MoviePublish} />
+        <Route path="/user" exact component={CreateAccount} />
+      </Switch>
     </Router>
   );
 }
