@@ -1,5 +1,7 @@
 import { Bar } from "react-chartjs-2";
 import { Container } from "react-bootstrap";
+
+import "./ChartArea.css";
 const ChartArea = () => {
   const data = {
     labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
@@ -40,7 +42,8 @@ const ChartArea = () => {
     },
   };
   return (
-    <Container fluid>
+    <Container fluid className="bg-light p-3 chart__area">
+      <h5 className="text-dark">Last 7 day Downloads</h5>
       <Bar data={data} options={options} />
     </Container>
   );
