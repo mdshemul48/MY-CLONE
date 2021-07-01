@@ -6,7 +6,7 @@
 }
 .statistic__icon {
   font-size: 2rem;
-  padding-bottom: 5px;
+  padding-bottom: 0.5rem;
   opacity: 0.4;
   position: relative;
   transition: all 0.6s;
