@@ -1,18 +1,9 @@
 import React from "react";
-import {
-  Navbar,
-  Nav,
-  Form,
-  FormControl,
-  Button,
-  Container,
-} from "react-bootstrap";
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+import { Navbar, Container } from "react-bootstrap";
 
 import Logo from "./component/Logo";
-
+import AllNavLink from "./component/AllNavLink";
+import NavSearchArea from "./component/NavSearchArea";
 import "./NavBar.css";
 const NavBar = () => {
   return (
@@ -21,31 +12,8 @@ const NavBar = () => {
         <Logo />
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="mr-auto">
-            <Nav.Link href="#" className="navbar__navLink">
-              Dashboard
-            </Nav.Link>
-            <Nav.Link href="#" className="navbar__navLink">
-              Movie Downloads
-            </Nav.Link>
-            <Nav.Link href="#" className="navbar__navLink">
-              Movie Publisher
-            </Nav.Link>
-            <Nav.Link href="#" className="navbar__navLink">
-              Create User
-            </Nav.Link>
-          </Nav>
-          <Form inline>
-            <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-            <Button variant="outline-success">Search</Button>
-          </Form>
-          <Nav>
-            <Nav.Link className="ml-2 mr-2 navbar__navLink  d-flex align-items-center">
-              {" "}
-              <FontAwesomeIcon icon={faSignOutAlt} className="mr-2" />
-              Logout
-            </Nav.Link>
-          </Nav>
+          <AllNavLink />
+          <NavSearchArea />
         </Navbar.Collapse>
       </Container>
     </Navbar>

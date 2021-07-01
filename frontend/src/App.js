@@ -1,14 +1,14 @@
 
 import NavBar from "./NavBar/NavBar"
-
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 function App() {
   return (
-    <div className="App">
+    <Router>
       <NavBar />
       <h1>hello world</h1>
-    </div>
+    </Router>
   );
 }
 
