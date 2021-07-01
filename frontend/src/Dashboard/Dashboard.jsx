@@ -1,11 +1,12 @@
 import React from "react";
 import { Container } from "react-bootstrap";
-import StatisticCard from "./components/StatisticCard";
+
+import StatisticCards from "./components/StatisticCards";
 
 const Dashboard = () => {
   return (
     <Container>
-      <StatisticCard />
+      <StatisticCards />
     </Container>
   );
 };

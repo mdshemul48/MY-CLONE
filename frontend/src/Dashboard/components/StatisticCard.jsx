@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDownload } from "@fortawesome/free-solid-svg-icons";
 
 import "./StatisticCard.css";
+// this will show single statistic for single info
 const StatisticCard = () => {
   return (
     <Container
