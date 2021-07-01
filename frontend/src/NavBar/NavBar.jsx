@@ -3,9 +3,10 @@ import { Navbar, Nav, Form, FormControl, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 
+import "./NavBar.css";
 const NavBar = () => {
   return (
-    <Navbar bg="dark" expand="lg" variant="dark">
+    <Navbar expand="lg" variant="dark" className="navbar">
       <Navbar.Brand>MY CLONE 2.0</Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
