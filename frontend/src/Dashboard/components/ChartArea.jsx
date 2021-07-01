@@ -1,5 +1,5 @@
 import { Bar } from "react-chartjs-2";
-
+import { Container } from "react-bootstrap";
 const ChartArea = () => {
   const data = {
     labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
@@ -40,9 +40,9 @@ const ChartArea = () => {
     },
   };
   return (
-    <div>
+    <Container fluid>
       <Bar data={data} options={options} />
-    </div>
+    </Container>
   );
 };
 

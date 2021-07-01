@@ -7,12 +7,12 @@ const Dashboard = () => {
   return (
     <Container fluid className="mt-3">
       <Row>
-        <Col lg="8" md="12">
-          <Container>
+        <Col lg="9" md="12" sm="12">
+          <Container fluid>
             <StatisticCards />
           </Container>
         </Col>
-        <Col lg="4" md="12">
+        <Col lg="3" md="12" sm="12">
           <TopRightSide />
         </Col>
       </Row>
