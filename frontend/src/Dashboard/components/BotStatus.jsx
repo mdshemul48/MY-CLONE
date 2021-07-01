@@ -1,8 +1,9 @@
 import React from "react";
 import { Container, OverlayTrigger, Popover } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMicrochip } from "@fortawesome/free-solid-svg-icons";
+import { faMicrochip, faToggleOn } from "@fortawesome/free-solid-svg-icons";
 
+import BotTime from "./BotTime";
 import "./BotStatus.css";
 const BotStatus = () => {
   const botDummyStatus = {
@@ -16,7 +17,14 @@ const BotStatus = () => {
   const botStatusOverlay = (
     <Popover className="popover-basic">
       <Popover.Title>Publisher</Popover.Title>
-      <Popover.Content>this is really cool.</Popover.Content>
+      <Popover.Content>
+        <Container fluid>
+          <BotTime title="Starting Time" icon={faToggleOn} time="9:02:42 PM" />
+          <BotTime title="end Time" icon={faToggleOn} time="9:02:42 PM" />
+          <BotTime title="Total Worked Time" icon={faToggleOn} time="5min" />
+          <BotTime title="Next Run" icon={faToggleOn} time="9:02:42 PM" />
+        </Container>
+      </Popover.Content>
     </Popover>
   );
   return (
