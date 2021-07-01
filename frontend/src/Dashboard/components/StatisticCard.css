@@ -1,3 +1,10 @@
 .Statistic-Card {
   border-radius: 15px;
 }
+.Statistic-Card .info .counter {
+  margin: 0;
+}
+.statistic__icon {
+  font-size: 2rem;
+  padding-bottom: 5px;
+}
