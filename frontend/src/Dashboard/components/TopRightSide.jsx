@@ -3,7 +3,7 @@ import { Container } from "react-bootstrap";
 import ChartArea from "./ChartArea";
 const TopRightSide = () => {
   return (
-    <Container>
+    <Container className="mt-5">
       <ChartArea />
     </Container>
   );
