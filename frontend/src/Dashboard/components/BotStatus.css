@@ -11,6 +11,9 @@
 .bot__name {
   font-size: 1rem;
 }
+.botState:hover {
+  cursor: pointer;
+}
 .bot__status {
   color: #50dfb2;
 }
