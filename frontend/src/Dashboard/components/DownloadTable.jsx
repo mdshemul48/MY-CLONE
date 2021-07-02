@@ -1,5 +1,6 @@
 import React from "react";
 import { Table, Container } from "react-bootstrap";
+import TableBodyElement from "./TableBodyElement";
 const DownloadTable = () => {
   return (
     <Container fluid className="mt-3 p-2 bg-light rounded">
@@ -18,26 +19,30 @@ const DownloadTable = () => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>
-              Scenes.From.an.Empty.Church.2021.1080p.WEBRip.DD5.1.x264-NOGRP{" "}
-            </td>
-            <td>4.83 GB </td>
-            <td>100%</td>
-            <td>English</td>
-            <td>uploading</td>
-            <td>435.74 KB</td>
-          </tr>
-          <tr>
-            <td>
-              Scenes.From.an.Empty.Church.2021.1080p.WEBRip.DD5.1.x264-NOGRP{" "}
-            </td>
-            <td>4.83 GB </td>
-            <td>100%</td>
-            <td>English</td>
-            <td>uploading</td>
-            <td>435.74 KB</td>
-          </tr>
+          <TableBodyElement
+            title="Some.of.Our.Stallions.2021.1080p.WEBRip.DD5.1.x264-NOGRP"
+            size="4.43 GB"
+            parentage="100%"
+            language="English"
+            status="uploading"
+            speed="2.35 MB"
+          />
+          <TableBodyElement
+            title="Some.of.Our.Stallions.2021.1080p.WEBRip.DD5.1.x264-NOGRP"
+            size="4.43 GB"
+            parentage="100%"
+            language="English"
+            status="uploading"
+            speed="2.35 MB"
+          />
+          <TableBodyElement
+            title="Some.of.Our.Stallions.2021.1080p.WEBRip.DD5.1.x264-NOGRP"
+            size="4.43 GB"
+            parentage="100%"
+            language="English"
+            status="uploading"
+            speed="2.35 MB"
+          />
         </tbody>
       </Table>
     </Container>
