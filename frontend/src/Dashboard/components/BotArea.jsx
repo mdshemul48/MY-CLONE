@@ -5,7 +5,7 @@ import BotStatus from "./BotStatus";
 
 const BotArea = () => {
   return (
-    <Container fluid className="mt-5">
+    <Container fluid className="mt-lg-3  mb-5">
       <h5>Bot Status</h5>
       <BotStatus />
       <BotStatus />

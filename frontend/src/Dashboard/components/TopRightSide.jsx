@@ -4,7 +4,7 @@ import ChartArea from "./ChartArea";
 import BotArea from "./BotArea";
 const TopRightSide = () => {
   return (
-    <Container className="mt-2">
+    <Container fluid>
       <ChartArea />
       <BotArea />
     </Container>
