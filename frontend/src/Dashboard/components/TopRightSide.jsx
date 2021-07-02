@@ -4,7 +4,7 @@ import ChartArea from "./ChartArea";
 import BotArea from "./BotArea";
 const TopRightSide = () => {
   return (
-    <Container fluid>
+    <Container fluid className="d-flex flex-column">
       <ChartArea />
       <BotArea />
     </Container>

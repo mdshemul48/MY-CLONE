@@ -42,7 +42,7 @@ const ChartArea = () => {
     },
   };
   return (
-    <Container fluid className="bg-light p-3 chart__area">
+    <Container fluid className="bg-light p-3 chart__area order-1">
       <h5 className="text-dark">Last 7 day Downloads</h5>
       <Bar data={data} options={options} />
     </Container>
