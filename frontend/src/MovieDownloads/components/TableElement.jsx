@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 const TableElement = () => {
   return (
     <tr>
@@ -8,6 +8,12 @@ const TableElement = () => {
       <td>
         {" "}
         <span className="table-status-text">pending</span>{" "}
+      </td>
+      <td>
+        {" "}
+        <span className="open">
+          <Link to="/downloads/60e0a9886c0e2411e0d237f0">Open</Link>
+        </span>{" "}
       </td>
     </tr>
   );

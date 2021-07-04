@@ -16,13 +16,23 @@
   color: #07051e;
   font-weight: 500;
 }
-.table-status-text {
+.table-status-text,
+.open a {
   color: #f29d3d;
   font-weight: bold;
   padding: 0.6rem;
   background-color: #ffead0;
   border-radius: 10px;
 }
+
+.open a {
+  color: #1c1b2d;
+  background-color: #dfdfdf;
+}
+.open a:hover {
+  text-decoration: none;
+}
+
 .verified {
   color: #2db864;
   background-color: #cefadf;

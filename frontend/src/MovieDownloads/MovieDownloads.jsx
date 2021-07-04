@@ -7,7 +7,7 @@ import "./MovieDownloads.css";
 const MovieDownloads = () => {
   return (
     <Container className="mt-5 bg-light download-container">
-      <Table>
+      <Table responsive>
         <TableHeading />
         <tbody>
           <TableElement />
