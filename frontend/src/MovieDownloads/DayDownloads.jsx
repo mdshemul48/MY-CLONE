@@ -6,7 +6,7 @@ import MovieCard from "./components/MovieCard";
 import "./DayDownloads.css";
 const DayDownloads = () => {
   return (
-    <Container className="p-5 movies-area" fluid>
+    <Container className="p-lg-5 movies-area" fluid>
       <Container fluid className="d-flex justify-content-end check-area pb-2">
         <Button variant="success" className="checkButton">
           verify

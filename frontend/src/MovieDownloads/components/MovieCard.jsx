@@ -58,7 +58,7 @@ const MovieCard = () => {
 
   const { certification } = {
     certification: [
-      " Argentina:13",
+      " Argentina:18",
       " Australia:MA15+",
       " Canada:14A",
       " (British Columbia)",
@@ -87,7 +87,7 @@ const MovieCard = () => {
     ],
   };
   return (
-    <Container fluid className="m-3 row bg-light">
+    <div className=" row bg-light">
       <div className="col-lg-3 p-2">
         <img
           className="w-100 rounded"
@@ -95,68 +95,98 @@ const MovieCard = () => {
           alt=""
         />
       </div>
-      <div className="col-lg-9 text-wrap p-3">
-        <h5>Menendez.Blood.Brothers.2017.1080p.WEBRip.x265-RARBG</h5>
+      <div className="col-lg-9 text-wrap p-3 row">
+        <div className="col-lg-7">
+          <h5 className="text-break">
+            Menendez.Blood.Brothers.2017.1080p.WEBRip.x265-RARBG
+          </h5>
 
-        <ul className="d-flex list-unstyled justify-content-left w-50 pr-lg-5 pr-sm-1">
-          <li>
-            <span>
-              <FontAwesomeIcon icon={faLanguage} className="mr-2" size="lg" />
-              English
-            </span>
-          </li>
-          <li className="ml-3">Drama,Crime,Biography,</li>
-        </ul>
-        <span class="badge badge-dark mb-2">Downloading..</span>
-        <div className="input-group mb-3">
-          <div className="input-group-prepend">
-            <span className="input-group-text">
-              <FontAwesomeIcon icon={faServer} className="" size="lg" />
-            </span>
+          <ul className="d-flex list-unstyled justify-content-left w-50 pr-lg-5 pr-sm-1">
+            <li>
+              <span>
+                <FontAwesomeIcon icon={faLanguage} className="mr-2" size="lg" />
+                English
+              </span>
+            </li>
+            <li className="ml-3">Drama,Crime,Biography,</li>
+          </ul>
+          <span class="badge badge-dark mb-2">Downloading..</span>
+          <div className="input-group mb-3">
+            <div className="input-group-prepend">
+              <span className="input-group-text">
+                <FontAwesomeIcon icon={faServer} className="" size="lg" />
+              </span>
+            </div>
+            <input
+              type="text"
+              className="form-control"
+              value="A:\.uploading_1tb\incoming\Portuguese\Eccentricities of a Blonde-haired Girl 2009 PORTUGUESE 1080p BluRay H264 AAC"
+            />
           </div>
-          <input
-            type="text"
-            className="form-control"
-            value="A:\.uploading_1tb\incoming\Portuguese\Eccentricities of a Blonde-haired Girl 2009 PORTUGUESE 1080p BluRay H264 AAC"
-          />
+          <div className="input-group mb-3">
+            <div className="input-group-prepend">
+              <span className="input-group-text">
+                <a
+                  href="http://circleftp.net/cn/menendez-blood-brothers-2017-1080p-webrip-x265/"
+                  target="_blink"
+                >
+                  <FontAwesomeIcon icon={faLink} className="" size="lg" />
+                </a>
+              </span>
+            </div>
+            <input
+              type="text"
+              className="form-control"
+              value="http://circleftp.net/cn/menendez-blood-brothers-2017-1080p-webrip-x265/"
+            />
+          </div>
+          <div>
+            <a
+              href="https://www.imdb.com/title/tt1013856"
+              target="_blank"
+              className="btn btn-dark text-light text-bold mr-3"
+              rel="noreferrer"
+            >
+              <strong>OPEN IN FTP</strong>
+            </a>
+            <a
+              href="https://www.imdb.com/title/tt1013856"
+              target="_blank"
+              className="btn btn-warning text-light text-bold"
+              rel="noreferrer"
+            >
+              <strong>IMDB</strong>
+            </a>
+          </div>
+          <div className="mt-4">
+            <h5 className="">certification</h5>
+            {certification.map((result) => {
+              const background = result.includes("18")
+                ? "badge-danger"
+                : "badge-dark";
+              return (
+                <span className={`badge badge-pill ${background} m-1`}>
+                  {result}
+                </span>
+              );
+            })}
+          </div>
         </div>
-        <div className="input-group mb-3">
-          <div className="input-group-prepend">
-            <span className="input-group-text">
-              <a
-                href="http://circleftp.net/cn/menendez-blood-brothers-2017-1080p-webrip-x265/"
-                target="_blink"
-              >
-                <FontAwesomeIcon icon={faLink} className="" size="lg" />
+
+        <div className="col-lg-5">
+          <div className="mt-4">
+            <h5>Search Results</h5>
+            <hr />
+            {searchResult.map((result) => (
+              <a href={result.link} target="_blank" rel="noreferrer">
+                {" "}
+                <p className="m-1">{result.title}</p>
               </a>
-            </span>
+            ))}
           </div>
-          <input
-            type="text"
-            className="form-control"
-            value="http://circleftp.net/cn/menendez-blood-brothers-2017-1080p-webrip-x265/"
-          />
-        </div>
-        <div>
-          <a
-            href="https://www.imdb.com/title/tt1013856"
-            target="_blank"
-            className="btn btn-dark text-light text-bold mr-3"
-            rel="noreferrer"
-          >
-            <strong>OPEN IN FTP</strong>
-          </a>
-          <a
-            href="https://www.imdb.com/title/tt1013856"
-            target="_blank"
-            className="btn btn-warning text-light text-bold"
-            rel="noreferrer"
-          >
-            <strong>IMDB</strong>
-          </a>
         </div>
       </div>
-    </Container>
+    </div>
   );
 };
 
