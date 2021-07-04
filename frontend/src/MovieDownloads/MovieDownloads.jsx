@@ -2,6 +2,7 @@ import React from "react";
 import { Container, Table } from "react-bootstrap";
 
 import TableHeading from "./components/TableHeading";
+import TableElement from "./components/TableElement";
 import "./MovieDownloads.css";
 const MovieDownloads = () => {
   return (
@@ -9,30 +10,9 @@ const MovieDownloads = () => {
       <Table>
         <TableHeading />
         <tbody>
-          <tr>
-            <td>04-07-2021</td>
-            <td>28 Movies</td>
-            <td>
-              {" "}
-              <span className="table-status-text">pending</span>{" "}
-            </td>
-          </tr>
-          <tr>
-            <td>04-07-2021</td>
-            <td>28 Movies</td>
-            <td>
-              {" "}
-              <span className="table-status-text verified">verified</span>{" "}
-            </td>
-          </tr>
-          <tr>
-            <td>04-07-2021</td>
-            <td>28 Movies</td>
-            <td>
-              {" "}
-              <span className="table-status-text">pending</span>{" "}
-            </td>
-          </tr>
+          <TableElement />
+          <TableElement />
+          <TableElement />
         </tbody>
       </Table>
     </Container>
