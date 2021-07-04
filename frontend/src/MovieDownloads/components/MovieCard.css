@@ -1,5 +1,3 @@
-@media only screen and (min-width: 1500px) {
-  .movie-poster-img {
-    width: 25%;
-  }
+.search-result {
+  height: 500px;
 }

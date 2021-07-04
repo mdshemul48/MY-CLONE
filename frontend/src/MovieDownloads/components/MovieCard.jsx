@@ -159,7 +159,8 @@ const MovieCard = () => {
             </a>
           </div>
           <div className="mt-4">
-            <h5 className="">certification</h5>
+            <h5 className="">Certification</h5>
+            <hr />
             {certification.map((result) => {
               const background = result.includes("18")
                 ? "badge-danger"
@@ -177,12 +178,14 @@ const MovieCard = () => {
           <div className="mt-4">
             <h5>Search Results</h5>
             <hr />
-            {searchResult.map((result) => (
-              <a href={result.link} target="_blank" rel="noreferrer">
-                {" "}
-                <p className="m-1">{result.title}</p>
-              </a>
-            ))}
+            <div className="overflow-auto search-result">
+              {searchResult.map((result) => (
+                <a href={result.link} target="_blank" rel="noreferrer">
+                  {" "}
+                  <p className="m-1">{result.title}</p>
+                </a>
+              ))}
+            </div>
           </div>
         </div>
       </div>
