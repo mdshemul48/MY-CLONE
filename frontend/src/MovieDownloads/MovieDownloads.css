@@ -28,9 +28,12 @@
 .open a {
   color: #1c1b2d;
   background-color: #dfdfdf;
+  transition: all 0.8s;
 }
 .open a:hover {
+  color: white;
   text-decoration: none;
+  background-color: #0a1d37;
 }
 
 .verified {
