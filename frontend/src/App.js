@@ -6,7 +6,7 @@ import dashboard from "./Dashboard/Dashboard"
 import MovieDownloads from "./MovieDownloads/MovieDownloads"
 import MoviePublish from "./MoviePublish/MoviePublish"
 import CreateAccount from "./CreateAccount/CreateAccount"
-
+import DayDownloads from "./MovieDownloads/DayDownloads"
 import 'bootstrap/dist/css/bootstrap.min.css';
 function App() {
   return (
@@ -14,6 +14,7 @@ function App() {
       <NavBar />
       <Switch>
         <Route path="/" exact component={dashboard} />
+        <Route path="/downloads/:dayId" exact component={DayDownloads} />
         <Route path="/downloads" exact component={MovieDownloads} />
         <Route path="/publish" exact component={MoviePublish} />
         <Route path="/user" exact component={CreateAccount} />
