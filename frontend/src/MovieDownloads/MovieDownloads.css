@@ -1,3 +1,11 @@
+.download-container {
+  border-radius: 10px;
+}
+.download-container > table > thead > tr > th {
+  color: #686574;
+  font-size: 0.9rem;
+  font-weight: normal;
+}
 .table-header {
   border-top: none !important;
   border-bottom: 1px solid #dee2e6 !important;
