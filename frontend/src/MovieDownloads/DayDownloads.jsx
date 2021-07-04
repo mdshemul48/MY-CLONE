@@ -16,7 +16,6 @@ const DayDownloads = () => {
 
       <Container fluid>
         <MovieCard />
-        <MovieCard />
       </Container>
     </Container>
   );

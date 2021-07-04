@@ -1,4 +1,5 @@
 import React from "react";
+import { Container } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faLanguage,
@@ -86,27 +87,25 @@ const MovieCard = () => {
     ],
   };
   return (
-    <div className="card flex-lg-row mt-4">
-      <div className="movie-poster-img">
+    <Container fluid className="m-3 row bg-light">
+      <div className="col-lg-3 p-2">
         <img
+          className="w-100 rounded"
           src="https://m.media-amazon.com/images/M/MV5BNDRjMzY0NWItZjc0Ny00OTgwLThhZmEtY2I1NGZmYmExYWRjXkEyXkFqcGdeQXVyMzU4ODM5Nw@@._V1_.jpg"
-          className="card-img-top"
-          alt="..."
+          alt=""
         />
       </div>
+      <div className="col-lg-9 text-wrap p-3">
+        <h5>Menendez.Blood.Brothers.2017.1080p.WEBRip.x265-RARBG</h5>
 
-      <div className="card-body">
-        <h5 className="card-title">
-          Menendez.Blood.Brothers.2017.1080p.WEBRip.x265-RARBG
-        </h5>
-        <ul className="d-flex list-unstyled justify-content-between w-50 pr-lg-5 pr-sm-1">
+        <ul className="d-flex list-unstyled justify-content-left w-50 pr-lg-5 pr-sm-1">
           <li>
             <span>
               <FontAwesomeIcon icon={faLanguage} className="mr-2" size="lg" />
               English
             </span>
           </li>
-          <li>Drama,Crime,Biography,</li>
+          <li className="ml-3">Drama,Crime,Biography,</li>
         </ul>
         <span class="badge badge-dark mb-2">Downloading..</span>
         <div className="input-group mb-3">
@@ -124,7 +123,12 @@ const MovieCard = () => {
         <div className="input-group mb-3">
           <div className="input-group-prepend">
             <span className="input-group-text">
-              <FontAwesomeIcon icon={faLink} className="" size="lg" />
+              <a
+                href="http://circleftp.net/cn/menendez-blood-brothers-2017-1080p-webrip-x265/"
+                target="_blink"
+              >
+                <FontAwesomeIcon icon={faLink} className="" size="lg" />
+              </a>
             </span>
           </div>
           <input
@@ -133,7 +137,6 @@ const MovieCard = () => {
             value="http://circleftp.net/cn/menendez-blood-brothers-2017-1080p-webrip-x265/"
           />
         </div>
-
         <div>
           <a
             href="https://www.imdb.com/title/tt1013856"
@@ -153,17 +156,7 @@ const MovieCard = () => {
           </a>
         </div>
       </div>
-      <div className="mt-4">
-        <h5>Search Results</h5>
-        <hr />
-        {searchResult.map((result) => (
-          <a href={result.link} target="_blank" rel="noreferrer">
-            {" "}
-            <p className="m-1">{result.title}</p>
-          </a>
-        ))}
-      </div>
-    </div>
+    </Container>
   );
 };
 
