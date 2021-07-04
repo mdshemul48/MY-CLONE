@@ -1,5 +1,4 @@
 import React from "react";
-import { Container } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faLanguage,
@@ -126,12 +125,7 @@ const MovieCard = () => {
           <div className="input-group mb-3">
             <div className="input-group-prepend">
               <span className="input-group-text">
-                <a
-                  href="http://circleftp.net/cn/menendez-blood-brothers-2017-1080p-webrip-x265/"
-                  target="_blink"
-                >
-                  <FontAwesomeIcon icon={faLink} className="" size="lg" />
-                </a>
+                <FontAwesomeIcon icon={faLink} className="" size="lg" />
               </span>
             </div>
             <input
