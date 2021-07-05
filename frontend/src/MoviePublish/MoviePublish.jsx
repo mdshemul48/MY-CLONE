@@ -5,7 +5,7 @@ import SubmitForm from "./components/SubmitForm";
 const MoviePublish = () => {
   return (
     <Container>
-      <SubmitForm></SubmitForm>
+      <SubmitForm />
     </Container>
   );
 };
