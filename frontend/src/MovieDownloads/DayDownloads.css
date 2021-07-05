@@ -1,0 +1,19 @@
+.movies-area {
+  border-radius: 10px;
+}
+
+.check-area {
+  border-bottom: 2px solid rgba(128, 128, 128, 0.2);
+}
+
+.checkButton {
+  color: #29b95f !important;
+  background-color: #d5f1e0 !important;
+  border-color: #d5f1e0 !important;
+  border-radius: 10px !important;
+}
+.checkButton:hover {
+  color: #29b95f !important;
+  background-color: #a9e4c0 !important;
+  border-color: #a9e4c0 !important;
+}

@@ -1,0 +1,18 @@
+.Statistic-Card {
+  border-radius: 15px;
+}
+.Statistic-Card .info .counter {
+  margin: 0;
+}
+.statistic__icon {
+  font-size: 2rem;
+  padding-bottom: 0.5rem;
+  opacity: 0.4;
+  position: relative;
+  transition: all 0.6s;
+}
+.statistic__icon:hover {
+  transform: scale(1.2);
+  opacity: 1;
+  cursor: pointer;
+}

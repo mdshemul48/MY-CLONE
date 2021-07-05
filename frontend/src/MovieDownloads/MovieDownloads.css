@@ -1,0 +1,43 @@
+.download-container {
+  border-radius: 10px;
+}
+.download-container > table > thead > tr > th {
+  color: #686574;
+  font-size: 0.9rem;
+  font-weight: normal;
+}
+
+.table-header {
+  border-top: none !important;
+  border-bottom: 1px solid #dee2e6 !important;
+}
+.download-container > table > tbody > tr > td {
+  font-size: 0.9rem;
+  color: #07051e;
+  font-weight: 500;
+}
+.table-status-text,
+.open a {
+  color: #f29d3d;
+  font-weight: bold;
+  padding: 0.6rem;
+  background-color: #ffead0;
+  border-radius: 10px;
+}
+
+.open a {
+  color: #1c1b2d;
+  background-color: #dfdfdf;
+  transition: all 0.8s;
+}
+.open a:hover {
+  color: white;
+  text-decoration: none;
+  background-color: #0a1d37;
+}
+
+.verified {
+  color: #2db864;
+  background-color: #cefadf;
+  padding: 0.6rem 0.8rem;
+}
