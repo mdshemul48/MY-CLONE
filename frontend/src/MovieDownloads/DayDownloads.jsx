@@ -7,7 +7,13 @@ import "./DayDownloads.css";
 const DayDownloads = () => {
   return (
     <Container className="p-lg-5 movies-area" fluid>
-      <Container fluid className="d-flex justify-content-end check-area pb-2">
+      <Container
+        fluid
+        className="d-flex justify-content-between check-area pb-2"
+      >
+        <h4 className="text-break">
+          Working History Of 30-06-2021 (48 Movies)
+        </h4>
         <Button variant="success" className="checkButton">
           verify
           <FontAwesomeIcon className="ml-2" icon={faCheck} />{" "}
