@@ -7,12 +7,41 @@ const PublishCommands = () => {
       <h3 className="mt-2 mb-3">All Publish Commands</h3>
       <hr />
       <div>
-        <Commands />
-        <Commands />
-        <Commands />
-        <Commands />
-        <Commands />
-        <Commands />
+        <Commands
+          name="Swedish movie"
+          from="A:\.uploading_1tb\publish\Swedish"
+          to="A:\Foreign Language Movies\Sweden"
+          link="http://index2.circleftp.net/FILE/Foreign%20Language%20Movies/Sweden"
+          catagory="1"
+        />
+        <Commands
+          name="Swedish movie"
+          from="A:\.uploading_1tb\publish\Swedish"
+          to="A:\Foreign Language Movies\Sweden"
+          link="http://index2.circleftp.net/FILE/Foreign%20Language%20Movies/Sweden"
+          catagory="3"
+        />
+        <Commands
+          name="Swedish movie"
+          from="A:\.uploading_1tb\publish\Swedish"
+          to="A:\Foreign Language Movies\Sweden"
+          link="http://index2.circleftp.net/FILE/Foreign%20Language%20Movies/Sweden"
+          catagory="3"
+        />
+        <Commands
+          name="Swedish movie"
+          from="A:\.uploading_1tb\publish\Swedish"
+          to="A:\Foreign Language Movies\Sweden"
+          link="http://index2.circleftp.net/FILE/Foreign%20Language%20Movies/Sweden"
+          catagory="3"
+        />
+        <Commands
+          name="Swedish movie"
+          from="A:\.uploading_1tb\publish\Swedish"
+          to="A:\Foreign Language Movies\Sweden"
+          link="http://index2.circleftp.net/FILE/Foreign%20Language%20Movies/Sweden"
+          catagory="3"
+        />
       </div>
     </Container>
   );
