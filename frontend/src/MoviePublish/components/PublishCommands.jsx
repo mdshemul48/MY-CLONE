@@ -1,5 +1,7 @@
 import React from "react";
-import { Container, Card } from "react-bootstrap";
+import { Container, Card, InputGroup, FormControl } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFolder } from "@fortawesome/free-solid-svg-icons";
 const PublishCommands = () => {
   return (
     <Container className="mt-5">
@@ -9,7 +11,15 @@ const PublishCommands = () => {
       <div>
         <Card>
           <Card.Header as="h5">Swedish movie</Card.Header>
-          <Card.Body></Card.Body>
+          <Card.Body>
+            <InputGroup className="mb-3">
+              <InputGroup.Text id="basic-addon1">
+                <FontAwesomeIcon icon={faFolder} />
+                <span className="ml-2">From</span>
+              </InputGroup.Text>
+              <FormControl aria-describedby="basic-addon1" />
+            </InputGroup>
+          </Card.Body>
         </Card>
       </div>
     </Container>
