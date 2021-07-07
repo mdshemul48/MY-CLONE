@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 
 
+// all the pages and nav bar 
 import NavBar from "./NavBar/NavBar"
 import dashboard from "./Dashboard/Dashboard"
 import MovieDownloads from "./MovieDownloads/MovieDownloads"
