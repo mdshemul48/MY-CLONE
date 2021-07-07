@@ -3,8 +3,8 @@ import { Navbar, Container } from "react-bootstrap";
 
 import Logo from "./component/Logo";
 import AllNavLink from "./component/AllNavLink";
-import NavSearchArea from "./component/NavSearchArea";
 import Logout from "./component/Logout";
+import NavUsername from "./component/NavUsername";
 import "./NavBar.css";
 const NavBar = () => {
   return (
@@ -14,7 +14,7 @@ const NavBar = () => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <AllNavLink />
-          <NavSearchArea />
+          <NavUsername />
           <Logout />
         </Navbar.Collapse>
       </Container>
