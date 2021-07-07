@@ -1,13 +1,18 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 // import { Nav } from "react-bootstrap";
 
-const NavLink = (props) => {
+const NavLinkComponent = (props) => {
   return (
-    <Link to={props.link} className="navbar__navLink nav-link">
+    <NavLink
+      to={props.link}
+      className="navbar__navLink nav-link"
+      NavLinkClassName={"active"}
+      exact
+    >
       {props.label}
-    </Link>
+    </NavLink>
   );
 };
 
-export default NavLink;
+export default NavLinkComponent;
