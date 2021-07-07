@@ -35,6 +35,14 @@ const PublishCommands = () => {
               </InputGroup.Text>
               <FormControl aria-describedby="basic-addon1" />
             </InputGroup>
+
+            <InputGroup className="mb-3">
+              <InputGroup.Text id="basic-addon1">
+                <FontAwesomeIcon icon={faLink} />
+                <span className="ml-2">Catagory</span>
+              </InputGroup.Text>
+              <FormControl aria-describedby="basic-addon1" />
+            </InputGroup>
           </Card.Body>
         </Card>
       </div>
