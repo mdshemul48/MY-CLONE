@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { Container, Row, Col } from "react-bootstrap";
 
 import PageTitle from "../Title/PageTitle";
@@ -7,7 +8,13 @@ import TopRightSide from "./components/TopRightSide";
 import DownloadTable from "./components/DownloadTable";
 import BotFailureReport from "./components/BotFailureReport";
 
+import { dashboardData } from "../Store/asyncMethods/DashboardMethods";
 const Dashboard = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(dashboardData());
+  }, [dispatch]);
   return (
     <>
       <PageTitle>Dashboard</PageTitle>

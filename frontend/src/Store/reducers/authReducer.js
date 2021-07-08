@@ -43,7 +43,7 @@ const reducers = {
         state.token = ""
         return state
     },
-    loginErrors: (state, action) => {
+    loginError: (state, action) => {
         const { error } = action.payload
         state.loginErrors = [error, ...state.loginErrors]
         return state
@@ -66,6 +66,6 @@ const authReducer = createSlice({
 })
 
 
-export const { login, logout, loginErrors } = authReducer.actions
+export const { login, logout, loginError } = authReducer.actions
 
 export default authReducer.reducer

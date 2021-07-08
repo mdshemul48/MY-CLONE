@@ -1,4 +1,4 @@
-import { login, logout, loginErrors } from "../reducers/authReducer"
+import { login, logout, loginError } from "../reducers/authReducer"
 import axios from "../../util/axiosConfig"
 
 export const loginMethod = (loginInfo) => {
@@ -14,7 +14,7 @@ export const loginMethod = (loginInfo) => {
             dispatch(login({ token }))
             localStorage.setItem("userToken", token)
         } catch (error) {
-            dispatch(loginErrors({ error: error.response.data.message }))
+            dispatch(loginError({ error: error.response.data.message }))
         }
     }
 }
