@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 
 import PageTitle from "../Title/PageTitle";
-import { loginMethods } from "../Store/asyncMethods/authMethods";
+import { loginMethod } from "../Store/asyncMethods/authMethods";
 import "./Login.css";
 const Login = () => {
   const dispatch = useDispatch();
@@ -19,7 +19,7 @@ const Login = () => {
 
   const loginSubmitHandler = (event) => {
     event.preventDefault();
-    dispatch(loginMethods(formState));
+    dispatch(loginMethod(formState));
   };
 
   return (
