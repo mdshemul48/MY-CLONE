@@ -10,9 +10,11 @@ export const loginMethods = (loginInfo) => {
                     "Content-Type": "application/json"
                 }
             })
-            console.log(response)
+            const token = response.data.token
+            dispatch(login({ token }))
+            localStorage.setItem("userToken", token)
         } catch (error) {
-            console.log(error.response.data.message)
+            dispatch(loginErrors({ error: error.response.data.message }))
         }
     }
 }
