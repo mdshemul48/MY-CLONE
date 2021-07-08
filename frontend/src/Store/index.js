@@ -5,5 +5,8 @@ import authReducer from "./auth/authReducer";
 
 
 export default configureStore({
-    auth: authReducer,
+    reducer: {
+        auth: authReducer,
+    }
 })
+
