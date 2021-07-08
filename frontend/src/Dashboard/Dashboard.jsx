@@ -15,6 +15,7 @@ const Dashboard = () => {
   useEffect(() => {
     dispatch(dashboardData());
   }, [dispatch]);
+
   return (
     <>
       <PageTitle>Dashboard</PageTitle>
