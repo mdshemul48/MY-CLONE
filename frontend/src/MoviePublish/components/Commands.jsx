@@ -31,7 +31,7 @@ const Commands = (props) => {
               <FontAwesomeIcon icon={faFolder} />
               <span className="ml-2">From</span>
             </InputGroup.Text>
-            <FormControl aria-describedby="basic-addon1" value={from} />
+            <FormControl aria-describedby="basic-addon1" defaultValue={from} />
           </InputGroup>
 
           <InputGroup className="mb-3">
@@ -39,7 +39,7 @@ const Commands = (props) => {
               <FontAwesomeIcon icon={faFolder} />
               <span className="ml-2">To</span>
             </InputGroup.Text>
-            <FormControl aria-describedby="basic-addon1" value={to} />
+            <FormControl aria-describedby="basic-addon1" defaultValue={to} />
           </InputGroup>
 
           <InputGroup className="mb-3">
@@ -47,7 +47,7 @@ const Commands = (props) => {
               <FontAwesomeIcon icon={faLink} />
               <span className="ml-2">Link</span>
             </InputGroup.Text>
-            <FormControl aria-describedby="basic-addon1" value={link} />
+            <FormControl aria-describedby="basic-addon1" defaultValue={link} />
           </InputGroup>
 
           <InputGroup className="mb-3">
@@ -57,7 +57,7 @@ const Commands = (props) => {
             </InputGroup.Text>
             <FormControl
               aria-describedby="basic-addon1"
-              value={catagorySelected}
+              defaultValue={catagorySelected}
             />
           </InputGroup>
 
