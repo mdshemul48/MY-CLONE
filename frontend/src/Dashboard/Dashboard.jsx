@@ -6,6 +6,7 @@ import StatisticCards from "./components/StatisticCards";
 import TopRightSide from "./components/TopRightSide";
 import DownloadTable from "./components/DownloadTable";
 import BotFailureReport from "./components/BotFailureReport";
+
 const Dashboard = () => {
   return (
     <>
