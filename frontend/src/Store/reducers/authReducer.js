@@ -3,7 +3,8 @@ import { createSlice } from "@reduxjs/toolkit"
 const initialState = {
     user: "",
     token: "",
-    loginErrors: []
+    loginErrors: [],
+    loading: false
 
 }
 
@@ -16,6 +17,12 @@ const reducers = {
         return state
     },
     loginErrors: (state) => {
+        return state
+    },
+    setLoading: (state) => {
+        return state
+    },
+    closeLoading: (state) => {
         return state
     }
 }
