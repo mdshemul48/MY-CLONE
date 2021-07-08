@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 const LoginRoute = (props) => {
   const { user } = useSelector((state) => state.auth);
   return user ? (
-    <Redirect to="/login" />
+    <Redirect to="/" />
   ) : (
     <Route path={props.path} component={props.component} exact />
   );
