@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 
 import PageTitle from "../Title/PageTitle";
+import { loginMethods } from "../Store/asyncMethods/authMethods";
 import "./Login.css";
 const Login = () => {
   const dispatch = useDispatch();
@@ -9,25 +10,37 @@ const Login = () => {
     username: "",
     password: "",
   });
-  const formChangeHandler = (event) => {};
-  const LoginHandler = (event) => {};
+
+  const formChangeHandler = (event) => {
+    setFormState((prevState) => {
+      return { ...prevState, [event.target.name]: event.target.value };
+    });
+  };
+
+  const loginSubmitHandler = (event) => {
+    event.preventDefault();
+    dispatch(loginMethods(formState));
+  };
+
   return (
     <>
       <PageTitle>Login</PageTitle>
       <div className="d-flex justify-content-center align-items-center login-full-container">
-        <form>
+        <form onSubmit={loginSubmitHandler}>
           <h4 className="mb-4 text-center Login-text">LOGIN</h4>
           <input
             className="form-control mb-3 p-4"
             type="text"
-            Placeholder="Username"
+            placeholder="Username"
             name="username"
+            onChange={formChangeHandler}
           />
           <input
             className="form-control mb-3 p-4"
             type="password"
-            Placeholder="Password"
+            placeholder="Password"
             name="password"
+            onChange={formChangeHandler}
           />
           <button className="btn btn-dark btn-block">Login</button>
         </form>
