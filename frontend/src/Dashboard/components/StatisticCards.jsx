@@ -13,7 +13,6 @@ import {
 import StatisticCard from "./StatisticCard";
 const StatisticCards = () => {
   const { status } = useSelector((state) => state.dashboard.data);
-  console.log(status);
   return (
     <>
       <Row>

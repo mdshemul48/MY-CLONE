@@ -1,11 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Table, Container } from "react-bootstrap";
 import TableBodyElement from "./TableBodyElement";
+import formateBytes from "../../util/convertDataSize";
+import DownloadingReducer from "../../Store/asyncMethods/downloadingMethods";
 const DownloadTable = () => {
+  const dispatch = useDispatch();
+  const { allDownloads, downloadLength } = useSelector(
+    (state) => state.downloading
+  );
+
+  useEffect(() => {
+    dispatch(DownloadingReducer());
+  }, [dispatch]);
+
+  useEffect(() => {
+    const fetchTimeOut = setTimeout(() => {
+      dispatch(DownloadingReducer());
+    }, 5000);
+
+    return () => clearTimeout(fetchTimeOut);
+  });
+
   return (
     <Container fluid className="mt-3 p-2 bg-light rounded">
       <h5 className="mt-3 mb-3 text-dark">
-        Qbit Torrent(Downloading) (4 Movies)
+        Qbit Torrent(Downloading) ({downloadLength})
       </h5>
       <Table striped bordered hover responsive>
         <thead>
@@ -19,30 +39,19 @@ const DownloadTable = () => {
           </tr>
         </thead>
         <tbody>
-          <TableBodyElement
-            title="Some.of.Our.Stallions.2021.1080p.WEBRip.DD5.1.x264-NOGRP"
-            size="4.43 GB"
-            parentage="100%"
-            language="English"
-            status="uploading"
-            speed="2.35 MB"
-          />
-          <TableBodyElement
-            title="Some.of.Our.Stallions.2021.1080p.WEBRip.DD5.1.x264-NOGRP"
-            size="4.43 GB"
-            parentage="100%"
-            language="English"
-            status="uploading"
-            speed="2.35 MB"
-          />
-          <TableBodyElement
-            title="Some.of.Our.Stallions.2021.1080p.WEBRip.DD5.1.x264-NOGRP"
-            size="4.43 GB"
-            parentage="100%"
-            language="English"
-            status="uploading"
-            speed="2.35 MB"
-          />
+          {allDownloads.map((item) => {
+            return (
+              <TableBodyElement
+                key={item.hash}
+                title={item.name}
+                size={formateBytes(item.size)}
+                parentage={Math.floor(item.progress * 100) + "%"}
+                language={item.category}
+                status={item.state}
+                speed={formateBytes(item.dlspeed)}
+              />
+            );
+          })}
         </tbody>
       </Table>
     </Container>
