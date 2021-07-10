@@ -24,9 +24,7 @@ const DownloadTable = () => {
 
   return (
     <Container fluid className="mt-3 p-2 bg-light rounded">
-      <h5 className="mt-3 mb-3 text-dark">
-        Qbit Torrent(Downloading) ({downloadLength})
-      </h5>
+      <h5 className="mt-3 mb-3 text-dark">Qbit Torrent Status</h5>
       <Table striped bordered hover responsive>
         <thead>
           <tr>

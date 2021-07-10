@@ -13,6 +13,9 @@ import {
 import StatisticCard from "./StatisticCard";
 const StatisticCards = () => {
   const { status } = useSelector((state) => state.dashboard.data);
+  const downloadingLength = useSelector(
+    (state) => state.downloading.downloadLength
+  );
   return (
     <>
       <Row>
@@ -30,7 +33,7 @@ const StatisticCards = () => {
           <StatisticCard
             label="Downloading"
             icon={faDownload}
-            count={status.TotalInDownload}
+            count={downloadingLength}
             backgroundColor="bg-danger"
           />
         </Col>
