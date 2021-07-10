@@ -1,4 +1,4 @@
-import { login, logout, loginError } from "../reducers/authReducer"
+import { login, logout, loginError } from "../../Store/reducers/authReducer"
 import axios from "../../util/axiosConfig"
 
 export const loginMethod = (loginInfo) => {
