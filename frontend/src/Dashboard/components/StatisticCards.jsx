@@ -34,12 +34,12 @@ const StatisticCards = () => {
             label="Downloading"
             icon={faDownload}
             count={downloadingLength}
-            backgroundColor="bg-danger"
           />
         </Col>
         <Col lg="4">
           <StatisticCard
-            label="Uploaded In Server"
+            label="Not published yet"
+            backgroundColor="bg-danger"
             icon={faUpload}
             count={status.TotalInUpload}
           />
