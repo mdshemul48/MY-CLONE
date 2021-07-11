@@ -1,6 +1,6 @@
 import React from "react";
 import { Container } from "react-bootstrap";
-
+import bot
 import BotStatus from "./BotStatus";
 
 const BotArea = () => {

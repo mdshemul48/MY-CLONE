@@ -1,4 +1,4 @@
-import { showStatus, setError } from "../reducers/botState";
+import { showStatus, setError } from "../reducers/botStateReducer";
 
 import axios from "../../util/axiosConfig"
 
