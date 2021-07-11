@@ -8,8 +8,10 @@ import {
   faHourglass,
   faRedoAlt,
 } from "@fortawesome/free-solid-svg-icons";
-
+import dataFormat from "dateformat";
 import BotTime from "./BotTime";
+import timeDifference from "../../util/timeDifference";
+
 import "./BotStatus.css";
 const BotStatus = (props) => {
   const { bot } = props;
@@ -22,25 +24,35 @@ const BotStatus = (props) => {
           <BotTime
             title="Starting Time"
             icon={faToggleOn}
-            time="9:02:42 PM"
+            time={dataFormat(bot.StartingTime, "h:MM:ss TT")}
             color="#2ecc71"
           />
-          <BotTime
-            title="end Time"
-            icon={faToggleOff}
-            time="9:02:42 PM"
-            color="#e74c3c"
-          />
+          {bot.StoppedTime && (
+            <BotTime
+              title="end Time"
+              icon={faToggleOff}
+              time={dataFormat(bot.StoppedTime, "h:MM:ss TT")}
+              color="#e74c3c"
+            />
+          )}
           <BotTime
             title="Total Worked Time"
             icon={faHourglass}
-            time="5min"
-            color="#f39c12"
+            time={
+              timeDifference(
+                new Date(bot.StoppedTime),
+                new Date(bot.StartingTime)
+              ) + " min"
+            }
+            color={"#f39c12"}
           />
           <BotTime
             title="Next Run"
             icon={faRedoAlt}
-            time="9:02:42 PM"
+            time={dataFormat(
+              new Date(bot.StoppedTime).getTime() + 1 * 60 * 60 * 1000,
+              "h:MM:ss TT"
+            )}
             color="#4edfb1"
           />
         </Container>
@@ -57,7 +69,13 @@ const BotStatus = (props) => {
         <div className="ml-2">
           <h5 className="bot__name mt-0 mb-0">{bot.botName}</h5>
           <h6>
-            <small className="bot__status ">{bot.status}</small>
+            <small
+              className={`bot__status ${
+                bot.status === "stopped" && "text-danger"
+              }`}
+            >
+              {bot.status}
+            </small>
           </h6>
         </div>
       </Container>
