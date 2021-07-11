@@ -8,53 +8,76 @@ import {
   faHourglass,
   faRedoAlt,
 } from "@fortawesome/free-solid-svg-icons";
-
+import dataFormat from "dateformat";
 import BotTime from "./BotTime";
+import timeDifference from "../../util/timeDifference";
+
 import "./BotStatus.css";
-const BotStatus = () => {
+const BotStatus = (props) => {
+  const { bot } = props;
+
   const botStatusOverlay = (
     <Popover className="popover-basic">
-      <Popover.Title>Publisher</Popover.Title>
+      <Popover.Title>{bot.botName}</Popover.Title>
       <Popover.Content>
         <Container fluid>
           <BotTime
             title="Starting Time"
             icon={faToggleOn}
-            time="9:02:42 PM"
+            time={dataFormat(bot.StartingTime, "h:MM:ss TT")}
             color="#2ecc71"
           />
-          <BotTime
-            title="end Time"
-            icon={faToggleOff}
-            time="9:02:42 PM"
-            color="#e74c3c"
-          />
-          <BotTime
-            title="Total Worked Time"
-            icon={faHourglass}
-            time="5min"
-            color="#f39c12"
-          />
-          <BotTime
-            title="Next Run"
-            icon={faRedoAlt}
-            time="9:02:42 PM"
-            color="#4edfb1"
-          />
+          {bot.StoppedTime && (
+            <>
+              <BotTime
+                title="end Time"
+                icon={faToggleOff}
+                time={dataFormat(bot.StoppedTime, "h:MM:ss TT")}
+                color="#e74c3c"
+              />
+              <BotTime
+                title="Total Worked Time"
+                icon={faHourglass}
+                time={
+                  timeDifference(
+                    new Date(bot.StoppedTime),
+                    new Date(bot.StartingTime)
+                  ) + " min"
+                }
+                color={"#f39c12"}
+              />
+              <BotTime
+                title="Next Run"
+                icon={faRedoAlt}
+                time={dataFormat(
+                  new Date(bot.StoppedTime).getTime() + 1 * 60 * 60 * 1000,
+                  "h:MM:ss TT"
+                )}
+                color="#4edfb1"
+              />{" "}
+            </>
+          )}
         </Container>
       </Popover.Content>
     </Popover>
   );
+
   return (
     <OverlayTrigger trigger="click" placement="left" overlay={botStatusOverlay}>
       <Container fluid className="botState d-flex align-items-center mt-2">
-        <div className="bot__Icon bot1">
+        <div className={`bot__Icon ${bot.botName}`}>
           <FontAwesomeIcon icon={faMicrochip} />
         </div>
         <div className="ml-2">
-          <h5 className="bot__name mt-0 mb-0">Publisher</h5>
+          <h5 className="bot__name mt-0 mb-0">{bot.botName}</h5>
           <h6>
-            <small className="bot__status ">Running..</small>
+            <small
+              className={`bot__status ${
+                bot.status === "stopped" && "text-danger"
+              }`}
+            >
+              {bot.status}
+            </small>
           </h6>
         </div>
       </Container>

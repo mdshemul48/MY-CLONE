@@ -1,5 +1,6 @@
 import React from "react";
 import { Col, Row } from "react-bootstrap";
+import { useSelector } from "react-redux";
 
 import {
   faDownload,
@@ -11,6 +12,10 @@ import {
 
 import StatisticCard from "./StatisticCard";
 const StatisticCards = () => {
+  const { status } = useSelector((state) => state.dashboard.data);
+  const downloadingLength = useSelector(
+    (state) => state.downloading.downloadLength
+  );
   return (
     <>
       <Row>
@@ -18,7 +23,7 @@ const StatisticCards = () => {
           <StatisticCard
             label="Today Movie Added"
             icon={faFilm}
-            count={50}
+            count={status.todayOnDownload}
             color="text-dark"
             backgroundColor="bg-warning"
           />
@@ -28,15 +33,15 @@ const StatisticCards = () => {
           <StatisticCard
             label="Downloading"
             icon={faDownload}
-            count={10}
-            backgroundColor="bg-danger"
+            count={downloadingLength}
           />
         </Col>
         <Col lg="4">
           <StatisticCard
-            label="Uploaded In Server"
+            label="Not published yet"
+            backgroundColor="bg-danger"
             icon={faUpload}
-            count={23}
+            count={status.TotalInUpload}
           />
         </Col>
       </Row>
@@ -45,7 +50,7 @@ const StatisticCards = () => {
           <StatisticCard
             label="Total Published"
             icon={faFileVideo}
-            count={50}
+            count={status.TotalInPublish}
             backgroundColor="bg-success"
           />
         </Col>
@@ -53,7 +58,7 @@ const StatisticCards = () => {
           <StatisticCard
             label="Total Movies Added"
             icon={faPlusSquare}
-            count={50}
+            count={status.allMovies}
             backgroundColor="bg-primary"
           />
         </Col>

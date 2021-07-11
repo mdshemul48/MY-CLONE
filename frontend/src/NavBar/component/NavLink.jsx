@@ -7,7 +7,7 @@ const NavLinkComponent = (props) => {
     <NavLink
       to={props.link}
       className="navbar__navLink nav-link"
-      NavLinkClassName={"active"}
+      navlinkclassname={"active"}
       exact
     >
       {props.label}

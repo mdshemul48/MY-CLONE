@@ -1,5 +1,5 @@
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
-
+import { BrowserRouter as Router, Switch, Redirect } from "react-router-dom"
+import { useSelector } from "react-redux"
 
 // all the pages and nav bar 
 import NavBar from "./NavBar/NavBar"
@@ -10,19 +10,23 @@ import CreateAccount from "./CreateAccount/CreateAccount"
 import DayDownloads from "./MovieDownloads/DayDownloads"
 import Login from "./Login/Login"
 
+import PrivateRoute from "./Route/PrivateRoute"
+import LoginRoute from "./Route/LoginRoute"
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 function App() {
+  const { user } = useSelector((state) => state.auth)
   return (
     <Router>
-      <NavBar />
+      {user && <NavBar />}
       <Switch>
-        <Route path="/" exact component={dashboard} />
-        <Route path="/downloads/:dayId" exact component={DayDownloads} />
-        <Route path="/downloads" exact component={MovieDownloads} />
-        <Route path="/publish" exact component={MoviePublish} />
-        <Route path="/user" exact component={CreateAccount} />
-        <Route path="/login" exact component={Login} />
+        <PrivateRoute path="/" exact component={dashboard} />
+        <PrivateRoute path="/downloads/:dayId" exact component={DayDownloads} />
+        <PrivateRoute path="/downloads" exact component={MovieDownloads} />
+        <PrivateRoute path="/publish" exact component={MoviePublish} />
+        <PrivateRoute path="/user" exact component={CreateAccount} />
+        <LoginRoute path="/login" exact component={Login} />
+        <Redirect to="/" />
       </Switch>
     </Router>
   );
