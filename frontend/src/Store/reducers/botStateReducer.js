@@ -2,8 +2,9 @@ import { createSlice } from "@reduxjs/toolkit"
 
 
 const initialState = {
-    botStatus: undefined,
+    botStatus: [{}, {}, {},],
     errors: [],
+    loading: false
 }
 
 
@@ -14,6 +15,14 @@ const reducers = {
     },
     setError: (state, action) => {
         state.errors.unshift(action.payload)
+        return state
+    },
+    setLoading: (state) => {
+        state.loading = true;
+        return state
+    },
+    closeLoading: (state) => {
+        state.loading = false;
         return state
     }
 }
@@ -26,4 +35,4 @@ const botStatusReducer = createSlice({
 
 export const { showStatus, setError } = botStatusReducer.actions
 
-export default reducers.reducer
+export default botStatusReducer.reducer
