@@ -28,33 +28,35 @@ const BotStatus = (props) => {
             color="#2ecc71"
           />
           {bot.StoppedTime && (
-            <BotTime
-              title="end Time"
-              icon={faToggleOff}
-              time={dataFormat(bot.StoppedTime, "h:MM:ss TT")}
-              color="#e74c3c"
-            />
+            <>
+              <BotTime
+                title="end Time"
+                icon={faToggleOff}
+                time={dataFormat(bot.StoppedTime, "h:MM:ss TT")}
+                color="#e74c3c"
+              />
+              <BotTime
+                title="Total Worked Time"
+                icon={faHourglass}
+                time={
+                  timeDifference(
+                    new Date(bot.StoppedTime),
+                    new Date(bot.StartingTime)
+                  ) + " min"
+                }
+                color={"#f39c12"}
+              />
+              <BotTime
+                title="Next Run"
+                icon={faRedoAlt}
+                time={dataFormat(
+                  new Date(bot.StoppedTime).getTime() + 1 * 60 * 60 * 1000,
+                  "h:MM:ss TT"
+                )}
+                color="#4edfb1"
+              />{" "}
+            </>
           )}
-          <BotTime
-            title="Total Worked Time"
-            icon={faHourglass}
-            time={
-              timeDifference(
-                new Date(bot.StoppedTime),
-                new Date(bot.StartingTime)
-              ) + " min"
-            }
-            color={"#f39c12"}
-          />
-          <BotTime
-            title="Next Run"
-            icon={faRedoAlt}
-            time={dataFormat(
-              new Date(bot.StoppedTime).getTime() + 1 * 60 * 60 * 1000,
-              "h:MM:ss TT"
-            )}
-            color="#4edfb1"
-          />
         </Container>
       </Popover.Content>
     </Popover>
