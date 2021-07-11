@@ -11,7 +11,9 @@ import {
 
 import BotTime from "./BotTime";
 import "./BotStatus.css";
-const BotStatus = () => {
+const BotStatus = (props) => {
+  const { bot } = props;
+
   const botStatusOverlay = (
     <Popover className="popover-basic">
       <Popover.Title>Publisher</Popover.Title>
@@ -45,16 +47,17 @@ const BotStatus = () => {
       </Popover.Content>
     </Popover>
   );
+
   return (
     <OverlayTrigger trigger="click" placement="left" overlay={botStatusOverlay}>
       <Container fluid className="botState d-flex align-items-center mt-2">
-        <div className="bot__Icon bot1">
+        <div className={`bot__Icon ${bot.botName}`}>
           <FontAwesomeIcon icon={faMicrochip} />
         </div>
         <div className="ml-2">
-          <h5 className="bot__name mt-0 mb-0">Publisher</h5>
+          <h5 className="bot__name mt-0 mb-0">{bot.botName}</h5>
           <h6>
-            <small className="bot__status ">Running..</small>
+            <small className="bot__status ">{bot.status}</small>
           </h6>
         </div>
       </Container>

@@ -7,9 +7,8 @@ import BotStatus from "./BotStatus";
 const BotArea = () => {
   const dispatch = useDispatch();
   const [downloader, uploader, publisher] = useSelector(
-    (state) => state.botStatusReducer.botStatus
+    (state) => state?.botStatusReducer?.botStatus
   );
-  console.log(downloader);
 
   useEffect(() => {
     dispatch(botStatusMethod());
@@ -26,8 +25,9 @@ const BotArea = () => {
   return (
     <Container fluid className="mt-lg-3  mb-5 order-sm-2">
       <h5>Bot Status</h5>
-      <BotStatus />
-      <BotStatus />
+      {downloader && <BotStatus bot={publisher} />}
+      {downloader && <BotStatus bot={uploader} />}
+      {downloader && <BotStatus bot={downloader} />}
     </Container>
   );
 };
