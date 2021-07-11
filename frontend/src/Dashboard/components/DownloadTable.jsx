@@ -4,11 +4,10 @@ import { Table, Container } from "react-bootstrap";
 import TableBodyElement from "./TableBodyElement";
 import formateBytes from "../../util/convertDataSize";
 import DownloadingReducer from "../../Store/asyncMethods/downloadingMethods";
+
 const DownloadTable = () => {
   const dispatch = useDispatch();
-  const { allDownloads, downloadLength } = useSelector(
-    (state) => state.downloading
-  );
+  const allDownloads = useSelector((state) => state.downloading.allDownloads);
 
   useEffect(() => {
     dispatch(DownloadingReducer());
