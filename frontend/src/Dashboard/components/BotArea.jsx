@@ -26,7 +26,7 @@ const BotArea = () => {
     <Container fluid className="mt-lg-3  mb-5 order-sm-2">
       <h5>Bot Status</h5>
       {downloader && <BotStatus bot={publisher} />}
-      {downloader && <BotStatus bot={uploader} />}
+      {uploader && <BotStatus bot={uploader} />}
       {downloader && <BotStatus bot={downloader} />}
     </Container>
   );

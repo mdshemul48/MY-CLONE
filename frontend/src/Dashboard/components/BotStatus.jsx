@@ -18,7 +18,7 @@ const BotStatus = (props) => {
 
   const botStatusOverlay = (
     <Popover className="popover-basic">
-      <Popover.Title>Publisher</Popover.Title>
+      <Popover.Title>{bot.botName}</Popover.Title>
       <Popover.Content>
         <Container fluid>
           <BotTime
