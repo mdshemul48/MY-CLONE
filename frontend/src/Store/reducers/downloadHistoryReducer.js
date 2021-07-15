@@ -9,7 +9,7 @@ const initialState = {
 
 const reducers = {
     setDownloadDays: (state, action) => {
-        state.downloadDays = action.payload
+        state.downloadHistory = action.payload
         return state
     },
     setError: (state, action) => {
