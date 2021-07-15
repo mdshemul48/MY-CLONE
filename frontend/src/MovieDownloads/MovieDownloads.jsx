@@ -5,6 +5,8 @@ import PageTitle from "../Title/PageTitle";
 import TableHeading from "./components/TableHeading";
 import TableElement from "./components/TableElement";
 import "./MovieDownloads.css";
+
+
 const MovieDownloads = () => {
   return (
     <>
@@ -14,8 +16,7 @@ const MovieDownloads = () => {
           <TableHeading />
           <tbody>
             <TableElement />
-            <TableElement />
-            <TableElement />
+        
           </tbody>
         </Table>
       </Container>
