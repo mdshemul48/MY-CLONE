@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {useState, useDispatch} from "react-redux"
+import {useSelector, useDispatch} from "react-redux"
 import { Container, Table } from "react-bootstrap";
 import PageTitle from "../Title/PageTitle";
 import TableHeading from "./components/TableHeading";
@@ -10,11 +10,11 @@ import "./MovieDownloads.css";
 
 const MovieDownloads = () => {
   const dispatch = useDispatch()
+  const {downloadHistory} = useSelector(state=> state.downloadHistoryReducer)
 
   useEffect(() => {
     dispatch(downloadHistoryMethod())
   },[dispatch])
-  
   return (
     <>
       <PageTitle>Downloads History</PageTitle>
@@ -22,7 +22,7 @@ const MovieDownloads = () => {
         <Table responsive>
           <TableHeading />
           <tbody>
-            <TableElement />
+           {downloadHistory.map(day => <TableElement dayData={day} />)} 
         
           </tbody>
         </Table>
