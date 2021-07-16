@@ -4,9 +4,11 @@ import { useSelector } from "react-redux"
 
 // all the pages and nav bar 
 import NavBar from "./NavBar/NavBar"
+import Loading from "./Shared/components/Loading"
 import PrivateRoute from "./Route/PrivateRoute"
 import LoginRoute from "./Route/LoginRoute"
 import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 // all Pages
 const dashboard = React.lazy(() => import("./Dashboard/Dashboard"))
@@ -18,10 +20,11 @@ const Login = React.lazy(() => import("./Login/Login"))
 
 function App() {
   const { user } = useSelector((state) => state.auth)
+
   return (
     <Router>
       {user && <NavBar />}
-      <Suspense fallback={<h1>loading</h1>}>
+      <Suspense fallback={<Loading />}>
         <Switch>
           <PrivateRoute path="/" exact component={dashboard} />
           <PrivateRoute path="/downloads/:dayId" exact component={DayDownloads} />
@@ -33,8 +36,6 @@ function App() {
         </Switch>
       </Suspense>
     </Router>
-
-
   );
 }
 
