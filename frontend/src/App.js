@@ -11,7 +11,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 // all Pages
-const dashboard = React.lazy(() => import("./Dashboard/Dashboard"))
+const Dashboard = React.lazy(() => import("./Dashboard/Dashboard"))
 const MovieDownloads = React.lazy(() => import("./MovieDownloads/MovieDownloads"))
 const DayDownloads = React.lazy(() => import("./MovieDownloads/DayDownloads"))
 const MoviePublish = React.lazy(() => import("./MoviePublish/MoviePublish"))
@@ -26,7 +26,7 @@ function App() {
       {user && <NavBar />}
       <Suspense fallback={<Loading />}>
         <Switch>
-          <PrivateRoute path="/" exact component={dashboard} />
+          <PrivateRoute path="/" exact component={Dashboard} />
           <PrivateRoute path="/downloads/:dayId" exact component={DayDownloads} />
           <PrivateRoute path="/downloads" exact component={MovieDownloads} />
           <PrivateRoute path="/publish" exact component={MoviePublish} />
