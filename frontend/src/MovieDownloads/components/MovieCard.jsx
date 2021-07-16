@@ -71,16 +71,18 @@ const MovieCard = ({ movie }) => {
             </div>
           )}
           <div>
+            {movie.publishLink && (
+              <a
+                href={movie.publishLink}
+                target="_blank"
+                className="btn btn-dark text-light text-bold mr-3"
+                rel="noreferrer"
+              >
+                <strong>OPEN IN FTP</strong>
+              </a>
+            )}
             <a
-              href="https://www.imdb.com/title/tt1013856"
-              target="_blank"
-              className="btn btn-dark text-light text-bold mr-3"
-              rel="noreferrer"
-            >
-              <strong>OPEN IN FTP</strong>
-            </a>
-            <a
-              href="https://www.imdb.com/title/tt1013856"
+              href={`https://www.imdb.com/title/tt${movie.imdbLink}`}
               target="_blank"
               className="btn btn-warning text-light text-bold"
               rel="noreferrer"
