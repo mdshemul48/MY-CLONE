@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { Helmet } from "react-helmet";
 import { useParams } from "react-router-dom";
 import { Container, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
-
-import PageTitle from "../Title/PageTitle";
 import MovieCard from "./components/MovieCard";
 
 import axios from "../util/axiosConfig";
@@ -26,9 +25,13 @@ const DayDownloads = () => {
     fetchMovies();
   }, [dayId]);
 
+  const movieCount = moviesData.date || "";
+
   return (
     <>
-      <PageTitle>History Of 30-06-2021</PageTitle>
+      <Helmet>
+        <title>History Of {movieCount} | MyClone</title>
+      </Helmet>
       <Container className="p-lg-5 movies-area" fluid>
         <Container
           fluid
