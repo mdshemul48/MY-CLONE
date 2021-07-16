@@ -27,6 +27,28 @@ const DayDownloads = () => {
 
   const movieCount = moviesData.date || "";
 
+  const checked = async () => {
+    try {
+      await axios.post(
+        `/download-page/check/${dayId}`,
+        {
+          checked: !moviesData.checked,
+        },
+        {
+          headers: {
+            "content-type": "application/json",
+          },
+        }
+      );
+
+      setMoviesData((prevState) => {
+        return { ...prevState, checked: !prevState.checked };
+      });
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
   return (
     <>
       <Helmet>
@@ -41,8 +63,12 @@ const DayDownloads = () => {
             Working History Of {moviesData.date} (
             {moviesData?.movies?.length || 0})
           </h4>
-          <Button variant="success" className="checkButton">
-            verify
+          <Button
+            variant={moviesData.checked ? "danger" : "success"}
+            className="checkButton"
+            onClick={checked}
+          >
+            {moviesData.checked ? "verified" : "verify"}
             <FontAwesomeIcon className="ml-2" icon={faCheck} />{" "}
           </Button>
         </Container>
