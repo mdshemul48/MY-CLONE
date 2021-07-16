@@ -22,7 +22,7 @@ const MovieDownloads = () => {
         <Table responsive>
           <TableHeading />
           <tbody>
-           {downloadHistory.map(day => <TableElement dayData={day} />)} 
+           {downloadHistory.map(day => <TableElement key={day._id} dayData={day} />)} 
         
           </tbody>
         </Table>
