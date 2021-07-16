@@ -8,6 +8,19 @@ import {
 
 import "./MovieCard.css";
 const MovieCard = ({ movie }) => {
+  // getting rating
+  let movieRating;
+  try {
+    const rating = movie.movieRating.replaceAll("'", '"');
+    movieRating = JSON.parse(rating);
+  } catch (err) {
+    movieRating = {
+      certification: [],
+    };
+  }
+  const searchResult = JSON.parse(
+    movie.downloadSearchResult.replaceAll("'", '"') || []
+  );
   return (
     <div className="row bg-light">
       <div className="col-lg-3 p-2">
@@ -77,20 +90,22 @@ const MovieCard = ({ movie }) => {
           </div>
           <div className="mt-4">
             <h5 className="">Certification</h5>
+            {movieRating.mpaa}
             <hr />
-            {[].map((result) => {
-              const background = result.includes("18")
-                ? "badge-danger"
-                : "badge-dark";
-              return (
-                <span
-                  key={Math.random()}
-                  className={`badge badge-pill ${background} m-1`}
-                >
-                  {result}
-                </span>
-              );
-            })}
+            {movieRating?.certification &&
+              movieRating.certification.map((result) => {
+                const background = result.includes("18")
+                  ? "badge-danger"
+                  : "badge-dark";
+                return (
+                  <span
+                    key={Math.random()}
+                    className={`badge badge-pill ${background} m-1`}
+                  >
+                    {result}
+                  </span>
+                );
+              })}
           </div>
         </div>
 
@@ -99,7 +114,7 @@ const MovieCard = ({ movie }) => {
             <h5>Search Results</h5>
             <hr />
             <div className="overflow-auto search-result">
-              {[].map((result) => (
+              {searchResult.map((result) => (
                 <a
                   key={Math.random()}
                   href={result.link}
