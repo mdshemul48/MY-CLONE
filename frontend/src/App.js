@@ -6,7 +6,6 @@ import { useSelector } from "react-redux"
 import NavBar from "./NavBar/NavBar"
 import PrivateRoute from "./Route/PrivateRoute"
 import LoginRoute from "./Route/LoginRoute"
-
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 // all Pages
@@ -20,7 +19,6 @@ const Login = React.lazy(() => import("./Login/Login"))
 function App() {
   const { user } = useSelector((state) => state.auth)
   return (
-
     <Router>
       {user && <NavBar />}
       <Suspense fallback={<h1>loading</h1>}>
