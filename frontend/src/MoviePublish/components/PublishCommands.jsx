@@ -1,7 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { getAllCommands } from "../../Store/asyncMethods/publisherCommands";
+
 import { Container } from "react-bootstrap";
 import Commands from "./Commands";
 const PublishCommands = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAllCommands());
+  }, [dispatch]);
   return (
     <Container className="mt-5">
       <h3 className="mt-2 mb-3">All Publish Commands</h3>
