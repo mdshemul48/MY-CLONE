@@ -15,12 +15,13 @@ const Commands = (props) => {
     "",
     "1. Hindi Movies",
     "2. English Movies",
+    "3. Foreign Movies",
     "4. Animation Movies",
     "5. English &amp; Foreign Dubbed Movies",
     "6. South Indian Movies",
     "7. English and foreign Tv Series",
   ];
-  const catagorySelected = allCatagory[catagory];
+  const catagorySelected = allCatagory[+catagory];
   return (
     <div className="pt-3">
       <Card>

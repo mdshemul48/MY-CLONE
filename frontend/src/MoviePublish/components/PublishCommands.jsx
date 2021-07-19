@@ -4,7 +4,12 @@ import { getAllCommands } from "../../Store/asyncMethods/publisherCommands";
 
 import { Container } from "react-bootstrap";
 import Commands from "./Commands";
+
 const PublishCommands = () => {
+  const publishCommands = useSelector(
+    (state) => state.publishCommands.commands
+  );
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAllCommands());
@@ -14,41 +19,18 @@ const PublishCommands = () => {
       <h3 className="mt-2 mb-3">All Publish Commands</h3>
       <hr />
       <div>
-        <Commands
-          name="Swedish movie"
-          from="A:\.uploading_1tb\publish\Swedish"
-          to="A:\Foreign Language Movies\Sweden"
-          link="http://index2.circleftp.net/FILE/Foreign%20Language%20Movies/Sweden"
-          catagory="1"
-        />
-        <Commands
-          name="Swedish movie"
-          from="A:\.uploading_1tb\publish\Swedish"
-          to="A:\Foreign Language Movies\Sweden"
-          link="http://index2.circleftp.net/FILE/Foreign%20Language%20Movies/Sweden"
-          catagory="3"
-        />
-        <Commands
-          name="Swedish movie"
-          from="A:\.uploading_1tb\publish\Swedish"
-          to="A:\Foreign Language Movies\Sweden"
-          link="http://index2.circleftp.net/FILE/Foreign%20Language%20Movies/Sweden"
-          catagory="3"
-        />
-        <Commands
-          name="Swedish movie"
-          from="A:\.uploading_1tb\publish\Swedish"
-          to="A:\Foreign Language Movies\Sweden"
-          link="http://index2.circleftp.net/FILE/Foreign%20Language%20Movies/Sweden"
-          catagory="3"
-        />
-        <Commands
-          name="Swedish movie"
-          from="A:\.uploading_1tb\publish\Swedish"
-          to="A:\Foreign Language Movies\Sweden"
-          link="http://index2.circleftp.net/FILE/Foreign%20Language%20Movies/Sweden"
-          catagory="3"
-        />
+        {publishCommands.map((command) => {
+          return (
+            <Commands
+              key={command._id}
+              name={command.note}
+              from={command.input}
+              to={command.output}
+              link={command.link}
+              catagory={command.category}
+            />
+          );
+        })}
       </div>
     </Container>
   );
