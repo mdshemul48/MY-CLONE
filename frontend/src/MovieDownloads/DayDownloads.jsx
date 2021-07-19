@@ -41,9 +41,11 @@ const DayDownloads = () => {
         }
       );
 
+      
       setMoviesData((prevState) => {
         return { ...prevState, checked: !prevState.checked };
       });
+
     } catch (err) {
       console.log(err.message);
     }
