@@ -2,6 +2,9 @@ import { setCommands, setCommand, removeCommand, setErrors, setLoading, closeLoa
 
 import axios from "../../util/axiosConfig"
 
+// --------------------------
+// this will fetch all the commands and store them in the state
+// --------------------------
 export const getAllCommands = () => {
     return async (dispatch) => {
         dispatch(setLoading())
@@ -15,7 +18,9 @@ export const getAllCommands = () => {
         }
     }
 }
-
+// --------------------------
+// this will add new command to the list of commands 
+// --------------------------
 export const addCommand = (command) => {
     return async (dispatch) => {
         dispatch(setLoading())
@@ -30,6 +35,9 @@ export const addCommand = (command) => {
     }
 }
 
+// --------------------------
+// this will delete the command
+// --------------------------
 export const commandRemover = (id) => {
     return async (dispatch) => {
         dispatch(setLoading())
