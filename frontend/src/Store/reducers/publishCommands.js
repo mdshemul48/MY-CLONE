@@ -16,6 +16,10 @@ const reducers = {
         state.commands.unshift(action.payload)
         return state
     },
+    removeCommand: (state, action) => {
+        state.commands = state.commands.filter(command => command.id !== action.payload.id)
+        return state
+    },
     setErrors: (state, action) => {
         state.errors.push(action.payload)
         return state
