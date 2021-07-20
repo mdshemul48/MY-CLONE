@@ -15,3 +15,17 @@ export const getAllCommands = () => {
         }
     }
 }
+
+export const addCommand = (command) => {
+    return async (dispatch) => {
+        dispatch(setLoading())
+        try {
+            const { data } = await axios.post("/publisher", command)
+            dispatch(setCommand(data.createdPublisherEntry))
+            dispatch(closeLoading())
+        } catch (error) {
+            dispatch(closeLoading())
+            dispatch(setErrors("Could not add Publish data."))
+        }
+    }
+}

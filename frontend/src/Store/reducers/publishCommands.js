@@ -40,6 +40,6 @@ const publishReducer = createSlice({
     reducers
 })
 
-export const { setCommands, setCommand, setErrors, setLoading, closeLoading } = publishReducer.actions
+export const { setCommands, setCommand, removeCommand, setErrors, setLoading, closeLoading } = publishReducer.actions
 
 export default publishReducer.reducer
