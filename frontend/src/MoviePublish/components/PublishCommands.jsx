@@ -23,6 +23,7 @@ const PublishCommands = () => {
           return (
             <Commands
               key={command._id}
+              id={command._id}
               name={command.note}
               from={command.input}
               to={command.output}

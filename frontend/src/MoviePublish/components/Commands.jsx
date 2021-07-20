@@ -2,6 +2,8 @@ import React from "react";
 import { Card, InputGroup, FormControl, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+import { useDispatch } from "react-redux";
+import { commandRemover } from "../../Store/asyncMethods/publisherCommands";
 import {
   faFolder,
   faLink,
@@ -9,6 +11,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 const Commands = (props) => {
+  const dispatch = useDispatch();
   const { name, from, to, link, catagory, id } = props;
 
   const allCatagory = [
@@ -21,7 +24,11 @@ const Commands = (props) => {
     "6. South Indian Movies",
     "7. English and foreign Tv Series",
   ];
+
   const catagorySelected = allCatagory[+catagory];
+  const deleteCommandHandler = () => {
+    dispatch(commandRemover(id));
+  };
   return (
     <div className="pt-3">
       <Card>
@@ -62,7 +69,9 @@ const Commands = (props) => {
             />
           </InputGroup>
 
-          <Button variant="danger">Delete</Button>
+          <Button variant="danger" onClick={deleteCommandHandler}>
+            Delete
+          </Button>
         </Card.Body>
       </Card>
     </div>
