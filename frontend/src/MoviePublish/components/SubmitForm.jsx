@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { Form, Col, Button } from "react-bootstrap";
+
+import { useDispatch } from "react-redux";
+import { addCommand } from "../../Store/asyncMethods/publisherCommands";
 const SubmitForm = () => {
+  const dispatch = useDispatch();
   const [formState, setFormState] = useState({
     name: "",
     catagory: "",
@@ -15,11 +19,21 @@ const SubmitForm = () => {
     });
   };
 
-  console.table(formState);
+  const onSubmitHandler = (event) => {
+    event.preventDefault();
+    const {
+      name: note,
+      catagory: category,
+      folderInput: input,
+      folderOutput: output,
+      folderLink: link,
+    } = formState;
+    dispatch(addCommand({ note, category, input, output, link }));
+  };
 
   return (
     <div className="bg-light rounded mt-5 p-4">
-      <Form>
+      <Form onSubmit={onSubmitHandler}>
         <Form.Row>
           <Form.Group as={Col} controlId="formName">
             <Form.Label>Name</Form.Label>
